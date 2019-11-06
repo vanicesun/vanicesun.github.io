@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh_CN">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   
@@ -18,7 +18,7 @@
 <meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;11&#x2F;06&#x2F;redis&#x2F;index.html">
 <meta property="og:site_name" content="麋鹿觅路迷了路的博客">
 <meta property="og:description" content="Redis介绍Redis是用C语言开发的一个开源的高性能键值对（key-value）数据库。它通过提供多种键值数据类型来适应不同场景下的存储需求，目前为止Redis支持的键值数据类型如下：1.字符串类型2.散列类型3.列表类型4.集合类型5.有序集合类型 Redis的应用场景1.缓存（数据查询、短连接、新闻内容、商品内容等等）。（最多使用）2.分布式集群架构中的session分离。3.聊天室的在线">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190715215104767.png#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190715215303200.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190715215424828.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center">
@@ -67,7 +67,7 @@
 				<h1 class="site-name"><a href="/" title="麋鹿觅路迷了路的博客">麋鹿觅路迷了路的博客</a></h1>
 				<h2 class="blog-motto">爱生活，爱编码</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -87,7 +87,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:vanicesun.github.io">
 					</form>
 					
@@ -110,14 +110,14 @@
 		<a href="/about" title="Vanice Sun" target="_blank" itemprop="author">Vanice Sun</a>
 		
   <p class="article-time">
-    <time datetime="2019-11-06T05:47:59.000Z" itemprop="datePublished"> Published 2019-11-06</time>
+    <time datetime="2019-11-06T05:47:59.000Z" itemprop="datePublished"> 发表于 2019-11-06</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis介绍"><span class="toc-number">1.</span> <span class="toc-text">Redis介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的应用场景"><span class="toc-number">2.</span> <span class="toc-text">Redis的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的安装"><span class="toc-number">3.</span> <span class="toc-text">Redis的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的启动方式"><span class="toc-number">4.</span> <span class="toc-text">Redis的启动方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过jedis连接redis单机："><span class="toc-number">5.</span> <span class="toc-text">通过jedis连接redis单机：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单实例连接："><span class="toc-number">6.</span> <span class="toc-text">单实例连接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#外部连接不上redis的解决方法："><span class="toc-number">7.</span> <span class="toc-text">外部连接不上redis的解决方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用连接池连接："><span class="toc-number">8.</span> <span class="toc-text">使用连接池连接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jedis与spring整合："><span class="toc-number">9.</span> <span class="toc-text">jedis与spring整合：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis集群："><span class="toc-number">10.</span> <span class="toc-text">Redis集群：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-cluster投票-容错"><span class="toc-number">11.</span> <span class="toc-text">redis-cluster投票:容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ruby环境："><span class="toc-number">12.</span> <span class="toc-text">Ruby环境：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建集群：集群结点规划："><span class="toc-number">13.</span> <span class="toc-text">创建集群：集群结点规划：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#​​​​​​​启动每个结点redis服务："><span class="toc-number">14.</span> <span class="toc-text">​​​​​​​启动每个结点redis服务：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行创建集群命令："><span class="toc-number">15.</span> <span class="toc-text">执行创建集群命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询集群信息："><span class="toc-number">16.</span> <span class="toc-text">查询集群信息：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加主节点："><span class="toc-number">17.</span> <span class="toc-text">添加主节点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#​​​​​​​hash槽重新分配："><span class="toc-number">18.</span> <span class="toc-text">​​​​​​​hash槽重新分配：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加从节点"><span class="toc-number">19.</span> <span class="toc-text">添加从节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除结点"><span class="toc-number">20.</span> <span class="toc-text">删除结点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JedisCluster"><span class="toc-number">21.</span> <span class="toc-text">JedisCluster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#整合Spring框架-配置applicationContext-xml"><span class="toc-number">22.</span> <span class="toc-text">整合Spring框架 配置applicationContext.xml</span></a></li></ol>
 		
@@ -317,22 +317,22 @@ ps:当集群不可用时,所有对集群的操作做都不可用，收到((error
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis介绍"><span class="toc-number">1.</span> <span class="toc-text">Redis介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的应用场景"><span class="toc-number">2.</span> <span class="toc-text">Redis的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的安装"><span class="toc-number">3.</span> <span class="toc-text">Redis的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis的启动方式"><span class="toc-number">4.</span> <span class="toc-text">Redis的启动方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过jedis连接redis单机："><span class="toc-number">5.</span> <span class="toc-text">通过jedis连接redis单机：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单实例连接："><span class="toc-number">6.</span> <span class="toc-text">单实例连接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#外部连接不上redis的解决方法："><span class="toc-number">7.</span> <span class="toc-text">外部连接不上redis的解决方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用连接池连接："><span class="toc-number">8.</span> <span class="toc-text">使用连接池连接：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jedis与spring整合："><span class="toc-number">9.</span> <span class="toc-text">jedis与spring整合：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis集群："><span class="toc-number">10.</span> <span class="toc-text">Redis集群：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-cluster投票-容错"><span class="toc-number">11.</span> <span class="toc-text">redis-cluster投票:容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ruby环境："><span class="toc-number">12.</span> <span class="toc-text">Ruby环境：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建集群：集群结点规划："><span class="toc-number">13.</span> <span class="toc-text">创建集群：集群结点规划：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#​​​​​​​启动每个结点redis服务："><span class="toc-number">14.</span> <span class="toc-text">​​​​​​​启动每个结点redis服务：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行创建集群命令："><span class="toc-number">15.</span> <span class="toc-text">执行创建集群命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询集群信息："><span class="toc-number">16.</span> <span class="toc-text">查询集群信息：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加主节点："><span class="toc-number">17.</span> <span class="toc-text">添加主节点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#​​​​​​​hash槽重新分配："><span class="toc-number">18.</span> <span class="toc-text">​​​​​​​hash槽重新分配：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加从节点"><span class="toc-number">19.</span> <span class="toc-text">添加从节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除结点"><span class="toc-number">20.</span> <span class="toc-text">删除结点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JedisCluster"><span class="toc-number">21.</span> <span class="toc-text">JedisCluster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#整合Spring框架-配置applicationContext-xml"><span class="toc-number">22.</span> <span class="toc-text">整合Spring框架 配置applicationContext.xml</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="vanicesun" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -343,7 +343,7 @@ ps:当集群不可用时,所有对集群的操作做都不可用，收到((error
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -363,7 +363,7 @@ ps:当集群不可用时,所有对集群的操作做都不可用，收到((error
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -378,6 +378,12 @@ ps:当集群不可用时,所有对集群的操作做都不可用，收到((error
             
           </li>
         
+          <li>
+            
+            	<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" title="个人CSDN地址">个人CSDN地址</a>
+            
+          </li>
+        
     </ul>
 </div>
 
@@ -385,11 +391,11 @@ ps:当集群不可用时,所有对集群的操作做都不可用，收到((error
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
 </div>
 
@@ -615,7 +621,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
