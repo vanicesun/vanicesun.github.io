@@ -1,0 +1,541 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>SpringBoot 2.0 开发案例之参数传递的正确姿势 | 麋鹿觅路迷了路的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vanice Sun">
+    
+
+    
+    <meta name="description" content="前言 最近在进行SpringBoot2.0进行项目开发的过程发现，SpringBoot提供了丰富的参数传递的注解。于是在空闲的时间，整理了关于SpringBoot在开发实际案例时正确的传参姿势。希望能够帮到大家。希望大家能够在下方评论交流，希望得到大牛的指点！ 传递用户登录 前端代码： 12345678910111213var param = &amp;#123;    &amp;quot;username&amp;qu">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot 2.0 开发案例之参数传递的正确姿势">
+<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;11&#x2F;07&#x2F;param&#x2F;index.html">
+<meta property="og:site_name" content="麋鹿觅路迷了路的博客">
+<meta property="og:description" content="前言 最近在进行SpringBoot2.0进行项目开发的过程发现，SpringBoot提供了丰富的参数传递的注解。于是在空闲的时间，整理了关于SpringBoot在开发实际案例时正确的传参姿势。希望能够帮到大家。希望大家能够在下方评论交流，希望得到大牛的指点！ 传递用户登录 前端代码： 12345678910111213var param = &amp;#123;    &amp;quot;username&amp;qu">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-07T07:47:20.787Z">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="麋鹿觅路迷了路的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/ss.jpg" alt="麋鹿觅路迷了路的博客" title="麋鹿觅路迷了路的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="麋鹿觅路迷了路的博客">麋鹿觅路迷了路的博客</a></h1>
+				<h2 class="blog-motto">爱生活，爱编码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vanicesun.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/11/07/param/" title="SpringBoot 2.0 开发案例之参数传递的正确姿势" itemprop="url">SpringBoot 2.0 开发案例之参数传递的正确姿势</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Vanice Sun" target="_blank" itemprop="author">Vanice Sun</a>
+		
+  <p class="article-time">
+    <time datetime="2019-11-07T07:42:30.000Z" itemprop="datePublished"> 发表于 2019-11-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递"><span class="toc-number">2.</span> <span class="toc-text">传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#炒鸡复杂"><span class="toc-number">3.</span> <span class="toc-text">炒鸡复杂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-number">4.</span> <span class="toc-text">扩展</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 最近在进行SpringBoot2.0进行项目开发的过程发现，SpringBoot提供了丰富的参数传递的注解。于是在空闲的时间，整理了关于SpringBoot在开发实际案例时正确的传参姿势。希望能够帮到大家。希望大家能够在下方评论交流，希望得到大牛的指点！</p>
+<h3 id="传递"><a href="#传递" class="headerlink" title="传递"></a>传递</h3><p><strong>用户登录</strong></p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var param = &#123;</span><br><span class="line">    &quot;username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;password&quot;: &quot;admin&quot;</span><br><span class="line">&#125;</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/login&quot;,</span><br><span class="line">    data: param,</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/sys&quot;)</span><br><span class="line">public class LoginController &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 登录</span><br><span class="line">     */</span><br><span class="line">    @PostMapping(&quot;/login&quot;)</span><br><span class="line">    public Result login(String username, String password)&#123;</span><br><span class="line">        logger.info(&quot;用户登录&quot;+username);</span><br><span class="line">        //业务逻辑</span><br><span class="line">        return Result.ok(&quot;登录成功&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>当然，你也可以这么实现，@RequestParam(value=”username”, required=true) ，required默认为 true，如果前台不传递此参数，后台会报错。如果设置为 false，如果不传，默认为 null。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 登录</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;/login&quot;)</span><br><span class="line">public Result login(@RequestParam(value=&quot;username&quot;, required=true) String username,</span><br><span class="line">                    @RequestParam(value=&quot;password&quot;, required=true) String password)&#123;</span><br><span class="line">    logger.info(&quot;用户登录&quot;+username);</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok(&quot;登录成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>用户注册</strong></p>
+<p>前端代码，提交方式与登录基本保持一致。</p>
+<p>后端代码：</p>
+<p>用一个对象来接收前台参数，一般后端有对应的实体类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 注册</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;/register&quot;)</span><br><span class="line">public Result register(SysUser user)&#123;</span><br><span class="line">    logger.info(&quot;&#123;&#125;，用户注册&quot;,user.getUsername());</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok(&quot;注册成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>多参数无实体一</p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var param = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;爪哇笔记&quot;,</span><br><span class="line">    &quot;content&quot;: &quot;一个有趣的公众号&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;小柒2012&quot;</span><br><span class="line">&#125;</span><br><span class="line">param = JSON.stringify(param);</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/multiParameter&quot;,</span><br><span class="line">    data: param,</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    contentType: &quot;application/json&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 多参数</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;/multiParameter&quot;)</span><br><span class="line">public Result register(@RequestBody Map&lt;String,Object&gt; map)&#123;</span><br><span class="line">    logger.info(&quot;多参数传递:&#123;&#125;,&#123;&#125;&quot;,map.get(&quot;title&quot;),map.get(&quot;content&quot;));</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok(&quot;接收多参数成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多参数无实体二</p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var param = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;爪哇笔记&quot;,</span><br><span class="line">    &quot;content&quot;: &quot;一个有趣的公众号&quot;,</span><br><span class="line">    &quot;author&quot;: &quot;小柒2012&quot;</span><br><span class="line">&#125;</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/multiParameter&quot;,</span><br><span class="line">    data: param,</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 多参数</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;/multiParameter&quot;)</span><br><span class="line">public Result register(@RequestParam Map&lt;String,Object&gt; map)&#123;</span><br><span class="line">    logger.info(&quot;多参数传递:&#123;&#125;,&#123;&#125;&quot;,map.get(&quot;title&quot;),map.get(&quot;content&quot;));</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok(&quot;接收多参数成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递数组</p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var param = &#123;</span><br><span class="line">    &quot;ids&quot;: [1, 2, 3]</span><br><span class="line">&#125;</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/array&quot;,</span><br><span class="line">    data: param,</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 数组</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;array&quot;)</span><br><span class="line">public Result array(@RequestParam(value = &quot;ids[]&quot;) Integer[] ids) &#123;</span><br><span class="line">    logger.info(&quot;数据&#123;&#125;&quot;, Arrays.asList(ids));</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传递集合</p>
+<p>前端代码与传递数组保持一致。</p>
+<p>后端实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 集合</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;array&quot;)</span><br><span class="line">public Result array(@RequestParam(value = &quot;ids[]&quot;) List&lt;Integer&gt; ids) &#123;</span><br><span class="line">    logger.info(&quot;数据&#123;&#125;&quot;, ids.toString());</span><br><span class="line">    //业务逻辑</span><br><span class="line">    return Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递集合实体对象</p>
+<p>比如，后端想接收一个实体对象集合 List<SysUser></p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var list = [];</span><br><span class="line">list.push(&#123;</span><br><span class="line">    &quot;username&quot;: &quot;小柒2012&quot;,</span><br><span class="line">    &quot;mobile&quot;: &quot;17762288888&quot;</span><br><span class="line">&#125;);</span><br><span class="line">list.push(&#123;</span><br><span class="line">    &quot;username&quot;: &quot;小柒2013&quot;,</span><br><span class="line">    &quot;mobile&quot;: &quot;17762289999&quot;</span><br><span class="line">&#125;);</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/listUser&quot;,</span><br><span class="line">    data: JSON.stringify(list),</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    contentType: &quot;application/json&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 爪哇笔记</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;listUser&quot;)</span><br><span class="line">public Result listUser(@RequestBody List&lt;SysUser&gt; list) &#123;</span><br><span class="line">   logger.info(&quot;数据&#123;&#125;&quot;, list.size());</span><br><span class="line">   list.forEach(user-&gt;&#123;</span><br><span class="line">      //输出实体对象</span><br><span class="line">      System.out.println(user.getUsername());</span><br><span class="line">   &#125;);</span><br><span class="line">   //业务逻辑</span><br><span class="line">   return Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传递集合实体对象一对多</p>
+<p>比如，一个用户有多个角色 List<SysRole> roleList</p>
+<p>前端代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var roleList = [];</span><br><span class="line">roleList.push(&#123;</span><br><span class="line">    &quot;roleSign&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;roleName&quot;: &quot;管理员&quot;</span><br><span class="line">&#125;);</span><br><span class="line">roleList.push(&#123;</span><br><span class="line">    &quot;roleSign&quot;: &quot;user&quot;,</span><br><span class="line">    &quot;roleName&quot;: &quot;普通用户&quot;</span><br><span class="line">&#125;);</span><br><span class="line">var list = [];</span><br><span class="line">var user = &#123;</span><br><span class="line">    &quot;username&quot;: &quot;小柒2012&quot;,</span><br><span class="line">    &quot;mobile&quot;: &quot;17762288888&quot;</span><br><span class="line">&#125;;</span><br><span class="line">user.roleList = roleList;</span><br><span class="line">list.push(user);</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/listUserRole&quot;,</span><br><span class="line">    data: JSON.stringify(list),</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    contentType: &quot;application/json&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>后端实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 爪哇笔记</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@PostMapping(&quot;listUserRole&quot;)</span><br><span class="line">public Result listUserRole(@RequestBody List&lt;SysUser&gt; list) &#123;</span><br><span class="line">    logger.info(&quot;数据&#123;&#125;&quot;, list.size());</span><br><span class="line">    list.forEach(user-&gt;&#123;</span><br><span class="line">        List&lt;SysRole&gt; roleList = user.getRoleList();</span><br><span class="line">        roleList.forEach(role-&gt;&#123;</span><br><span class="line">          System.out.println(role.getRoleName());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    return Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="炒鸡复杂"><a href="#炒鸡复杂" class="headerlink" title="炒鸡复杂"></a>炒鸡复杂</h3><p>传输对象有实体，有集合，有各种类型的数据，这时候最简单的方式就是传递 Key-Value 结构的 JSON 字符串，后台 Map 类型接收，然后通过FastJson的 JSON.parseObject() 和 JSON.parseArray() 方法转化为对应的实体或者集合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String user = parseMap.get(&quot;user&quot;).toString();</span><br><span class="line">SysUser sysUser = JSON.parseObject(user,SysUser.class);</span><br><span class="line">String contractClause = parseMap.get(&quot;rules&quot;).toString();</span><br><span class="line">List&lt;Rule&gt; ruleList = JSON.parseArray(contractClause,Rule.class);</span><br></pre></td></tr></table></figure>
+<p>RESTful 风格</p>
+<p>比如，访问某篇文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 爪哇笔记</span><br><span class="line">  * https://blog.52itstyle.vip</span><br><span class="line">  */</span><br><span class="line">@GetMapping(&quot;article/&#123;id&#125;&quot;)</span><br><span class="line">public void article(@PathVariable(&quot;id&quot;) String id) &#123;</span><br><span class="line">    logger.info(&quot;文章&#123;&#125;&quot;,id);</span><br><span class="line">    //业务逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原则<br><strong>记住一下几点：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@RequestBody 注解，必须与 contentType 类型application/json配合使用。</span><br><span class="line">@RequestParam 注解，必须与 contentType 类型application/x-www-form-urlencoded配合使用，其为默认类型。</span><br><span class="line">JSON.stringify() 把对象类型转换为字符串类型，一般配合 @RequestBody 注解和contentType 类型application/json使用。</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p><strong>在以上只涉及了两种 contentType 类型，其实还有两种常见的类型：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multipart/form-data</span><br></pre></td></tr></table></figure>
+<p><strong>一般用于表单文件上传，必须让 form 的 enctype 等于这个值。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;/upload&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; name=&quot;description&quot; value=&quot;爪哇笔记，一个神奇的公众号&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;file&quot; name=&quot;myFile&quot;&gt;</span><br><span class="line">  &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">text/xml</span><br></pre></td></tr></table></figure>
+
+<p>做过微信支付的小伙伴一定会知道，微信就喜欢用这种方式，去年还发生过 XXE 漏洞，在解析XML文档时，解析器通过 ENTITY 扩展的功能，读取本地受保护的文件，并且使用扩展功能将受保护的文件发送到远程地址。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SpringBoot/">SpringBoot</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://vanicesun.github.io/2019/11/07/param/" data-title="SpringBoot 2.0 开发案例之参数传递的正确姿势 | 麋鹿觅路迷了路的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/11/07/springboot-jpa/"  title="SpringBoot开发案例之整合Spring-data-jpa">
+ <strong>下一篇：</strong><br/> 
+ <span>SpringBoot开发案例之整合Spring-data-jpa
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递"><span class="toc-number">2.</span> <span class="toc-text">传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#炒鸡复杂"><span class="toc-number">3.</span> <span class="toc-text">炒鸡复杂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-number">4.</span> <span class="toc-text">扩展</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="vanicesun" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.ityouknow.com/spring-boot" target="_blank" title="纯洁的微笑">纯洁的微笑</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" title="个人CSDN地址">个人CSDN地址</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 程序员上辈子都是折翼的天使 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vanicesun" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1014170249@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Vanice Sun">Vanice Sun</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
