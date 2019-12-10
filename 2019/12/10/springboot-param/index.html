@@ -1,0 +1,566 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Spring Boot开发之参数校验 | 麋鹿觅路迷了路的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vanice Sun">
+    
+
+    
+    <meta name="description" content="一、PathVariable校验在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下： 12345@GetMapping(&amp;quot;&#x2F;path&#x2F;&amp;#123;group:[a-zA-Z0-9_]+&amp;#125;&#x2F;&amp;#123;userid&amp;#125;&amp;quot;)@ResponseBodypublic String path(@PathVariable(&amp;quot;">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot开发之参数校验">
+<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;12&#x2F;10&#x2F;springboot-param&#x2F;index.html">
+<meta property="og:site_name" content="麋鹿觅路迷了路的博客">
+<meta property="og:description" content="一、PathVariable校验在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下： 12345@GetMapping(&amp;quot;&#x2F;path&#x2F;&amp;#123;group:[a-zA-Z0-9_]+&amp;#125;&#x2F;&amp;#123;userid&amp;#125;&amp;quot;)@ResponseBodypublic String path(@PathVariable(&amp;quot;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.ibm.com&#x2F;developerworks&#x2F;cn&#x2F;java&#x2F;j-lo-jsr303&#x2F;index.html">
+<meta property="og:updated_time" content="2019-12-10T06:49:04.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;www.ibm.com&#x2F;developerworks&#x2F;cn&#x2F;java&#x2F;j-lo-jsr303&#x2F;index.html">
+
+    
+    <link rel="alternative" href="/atom.xml" title="麋鹿觅路迷了路的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/ss.jpg" alt="麋鹿觅路迷了路的博客" title="麋鹿觅路迷了路的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="麋鹿觅路迷了路的博客">麋鹿觅路迷了路的博客</a></h1>
+				<h2 class="blog-motto">爱生活，爱编码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/story">生活</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vanicesun.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/12/10/springboot-param/" title="Spring Boot开发之参数校验" itemprop="url">Spring Boot开发之参数校验</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Vanice Sun" target="_blank" itemprop="author">Vanice Sun</a>
+		
+  <p class="article-time">
+    <time datetime="2019-12-10T07:14:39.000Z" itemprop="datePublished"> 发表于 2019-12-10</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、PathVariable校验"><span class="toc-number">1.</span> <span class="toc-text">一、PathVariable校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、方法参数校验"><span class="toc-number">2.</span> <span class="toc-text">二、方法参数校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、表单对象校验"><span class="toc-number">3.</span> <span class="toc-text">三、表单对象校验</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="一、PathVariable校验"><a href="#一、PathVariable校验" class="headerlink" title="一、PathVariable校验"></a>一、PathVariable校验</h3><p>在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/path/&#123;group:[a-zA-Z0-9_]+&#125;/&#123;userid&#125;&quot;)</span><br><span class="line">@ResponseBody</span><br><span class="line">public String path(@PathVariable(&quot;group&quot;) String group,@PathVariable(&quot;userid&quot;) Integer userid)&#123;</span><br><span class="line">   return group + &quot;:&quot; + userid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>{group:[a-zA-Z0-9_]+} 这样的表达式指定了 group 必须是以大小写字母、数字或下划线组成的字符串。<br>试着访问一个错误的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /path/testIllegal.get/10000</span><br></pre></td></tr></table></figure>
+<p>此时会得到<strong>404</strong>的响应，因此对于PathVariable 仅由正则表达式可达到校验的目的</p>
+<h3 id="二、方法参数校验"><a href="#二、方法参数校验" class="headerlink" title="二、方法参数校验"></a>二、方法参数校验</h3><p>就像前面所描述的那样，大多数情况下，我们都会直接将HTTP请求参数映射到请求的方法参数上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/param&quot;)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public String param(@RequestParam(&quot;group&quot;)@Email String group, </span><br><span class="line">                        @RequestParam(&quot;userid&quot;) Integer userid) &#123;</span><br><span class="line">       return group + &quot;:&quot; + userid;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，@RequestParam 声明了映射，此外我们还为 group 定义了一个规则(复合Email格式)<br>这段代码是否能直接使用呢？答案是否定的，为了启用方法参数的校验能力，还需要完成以下步骤：<br>1.<strong>声明 MethodValidationPostProcessor</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">   public MethodValidationPostProcessor methodValidationPostProcessor() &#123;</span><br><span class="line">        return new MethodValidationPostProcessor();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>2.<strong>Controller指定@Validated注解</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">    @RequestMapping(&quot;/validate&quot;)</span><br><span class="line">    @Validated</span><br><span class="line">    public class ValidateController &#123;</span><br></pre></td></tr></table></figure>
+<p>如此之后，方法上的@Email规则才能生效。<br><strong>检验异常</strong><br>如果此时我们尝试通过非法参数进行访问时，比如提供非Email格式的 group会得到以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?group=simple&amp;userid=10000</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530955093583,</span><br><span class="line">       &quot;status&quot;: 500,</span><br><span class="line">       &quot;error&quot;: &quot;Internal Server Error&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;javax.validation.ConstraintViolationException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;No message available&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>而如果参数类型错误，比如提供非整数的 userid，会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?group=simple&amp;userid=1f</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530954430720,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.web.method.annotation.MethodArgumentTypeMismatchException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;Failed to convert value of type &apos;java.lang.String&apos; to required type &apos;java.lang.Integer&apos;; nested exception is java.lang.NumberFormatException: For input string: \&quot;1f\&quot;&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>当存在参数缺失时，由于定义的@RequestParam注解中，属性 required=true，也将会导致失败：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?userid=10000</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530954345877,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.web.bind.MissingServletRequestParameterException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;Required String parameter &apos;group&apos; is not present&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、表单对象校验"><a href="#三、表单对象校验" class="headerlink" title="三、表单对象校验"></a>三、表单对象校验</h3><p>页面的表单通常比较复杂，此时可以将请求参数封装到表单对象中，<br>并指定一系列对应的规则，参考JSR-303<img src="https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/index.html" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static class FormRequest &#123;</span><br><span class="line"></span><br><span class="line">        @NotEmpty</span><br><span class="line">        @Email</span><br><span class="line">        private String email;</span><br><span class="line"></span><br><span class="line">        @Pattern(regexp = &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;)</span><br><span class="line">        private String name;</span><br><span class="line"></span><br><span class="line">        @Min(5)</span><br><span class="line">        @Max(199)</span><br><span class="line">        private int age;</span><br></pre></td></tr></table></figure>
+<p>上面定义的属性中：<br>email必须非空、符合Email格式规则；<br>name必须为大小写字母、数字及下划线组成，长度在6-30个；<br>age必须在5-199范围内<br>Controller方法中的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/form&quot;)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public FormRequest form(@Validated FormRequest form) &#123;</span><br><span class="line">        return form;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>@Validated</strong>指定了参数对象需要执行一系列校验。</p>
+<p><strong>校验异常</strong><br>此时我们尝试构造一些违反规则的输入，会得到以下的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530955713166,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.validation.BindException&quot;,</span><br><span class="line">       &quot;errors&quot;: [</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Email.formRequest.email&quot;,</span><br><span class="line">                   &quot;Email.email&quot;,</span><br><span class="line">                   &quot;Email.java.lang.String&quot;,</span><br><span class="line">                   &quot;Email&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.email&quot;,</span><br><span class="line">                           &quot;email&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;email&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;email&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   [],</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;.*&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;.*&quot;</span><br><span class="line">                   &#125;</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;不是一个合法的电子邮件地址&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;email&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: &quot;tecom&quot;,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Email&quot;</span><br><span class="line">           &#125;,</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Pattern.formRequest.name&quot;,</span><br><span class="line">                   &quot;Pattern.name&quot;,</span><br><span class="line">                   &quot;Pattern.java.lang.String&quot;,</span><br><span class="line">                   &quot;Pattern&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.name&quot;,</span><br><span class="line">                           &quot;name&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;name&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;name&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   [],</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;</span><br><span class="line">                   &#125;</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;需要匹配正则表达式\&quot;[a-zA-Z0-9_]&#123;6,30&#125;\&quot;&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;name&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: &quot;fefe&quot;,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Pattern&quot;</span><br><span class="line">           &#125;,</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Min.formRequest.age&quot;,</span><br><span class="line">                   &quot;Min.age&quot;,</span><br><span class="line">                   &quot;Min.int&quot;,</span><br><span class="line">                   &quot;Min&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.age&quot;,</span><br><span class="line">                           &quot;age&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;age&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;age&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   5</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;最小不能小于5&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;age&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: 2,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Min&quot;</span><br><span class="line">           &#125;</span><br><span class="line">       ],</span><br><span class="line">       &quot;message&quot;: &quot;Validation failed for object=&apos;formRequest&apos;. Error count: 3&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/form&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>如果是参数类型不匹配，会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        &quot;timestamp&quot;: 1530955359265,</span><br><span class="line">        &quot;status&quot;: 400,</span><br><span class="line">        &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">        &quot;exception&quot;: &quot;org.springframework.validation.BindException&quot;,</span><br><span class="line">        &quot;errors&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;codes&quot;: [</span><br><span class="line">                    &quot;typeMismatch.formRequest.age&quot;,</span><br><span class="line">                    &quot;typeMismatch.age&quot;,</span><br><span class="line">                    &quot;typeMismatch.int&quot;,</span><br><span class="line">                    &quot;typeMismatch&quot;</span><br><span class="line">                ],</span><br><span class="line">                &quot;arguments&quot;: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;codes&quot;: [</span><br><span class="line">                            &quot;formRequest.age&quot;,</span><br><span class="line">                            &quot;age&quot;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;arguments&quot;: null,</span><br><span class="line">                        &quot;defaultMessage&quot;: &quot;age&quot;,</span><br><span class="line">                        &quot;code&quot;: &quot;age&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                &quot;defaultMessage&quot;: &quot;Failed to convert property value of type &apos;java.lang.String&apos; </span><br><span class="line">    to required type &apos;int&apos; for property &apos;age&apos;; nested exception is java.lang.NumberFormatException: </span><br><span class="line">    For input string: \&quot;\&quot;&quot;,</span><br><span class="line">                &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">                &quot;field&quot;: &quot;age&quot;,</span><br><span class="line">                &quot;rejectedValue&quot;: &quot;&quot;,</span><br><span class="line">                &quot;bindingFailure&quot;: true,</span><br><span class="line">                &quot;code&quot;: &quot;typeMismatch&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;message&quot;: &quot;Validation failed for object=&apos;formRequest&apos;. Error count: 1&quot;,</span><br><span class="line">        &quot;path&quot;: &quot;/validate/form&quot;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Form表单参数上，使用@Valid注解可达到同样目的，而关于两者的区别则是：<br>@Valid 基于JSR303，即 Bean Validation 1.0，由Hibernate Validator实现；<br> @Validated 基于JSR349，是Bean Validation 1.1，由Spring框架扩展实现；</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SpringBoot/">SpringBoot</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://vanicesun.github.io/2019/12/10/springboot-param/" data-title="Spring Boot开发之参数校验 | 麋鹿觅路迷了路的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/11/07/mysql/"  title="Linux安装mysql5.7">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux安装mysql5.7
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、PathVariable校验"><span class="toc-number">1.</span> <span class="toc-text">一、PathVariable校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、方法参数校验"><span class="toc-number">2.</span> <span class="toc-text">二、方法参数校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、表单对象校验"><span class="toc-number">3.</span> <span class="toc-text">三、表单对象校验</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="vanicesun" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/SpringBoot/" title="SpringBoot">SpringBoot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-FastDFS分布式文件系统/" title="linux FastDFS分布式文件系统">linux FastDFS分布式文件系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql-linux/" title="mysql linux">mysql linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis-linux/" title="redis linux">redis linux<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SpringBoot-Mail/" title="SpringBoot Mail">SpringBoot Mail<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/FastDFS-Linux/" title="FastDFS Linux">FastDFS Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.ityouknow.com/spring-boot" target="_blank" title="纯洁的微笑">纯洁的微笑</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" title="个人CSDN地址">个人CSDN地址</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.javaboy.org" target="_blank" title="江南一点雨">江南一点雨</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://springboot.fun" target="_blank" title="Spring Boot中文索引">Spring Boot中文索引</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://cmsblogs.com/?cat=167" target="_blank" title="Java技术驿站">Java技术驿站</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://tengj.top" target="_blank" title="嘟嘟的独立博客">嘟嘟的独立博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 程序员上辈子都是折翼的天使 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vanicesun" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1014170249@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Vanice Sun">Vanice Sun</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
