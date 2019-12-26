@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>渐进式框架Vue | 麋鹿觅路迷了路的博客</title>
+    <title>初识渐进式框架Vue | 麋鹿觅路迷了路的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vanice Sun">
     
 
     
-    <meta name="description" content="程序员都有着一种天生的好奇心，这种好奇心引导着我们的编程生涯。写几行代码，装载到计算机里，让它按照你的思路工作，这是非常有趣的事情。但随着开发的东西越来越多，我们变的越来越忙，这种好奇心会慢慢的减退。我们应该时不时的用一些新思路挑战自己，让自己的思想保持锋锐和专注，提醒自己为什么当初选择码农这条道路。  Vue.js是什么？Vue (读音 &#x2F;vjuː&#x2F;，类似于 view) 是一套用于构建用户界面">
+    <meta name="description" content="成功的花，人们只惊羡它的明艳，然而当初的芽儿浸透了奋斗的泪泉，洒遍了牺牲的血雨。  Vue.js是什么？Vue (读音 &#x2F;vjuː&#x2F;，类似于 view) 是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渐进式框架Vue">
+<meta property="og:title" content="初识渐进式框架Vue">
 <meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;12&#x2F;18&#x2F;vue&#x2F;index.html">
 <meta property="og:site_name" content="麋鹿觅路迷了路的博客">
-<meta property="og:description" content="程序员都有着一种天生的好奇心，这种好奇心引导着我们的编程生涯。写几行代码，装载到计算机里，让它按照你的思路工作，这是非常有趣的事情。但随着开发的东西越来越多，我们变的越来越忙，这种好奇心会慢慢的减退。我们应该时不时的用一些新思路挑战自己，让自己的思想保持锋锐和专注，提醒自己为什么当初选择码农这条道路。  Vue.js是什么？Vue (读音 &#x2F;vjuː&#x2F;，类似于 view) 是一套用于构建用户界面">
+<meta property="og:description" content="成功的花，人们只惊羡它的明艳，然而当初的芽儿浸透了奋斗的泪泉，洒遍了牺牲的血雨。  Vue.js是什么？Vue (读音 &#x2F;vjuː&#x2F;，类似于 view) 是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;player.youku.com&#x2F;embed&#x2F;XMzMwMTYyODMyNA==?autoplay=true&amp;client_id=37ae6144009e277d">
 <meta property="og:image" content="https:&#x2F;&#x2F;vuejs.bootcss.com&#x2F;v2&#x2F;guide&#x2F;">
 <meta property="og:image" content="https:&#x2F;&#x2F;nodejs.org&#x2F;en&#x2F;download&#x2F;">
-<meta property="og:updated_time" content="2019-12-18T04:26:01.703Z">
+<meta property="og:updated_time" content="2019-12-25T07:51:41.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;player.youku.com&#x2F;embed&#x2F;XMzMwMTYyODMyNA==?autoplay=true&amp;client_id=37ae6144009e277d">
 
@@ -90,7 +90,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/12/18/vue/" title="渐进式框架Vue" itemprop="url">渐进式框架Vue</a>
+      <a href="/2019/12/18/vue/" title="初识渐进式框架Vue" itemprop="url">初识渐进式框架Vue</a>
   </h1>
   <p class="article-author">By
        
@@ -111,7 +111,7 @@
 		</div>
 		
 		<blockquote>
-<p>程序员都有着一种天生的好奇心，这种好奇心引导着我们的编程生涯。写几行代码，装载到计算机里，让它按照你的思路工作，这是非常有趣的事情。但随着开发的东西越来越多，我们变的越来越忙，这种好奇心会慢慢的减退。我们应该时不时的用一些新思路挑战自己，让自己的思想保持锋锐和专注，提醒自己为什么当初选择码农这条道路。</p>
+<p>成功的花，人们只惊羡它的明艳，然而当初的芽儿浸透了奋斗的泪泉，洒遍了牺牲的血雨。</p>
 </blockquote>
 <h3 id="Vue-js是什么？"><a href="#Vue-js是什么？" class="headerlink" title="Vue.js是什么？"></a>Vue.js是什么？</h3><p>Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。<br>官方提供的视频:<img src="https://player.youku.com/embed/XMzMwMTYyODMyNA==?autoplay=true&client_id=37ae6144009e277d" alt=""><br>官方提供的学习地址:<img src="https://vuejs.bootcss.com/v2/guide/" alt=""></p>
 <h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>在这篇博客中只是简单的介绍vue的相关基础用法，我们采用npm的方式进行vue项目的安装和运行，前提条件是安装node.js具体的安装步骤参考node官方网站<br><strong>node.js的下载地址:</strong><img src="https://nodejs.org/en/download/" alt=""></p>
@@ -153,7 +153,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://vanicesun.github.io/2019/12/18/vue/" data-title="渐进式框架Vue | 麋鹿觅路迷了路的博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://vanicesun.github.io/2019/12/18/vue/" data-title="初识渐进式框架Vue | 麋鹿觅路迷了路的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -166,6 +166,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2019/12/25/vue-1/" title="掌上书城-mobile">
+  <strong>上一篇：</strong><br/>
+  <span>
+  掌上书城-mobile</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2019/12/16/aipay/"  title="SSM框架实现支付宝支付功能">
@@ -226,7 +234,7 @@
 		  
 		
 		  
-			<li><a href="/categories/vue/" title="vue">vue<sup>1</sup></a></li>
+			<li><a href="/categories/vue/" title="vue">vue<sup>2</sup></a></li>
 		  
 		
 		  
@@ -247,15 +255,15 @@
 			
 		
 			
+				<li><a href="/tags/vue/" title="vue">vue<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/vue/" title="vue">vue<sup>1</sup></a></li>
 			
 		
 			
