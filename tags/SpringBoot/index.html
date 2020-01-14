@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>标签 : springboot | 萤火虫的博客</title>
+    <title>标签 : SpringBoot | 萤火虫的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vanice Sun">
@@ -13,7 +13,7 @@
     
     <meta property="og:type" content="website">
 <meta property="og:title" content="萤火虫的博客">
-<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;tags&#x2F;springboot&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;tags&#x2F;SpringBoot&#x2F;index.html">
 <meta property="og:site_name" content="萤火虫的博客">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@
         
 
 <div class="archive-title" >
-  <h2 class="tag-icon">springboot</h2>
+  <h2 class="tag-icon">SpringBoot</h2>
   
 </div>
 <div id="main" class="archive-part clearfix">
@@ -87,13 +87,78 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2020/01/06/speingboot-session/" title="实现Session共享" itemprop="url">
+    <a href="/2019/12/10/springboot-param/" title="Spring Boot开发之参数校验" itemprop="url">
   
 
-    <time datetime="2020-01-06T05:51:00.000Z" itemprop="datePublished">2020-01-06</time>
+    <time datetime="2019-12-10T07:14:39.000Z" itemprop="datePublished">2019-12-10</time>
 
 
-    <h1 itemprop="name">实现Session共享</h1>
+    <h1 itemprop="name">Spring Boot开发之参数校验</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2019/11/07/ss-boot/" title="SpringBoot开发案例之奇技淫巧" itemprop="url">
+  
+
+    <time datetime="2019-11-07T08:01:58.000Z" itemprop="datePublished">2019-11-07</time>
+
+
+    <h1 itemprop="name">SpringBoot开发案例之奇技淫巧</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2019/11/07/param/" title="SpringBoot 2.0 开发案例之参数传递的正确姿势" itemprop="url">
+  
+
+    <time datetime="2019-11-07T07:42:30.000Z" itemprop="datePublished">2019-11-07</time>
+
+
+    <h1 itemprop="name">SpringBoot 2.0 开发案例之参数传递的正确姿势</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2019/11/07/springboot-jpa/" title="SpringBoot开发案例之整合Spring-data-jpa" itemprop="url">
+  
+
+    <time datetime="2019-11-07T07:28:42.000Z" itemprop="datePublished">2019-11-07</time>
+
+
+    <h1 itemprop="name">SpringBoot开发案例之整合Spring-data-jpa</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2019/11/06/about-servlet/" title="Spring Boot 优雅的入门篇" itemprop="url">
+  
+
+    <time datetime="2019-11-06T04:54:15.000Z" itemprop="datePublished">2019-11-06</time>
+
+
+    <h1 itemprop="name">Spring Boot 优雅的入门篇</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2019/11/06/java/" title="Spring Boot 开发Web应用之Thymeleaf篇" itemprop="url">
+  
+
+    <time datetime="2019-11-06T04:19:21.000Z" itemprop="datePublished">2019-11-06</time>
+
+
+    <h1 itemprop="name">Spring Boot 开发Web应用之Thymeleaf篇</h1>
 
   </a>
 </section>
@@ -177,97 +242,6 @@ $(document).ready(function(){
     m.removeClass('moveMain');
   });
   $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-        
-    }
-  });
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-
-<!-- MathJax End -->
-
-<!-- Tiny_search Begin -->
-
-<!-- Tiny_search End -->
-
-    </body>
-   </html>
-ll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
   
