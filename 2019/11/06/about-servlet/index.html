@@ -1,125 +1,71 @@
-
- <!DOCTYPE HTML>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <link rel="icon" href="/favicon.ico">
   
-    <title>Spring Boot 优雅的入门篇 | 萤火虫的博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="Vanice Sun">
-    
-
-    
-    <meta name="description" content="前言Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。 正文首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了一个习惯性">
-<meta name="keywords" content="SpringBoot">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot 优雅的入门篇">
-<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;11&#x2F;06&#x2F;about-servlet&#x2F;index.html">
-<meta property="og:site_name" content="萤火虫的博客">
-<meta property="og:description" content="前言Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。 正文首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了一个习惯性">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;spring.jpg#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-1.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-2.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-3.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-4.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-5.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-6.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-7.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-8.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-9.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-10.png#pic_center">
-<meta property="og:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;springboot1-11.png#pic_center">
-<meta property="og:updated_time" content="2020-01-13T06:05:25.844Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;image.tengj.top&#x2F;spring.jpg#pic_center">
-
-    
-    <link rel="alternative" href="/atom.xml" title="萤火虫的博客" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+  <title>萤火虫的博客 | Spring Boot 优雅的入门篇</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox-1.3.4.css">
+  <!--在这里倒入jquery 方便处理部分页面的jquery-->
+  <script src="https://cdn.staticfile.org/jquery/1.7/jquery.min.js" type="text/javascript" ></script>
 </head>
 
-  <body>
-    <header>
-      
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/ss.jpg" alt="萤火虫的博客" title="萤火虫的博客"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="萤火虫的博客">萤火虫的博客</a></h1>
-				<h2 class="blog-motto">爱生活，爱编码</h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/tags">标签</a></li>
-					
-						<li><a href="/categories">分类</a></li>
-					
-						<li><a href="/story">生活</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
- 					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:vanicesun.github.io">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/11/06/about-servlet/" title="Spring Boot 优雅的入门篇" itemprop="url">Spring Boot 优雅的入门篇</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Vanice Sun" target="_blank" itemprop="author">Vanice Sun</a>
-		
-  <p class="article-time">
-    <time datetime="2019-11-06T04:54:15.000Z" itemprop="datePublished"> 发表于 2019-11-06</time>
-    
-  </p>
+<body>
+	<header class="site-header navfixed-false">
+  <div class="container">
+      <h1><a href="/" title="萤火虫的博客"><span class="octicon octicon-mark-github"></span> 萤火虫的博客</a></h1>
+      <nav class="site-header-nav" role="navigation">
+        
+              
+              <a href="/"  class=" site-header-nav-item hvr-underline-from-center" title="首页">首页</a>
+        
+              
+              <a href="/categories/"  class=" site-header-nav-item hvr-underline-from-center" title="分类">分类</a>
+        
+              
+              <a href="/open-source/"  class=" site-header-nav-item hvr-underline-from-center" title="开源">开源</a>
+        
+              
+              <a href="/about/"  class=" site-header-nav-item hvr-underline-from-center" title="关于">关于</a>
+        
+      </nav>
+  </div>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot精要"><span class="toc-number">3.</span> <span class="toc-text">Spring Boot精要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统要求"><span class="toc-number">4.</span> <span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优雅的Web入门开发"><span class="toc-number">5.</span> <span class="toc-text">优雅的Web入门开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Spring-Boot项目"><span class="toc-number">6.</span> <span class="toc-text">初始化Spring Boot项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">7.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析pom-xml文件"><span class="toc-number">8.</span> <span class="toc-text">解析pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot父级依赖"><span class="toc-number">9.</span> <span class="toc-text">Spring Boot父级依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#起步依赖-spring-boot-starter-xx"><span class="toc-number">10.</span> <span class="toc-text">起步依赖 spring-boot-starter-xx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-Maven插件"><span class="toc-number">11.</span> <span class="toc-text">Spring Boot Maven插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用程序入口类"><span class="toc-number">12.</span> <span class="toc-text">应用程序入口类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-number">13.</span> <span class="toc-text">结束</span></a></li></ol>
-		
-		</div>
-		
-		<p><img src="http://image.tengj.top/spring.jpg#pic_center" alt="SpringBoot"></p>
+
+	
+<section class="collection-head geopattern" data-pattern-id="Spring Boot 优雅的入门篇" >
+    <div class="container">
+        <div class="collection-title">
+            <h1 class="collection-header">
+                Spring Boot 优雅的入门篇
+            </h1>
+            
+                <div class="collection-info">
+                    <span class="meta-info">
+                        <span class="octicon octicon-calendar"></span>
+                        <time datetime="2019-11-06T04:54:15.000Z" itemprop="datePublished">2019-11-06</time>
+                    </span>
+                    
+                        <span class="meta-info">
+                            <span class="octicon octicon-file-directory"></span>
+                            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+                        </span>
+                    
+                </div>
+            
+        </div>
+    </div>
+</section>
+	<section class="container">
+    <div class="columns">
+        <div class="column  three-fourths " >
+            <article class="article-content markdown-body">
+                <p><img src="http://image.tengj.top/spring.jpg#pic_center" alt="SpringBoot"></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。</p>
 <h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了一个习惯性的配置，让你无需手动进行配置）的理念让你的项目快速运行起来。使用Spring Boot很容易创建一个独立运行（运行jar,内嵌Servlet容器）、准生产级别的基于Spring框架的项目，使用Spring Boot你可以不用或者只需要很少的Spring配置。</p>
 <h3 id="Spring-Boot精要"><a href="#Spring-Boot精要" class="headerlink" title="Spring Boot精要"></a>Spring Boot精要</h3><p>Spring将很多魔法带入了Spring应用程序的开发之中，其中最重要的是以下四个核心。<br>1.自动配置：针对很多Spring应用程序常见的应用功能，Spring Boot能自动提供相关配置<br>2.起步依赖：告诉Spring Boot需要什么功能，它就能引入需要的库。<br>3.命令行界面：这是Spring Boot的可选特性，借此你只需写代码就能完成完整的应用程序，无需传统项目构建。<br>4.Actuator：让你能够深入运行中的Spring Boot应用程序，一探究竟。</p>
@@ -161,462 +107,120 @@
 <li>起步依赖 spring-boot-starter-xx的概念</li>
 <li>应用入口类的作用</li>
 </ul>
-  
-	</div>
-		<footer class="article-footer clearfix">
-<div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            </article>
+            
+                <div class="share">
+                    <!--开启分享-->
+<div class="share-component" data-disabled="google,twitter,facebook" data-description=""></div>
+
+<script src="/js/share.min.js"></script>
+
+                </div>    
+            
+
+            
+            
+                
+<div class="comments">
+    <div id="container"></div>
+        <script src="/js/gitment.browser.js"></script>
+         <script>
+            var gitment = new Gitment({
+                id: '/2019/11/06/about-servlet/',
+                owner: '',
+                repo: '',
+                oauth: {
+                    client_id: "",
+                    client_secret: "",
+                }
+            })
+        gitment.render('container')
+        </script>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/SpringBoot/">SpringBoot</a>
-  </div>
-
-</div>
-
-
-
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://vanicesun.github.io/2019/11/06/about-servlet/" data-title="Spring Boot 优雅的入门篇 | 萤火虫的博客" data-tsina="" class="share clearfix">
-	  </div>
-	
-	</div>
-
-
-</footer>
-
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2019/11/06/redis/" title="Redis单机版和集群搭建部署">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Redis单机版和集群搭建部署</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2019/11/06/java/"  title="Spring Boot 开发Web应用之Thymeleaf篇">
- <strong>下一篇：</strong><br/> 
- <span>Spring Boot 开发Web应用之Thymeleaf篇
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-
-
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot精要"><span class="toc-number">3.</span> <span class="toc-text">Spring Boot精要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统要求"><span class="toc-number">4.</span> <span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优雅的Web入门开发"><span class="toc-number">5.</span> <span class="toc-text">优雅的Web入门开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Spring-Boot项目"><span class="toc-number">6.</span> <span class="toc-text">初始化Spring Boot项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">7.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析pom-xml文件"><span class="toc-number">8.</span> <span class="toc-text">解析pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot父级依赖"><span class="toc-number">9.</span> <span class="toc-text">Spring Boot父级依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#起步依赖-spring-boot-starter-xx"><span class="toc-number">10.</span> <span class="toc-text">起步依赖 spring-boot-starter-xx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-Maven插件"><span class="toc-number">11.</span> <span class="toc-text">Spring Boot Maven插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用程序入口类"><span class="toc-number">12.</span> <span class="toc-text">应用程序入口类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-number">13.</span> <span class="toc-text">结束</span></a></li></ol>
- 
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-<div class="github-card">
-<p class="asidetitle">Github 名片</p>
-<div class="github-card" data-github="vanicesun" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-
-
-
-  
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-		  
-			<li><a href="/categories/SpringBoot/" title="SpringBoot">SpringBoot<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/linux-FastDFS分布式文件系统/" title="linux FastDFS分布式文件系统">linux FastDFS分布式文件系统<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/mysql-linux/" title="mysql linux">mysql linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/redis-linux/" title="redis linux">redis linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/springboot、session/" title="springboot、session">springboot、session<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/vue/" title="vue">vue<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/移动支付/" title="移动支付">移动支付<sup>1</sup></a></li>
-		  
-		
-		</ul>
-</div>
-
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringBoot-Mail/" title="SpringBoot Mail">SpringBoot Mail<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/FastDFS-Linux/" title="FastDFS Linux">FastDFS Linux<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-        
-          <li>
             
-            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://www.ityouknow.com/spring-boot" target="_blank" title="纯洁的微笑">纯洁的微笑</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" title="个人CSDN地址">个人CSDN地址</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://www.javaboy.org" target="_blank" title="江南一点雨">江南一点雨</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://springboot.fun" target="_blank" title="Spring Boot中文索引">Spring Boot中文索引</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://cmsblogs.com/?cat=167" target="_blank" title="Java技术驿站">Java技术驿站</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://tengj.top" target="_blank" title="嘟嘟的独立博客">嘟嘟的独立博客</a>
-            
-          </li>
-        
-    </ul>
-</div>
 
-  
+        </div>
+        <div class="column one-fourth">
+            
+                
+                
 
 
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
+<h3>Post Directory</h3>
 
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> 程序员上辈子都是折翼的天使 <br/>
-			This is my blog,believe it or not.</p>
+<div id="post-directory-module">
+	<section class="post-directory">
+		<p><strong class="toc-title">文章目录</strong></p>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot精要"><span class="toc-text">Spring Boot精要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统要求"><span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优雅的Web入门开发"><span class="toc-text">优雅的Web入门开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Spring-Boot项目"><span class="toc-text">初始化Spring Boot项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析pom-xml文件"><span class="toc-text">解析pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot父级依赖"><span class="toc-text">Spring Boot父级依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#起步依赖-spring-boot-starter-xx"><span class="toc-text">起步依赖 spring-boot-starter-xx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-Maven插件"><span class="toc-text">Spring Boot Maven插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用程序入口类"><span class="toc-text">应用程序入口类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-text">结束</span></a></li></ol>
 	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		
-		<a href="https://github.com/vanicesun" target="_blank" class="icon-github" title="github"></a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<a href="mailto:1014170249@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-			
-		
-
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
-		
-		<a href="/about" target="_blank" title="Vanice Sun">Vanice Sun</a>
-		
-		
-		</p>
 </div>
+            
+        </div>
+    </div>
+</section>
+
+<footer class="container">
+    <div class="site-footer" role="contentinfo">
+        <div class="copyright left mobile-block">
+                © 2016
+                <span title="yumemor">yumemor</span>
+                <a href="javascript:window.scrollTo(0,0)" target="_blank" rel="noopener" class="right mobile-visible">TOP</a>
+        </div>
+
+        <ul class="site-footer-links right mobile-hidden">
+            <li>
+                <a href="javascript:window.scrollTo(0,0)" target="_blank" rel="noopener" >TOP</a>
+            </li>
+        </ul>
+
+        <a href="https://github.com/yumemor/hexo-theme-primer" target="_blank" aria-label="view source code">
+            <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+        </a>
+
+        <ul class="site-footer-links mobile-hidden">
+            
+                  
+                  <li>
+                    <a href="/"  title="首页">首页</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/categories/"  title="分类">分类</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/open-source/"  title="开源">开源</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/about/"  title="关于">关于</a>
+                  </li>
+            
+            <li>
+                <a href="/atom.xml">
+                    <span class="octicon octicon-rss" style="color:orange;"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-});
-</script>
+		<script src="/js/geopattern.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/lib/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
+		
+			<script src="/js/toc.js"></script>
+		
 
+		<script src="/js/index.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
+		 <script src="/js/popular_repo.js"></script> 
 
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-
-<!-- MathJax End -->
-
-<!-- Tiny_search Begin -->
-
-<!-- Tiny_search End -->
-
-  </body>
+	</body>
 </html>

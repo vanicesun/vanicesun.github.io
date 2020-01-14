@@ -1,122 +1,71 @@
-
- <!DOCTYPE HTML>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <link rel="icon" href="/favicon.ico">
   
-    <title>Spring Boot 邮件发送的 5 种姿势！ | 萤火虫的博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="Vanice Sun">
-    
-
-    
-    <meta name="description" content="Spring Boot 邮件发送的 5 种姿势！邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。 邮件基础我们经常会听到各种各样的邮件协议，比如 SMTP">
-<meta name="keywords" content="SpringBoot Mail">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot 邮件发送的 5 种姿势！">
-<meta property="og:url" content="http:&#x2F;&#x2F;vanicesun.github.io&#x2F;2019&#x2F;11&#x2F;07&#x2F;email&#x2F;index.html">
-<meta property="og:site_name" content="萤火虫的博客">
-<meta property="og:description" content="Spring Boot 邮件发送的 5 种姿势！邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。 邮件基础我们经常会听到各种各样的邮件协议，比如 SMTP">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC0xLmpwZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC0yLmpwZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC0zLmpwZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC00LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC01LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC02LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC02LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC04LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC04LnBuZw?x-oss-process=image&#x2F;format,png#pic_center">
-<meta property="og:updated_time" content="2019-11-07T09:12:59.315Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC0xLmpwZw?x-oss-process=image&#x2F;format,png#pic_center">
-
-    
-    <link rel="alternative" href="/atom.xml" title="萤火虫的博客" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+  <title>萤火虫的博客 | Spring Boot 邮件发送的 5 种姿势！</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox-1.3.4.css">
+  <!--在这里倒入jquery 方便处理部分页面的jquery-->
+  <script src="https://cdn.staticfile.org/jquery/1.7/jquery.min.js" type="text/javascript" ></script>
 </head>
 
-  <body>
-    <header>
-      
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/ss.jpg" alt="萤火虫的博客" title="萤火虫的博客"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="萤火虫的博客">萤火虫的博客</a></h1>
-				<h2 class="blog-motto">爱生活，爱编码</h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/tags">标签</a></li>
-					
-						<li><a href="/categories">分类</a></li>
-					
-						<li><a href="/story">生活</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
- 					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:vanicesun.github.io">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/11/07/email/" title="Spring Boot 邮件发送的 5 种姿势！" itemprop="url">Spring Boot 邮件发送的 5 种姿势！</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Vanice Sun" target="_blank" itemprop="author">Vanice Sun</a>
-		
-  <p class="article-time">
-    <time datetime="2019-11-07T07:49:11.000Z" itemprop="datePublished"> 发表于 2019-11-07</time>
-    
-  </p>
+<body>
+	<header class="site-header navfixed-false">
+  <div class="container">
+      <h1><a href="/" title="萤火虫的博客"><span class="octicon octicon-mark-github"></span> 萤火虫的博客</a></h1>
+      <nav class="site-header-nav" role="navigation">
+        
+              
+              <a href="/"  class=" site-header-nav-item hvr-underline-from-center" title="首页">首页</a>
+        
+              
+              <a href="/categories/"  class=" site-header-nav-item hvr-underline-from-center" title="分类">分类</a>
+        
+              
+              <a href="/open-source/"  class=" site-header-nav-item hvr-underline-from-center" title="开源">开源</a>
+        
+              
+              <a href="/about/"  class=" site-header-nav-item hvr-underline-from-center" title="关于">关于</a>
+        
+      </nav>
+  </div>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-邮件发送的-5-种姿势！"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot 邮件发送的 5 种姿势！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件基础"><span class="toc-number">2.</span> <span class="toc-text">邮件基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目创建"><span class="toc-number">4.</span> <span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送简单邮件"><span class="toc-number">5.</span> <span class="toc-text">发送简单邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带附件的邮件"><span class="toc-number">6.</span> <span class="toc-text">发送带附件的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带图片资源的邮件"><span class="toc-number">7.</span> <span class="toc-text">发送带图片资源的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Freemarker-作邮件模板"><span class="toc-number">8.</span> <span class="toc-text">使用 Freemarker 作邮件模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Thymeleaf-作邮件模板"><span class="toc-number">9.</span> <span class="toc-text">使用 Thymeleaf 作邮件模板</span></a></li></ol>
-		
-		</div>
-		
-		<h3 id="Spring-Boot-邮件发送的-5-种姿势！"><a href="#Spring-Boot-邮件发送的-5-种姿势！" class="headerlink" title="Spring Boot 邮件发送的 5 种姿势！"></a>Spring Boot 邮件发送的 5 种姿势！</h3><p>邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。</p>
+
+	
+<section class="collection-head geopattern" data-pattern-id="Spring Boot 邮件发送的 5 种姿势！" >
+    <div class="container">
+        <div class="collection-title">
+            <h1 class="collection-header">
+                Spring Boot 邮件发送的 5 种姿势！
+            </h1>
+            
+                <div class="collection-info">
+                    <span class="meta-info">
+                        <span class="octicon octicon-calendar"></span>
+                        <time datetime="2019-11-07T07:49:11.000Z" itemprop="datePublished">2019-11-07</time>
+                    </span>
+                    
+                        <span class="meta-info">
+                            <span class="octicon octicon-file-directory"></span>
+                            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+                        </span>
+                    
+                </div>
+            
+        </div>
+    </div>
+</section>
+	<section class="container">
+    <div class="columns">
+        <div class="column  three-fourths " >
+            <article class="article-content markdown-body">
+                <h3 id="Spring-Boot-邮件发送的-5-种姿势！"><a href="#Spring-Boot-邮件发送的-5-种姿势！" class="headerlink" title="Spring Boot 邮件发送的 5 种姿势！"></a>Spring Boot 邮件发送的 5 种姿势！</h3><p>邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。</p>
 <h3 id="邮件基础"><a href="#邮件基础" class="headerlink" title="邮件基础"></a>邮件基础</h3><p>我们经常会听到各种各样的邮件协议，比如 SMTP、POP3、IMAP ，那么这些协议有什么作用，有什么区别？我们先来讨论一下这个问题。<br>SMTP 是一个基于 TCP/IP 的应用层协议，江湖地位有点类似于 HTTP，SMTP 服务器默认监听的端口号为 25 。看到这里，小伙伴们可能会想到既然 SMTP 协议是基于 TCP/IP 的应用层协议，那么我是不是也可以通过 Socket 发送一封邮件呢？回答是肯定的。</p>
 <p><strong>生活中我们投递一封邮件要经过如下几个步骤：</strong></p>
 <p>1.深圳的小王先将邮件投递到深圳的邮局<br>2.深圳的邮局将邮件运送到上海的邮局<br>3.上海的小张来邮局取邮件<br>这是一个缩减版的生活中邮件发送过程。这三个步骤可以分别对应我们的邮件发送过程，假设从 <a href="mailto:aaa@qq.com" target="_blank" rel="noopener">aaa@qq.com</a> 发送邮件到 <a href="mailto:111@163.com" target="_blank" rel="noopener">111@163.com</a> ：</p>
@@ -191,462 +140,120 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">TemplateEngine templateEngine;</span><br><span class="line"></span><br><span class="line">@Test</span><br><span class="line">public void sendThymeleafMail() throws MessagingException &#123;</span><br><span class="line">MimeMessage mimeMessage = javaMailSender.createMimeMessage();</span><br><span class="line">MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);</span><br><span class="line">helper.setSubject(&quot;这是一封测试邮件&quot;);</span><br><span class="line">helper.setFrom(&quot;1510161612@qq.com&quot;);</span><br><span class="line">helper.setTo(&quot;25xxxxx755@qq.com&quot;);</span><br><span class="line">helper.setCc(&quot;37xxxxx37@qq.com&quot;);</span><br><span class="line">helper.setBcc(&quot;14xxxxx098@qq.com&quot;);</span><br><span class="line">helper.setSentDate(new Date());</span><br><span class="line">Context context = new Context();</span><br><span class="line">context.setVariable(&quot;username&quot;, &quot;javaboy&quot;);</span><br><span class="line">context.setVariable(&quot;num&quot;,&quot;000001&quot;);</span><br><span class="line">context.setVariable(&quot;salary&quot;, &quot;99999&quot;);</span><br><span class="line">String process = templateEngine.process(&quot;mail.html&quot;, context);</span><br><span class="line">helper.setText(process,true);</span><br><span class="line">javaMailSender.send(mimeMessage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>调用该方法，发送邮件，效果图如下：</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3d3dy5qYXZhYm95Lm9yZy9pbWFnZXMvbWFpbC8yNC04LnBuZw?x-oss-process=image/format,png#pic_center" alt=""><br>好了，这就是我们今天说的 5 种邮件发送姿势，不知道你掌握了没有呢？</p>
-  
-	</div>
-		<footer class="article-footer clearfix">
-<div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+            </article>
+            
+                <div class="share">
+                    <!--开启分享-->
+<div class="share-component" data-disabled="google,twitter,facebook" data-description=""></div>
+
+<script src="/js/share.min.js"></script>
+
+                </div>    
+            
+
+            
+            
+                
+<div class="comments">
+    <div id="container"></div>
+        <script src="/js/gitment.browser.js"></script>
+         <script>
+            var gitment = new Gitment({
+                id: '/2019/11/07/email/',
+                owner: '',
+                repo: '',
+                oauth: {
+                    client_id: "",
+                    client_secret: "",
+                }
+            })
+        gitment.render('container')
+        </script>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/SpringBoot-Mail/">SpringBoot Mail</a>
-  </div>
-
-</div>
-
-
-
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://vanicesun.github.io/2019/11/07/email/" data-title="Spring Boot 邮件发送的 5 种姿势！ | 萤火虫的博客" data-tsina="" class="share clearfix">
-	  </div>
-	
-	</div>
-
-
-</footer>
-
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2019/11/07/ss-boot/" title="SpringBoot开发案例之奇技淫巧">
-  <strong>上一篇：</strong><br/>
-  <span>
-  SpringBoot开发案例之奇技淫巧</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2019/11/07/param/"  title="SpringBoot 2.0 开发案例之参数传递的正确姿势">
- <strong>下一篇：</strong><br/> 
- <span>SpringBoot 2.0 开发案例之参数传递的正确姿势
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-
-
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-邮件发送的-5-种姿势！"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot 邮件发送的 5 种姿势！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件基础"><span class="toc-number">2.</span> <span class="toc-text">邮件基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目创建"><span class="toc-number">4.</span> <span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送简单邮件"><span class="toc-number">5.</span> <span class="toc-text">发送简单邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带附件的邮件"><span class="toc-number">6.</span> <span class="toc-text">发送带附件的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带图片资源的邮件"><span class="toc-number">7.</span> <span class="toc-text">发送带图片资源的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Freemarker-作邮件模板"><span class="toc-number">8.</span> <span class="toc-text">使用 Freemarker 作邮件模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Thymeleaf-作邮件模板"><span class="toc-number">9.</span> <span class="toc-text">使用 Thymeleaf 作邮件模板</span></a></li></ol>
- 
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-<div class="github-card">
-<p class="asidetitle">Github 名片</p>
-<div class="github-card" data-github="vanicesun" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-
-
-
-  
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-		  
-			<li><a href="/categories/SpringBoot/" title="SpringBoot">SpringBoot<sup>8</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/linux-FastDFS分布式文件系统/" title="linux FastDFS分布式文件系统">linux FastDFS分布式文件系统<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/mysql-linux/" title="mysql linux">mysql linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/redis-linux/" title="redis linux">redis linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/springboot、session/" title="springboot、session">springboot、session<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/vue/" title="vue">vue<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/移动支付/" title="移动支付">移动支付<sup>1</sup></a></li>
-		  
-		
-		</ul>
-</div>
-
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/SpringBoot/" title="SpringBoot">SpringBoot<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SpringBoot-Mail/" title="SpringBoot Mail">SpringBoot Mail<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/FastDFS-Linux/" title="FastDFS Linux">FastDFS Linux<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-        
-          <li>
             
-            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://www.ityouknow.com/spring-boot" target="_blank" title="纯洁的微笑">纯洁的微笑</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" title="个人CSDN地址">个人CSDN地址</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://www.javaboy.org" target="_blank" title="江南一点雨">江南一点雨</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://springboot.fun" target="_blank" title="Spring Boot中文索引">Spring Boot中文索引</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://cmsblogs.com/?cat=167" target="_blank" title="Java技术驿站">Java技术驿站</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://tengj.top" target="_blank" title="嘟嘟的独立博客">嘟嘟的独立博客</a>
-            
-          </li>
-        
-    </ul>
-</div>
 
-  
+        </div>
+        <div class="column one-fourth">
+            
+                
+                
 
 
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
+<h3>Post Directory</h3>
 
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> 程序员上辈子都是折翼的天使 <br/>
-			This is my blog,believe it or not.</p>
+<div id="post-directory-module">
+	<section class="post-directory">
+		<p><strong class="toc-title">文章目录</strong></p>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-邮件发送的-5-种姿势！"><span class="toc-text">Spring Boot 邮件发送的 5 种姿势！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件基础"><span class="toc-text">邮件基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目创建"><span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送简单邮件"><span class="toc-text">发送简单邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带附件的邮件"><span class="toc-text">发送带附件的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带图片资源的邮件"><span class="toc-text">发送带图片资源的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Freemarker-作邮件模板"><span class="toc-text">使用 Freemarker 作邮件模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Thymeleaf-作邮件模板"><span class="toc-text">使用 Thymeleaf 作邮件模板</span></a></li></ol>
 	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		
-		<a href="https://github.com/vanicesun" target="_blank" class="icon-github" title="github"></a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<a href="mailto:1014170249@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-			
-		
-
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
-		
-		<a href="/about" target="_blank" title="Vanice Sun">Vanice Sun</a>
-		
-		
-		</p>
 </div>
+            
+        </div>
+    </div>
+</section>
+
+<footer class="container">
+    <div class="site-footer" role="contentinfo">
+        <div class="copyright left mobile-block">
+                © 2016
+                <span title="yumemor">yumemor</span>
+                <a href="javascript:window.scrollTo(0,0)" target="_blank" rel="noopener" class="right mobile-visible">TOP</a>
+        </div>
+
+        <ul class="site-footer-links right mobile-hidden">
+            <li>
+                <a href="javascript:window.scrollTo(0,0)" target="_blank" rel="noopener" >TOP</a>
+            </li>
+        </ul>
+
+        <a href="https://github.com/yumemor/hexo-theme-primer" target="_blank" aria-label="view source code">
+            <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+        </a>
+
+        <ul class="site-footer-links mobile-hidden">
+            
+                  
+                  <li>
+                    <a href="/"  title="首页">首页</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/categories/"  title="分类">分类</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/open-source/"  title="开源">开源</a>
+                  </li>
+            
+                  
+                  <li>
+                    <a href="/about/"  title="关于">关于</a>
+                  </li>
+            
+            <li>
+                <a href="/atom.xml">
+                    <span class="octicon octicon-rss" style="color:orange;"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-});
-</script>
+		<script src="/js/geopattern.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/lib/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
+		
+			<script src="/js/toc.js"></script>
+		
 
+		<script src="/js/index.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
+		 <script src="/js/popular_repo.js"></script> 
 
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-
-<!-- MathJax End -->
-
-<!-- Tiny_search Begin -->
-
-<!-- Tiny_search End -->
-
-  </body>
+	</body>
 </html>
