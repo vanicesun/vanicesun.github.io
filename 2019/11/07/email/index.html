@@ -53,7 +53,7 @@
                     
                         <span class="meta-info">
                             <span class="octicon octicon-file-directory"></span>
-                            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+                            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
                         </span>
                     
                 </div>
@@ -66,6 +66,8 @@
         <div class="column  three-fourths " >
             <article class="article-content markdown-body">
                 <h3 id="Spring-Boot-邮件发送的-5-种姿势！"><a href="#Spring-Boot-邮件发送的-5-种姿势！" class="headerlink" title="Spring Boot 邮件发送的 5 种姿势！"></a>Spring Boot 邮件发送的 5 种姿势！</h3><p>邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。</p>
+<a id="more"></a>
+
 <h3 id="邮件基础"><a href="#邮件基础" class="headerlink" title="邮件基础"></a>邮件基础</h3><p>我们经常会听到各种各样的邮件协议，比如 SMTP、POP3、IMAP ，那么这些协议有什么作用，有什么区别？我们先来讨论一下这个问题。<br>SMTP 是一个基于 TCP/IP 的应用层协议，江湖地位有点类似于 HTTP，SMTP 服务器默认监听的端口号为 25 。看到这里，小伙伴们可能会想到既然 SMTP 协议是基于 TCP/IP 的应用层协议，那么我是不是也可以通过 Socket 发送一封邮件呢？回答是肯定的。</p>
 <p><strong>生活中我们投递一封邮件要经过如下几个步骤：</strong></p>
 <p>1.深圳的小王先将邮件投递到深圳的邮局<br>2.深圳的邮局将邮件运送到上海的邮局<br>3.上海的小张来邮局取邮件<br>这是一个缩减版的生活中邮件发送过程。这三个步骤可以分别对应我们的邮件发送过程，假设从 <a href="mailto:aaa@qq.com" target="_blank" rel="noopener">aaa@qq.com</a> 发送邮件到 <a href="mailto:111@163.com" target="_blank" rel="noopener">111@163.com</a> ：</p>
@@ -145,7 +147,7 @@
             
                 <div class="share">
                     <!--开启分享-->
-<div class="share-component" data-disabled="google,twitter,facebook" data-description=""></div>
+<div class="share-component" data-disabled="google,twitter,facebook" data-description="Spring Boot 邮件发送的 5 种姿势！邮件发..."></div>
 
 <script src="/js/share.min.js"></script>
 
@@ -181,12 +183,11 @@
                 
 
 
-<h3>Post Directory</h3>
+<h3>文章目录</h3>
 
 <div id="post-directory-module">
 	<section class="post-directory">
-		<p><strong class="toc-title">文章目录</strong></p>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-邮件发送的-5-种姿势！"><span class="toc-text">Spring Boot 邮件发送的 5 种姿势！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件基础"><span class="toc-text">邮件基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目创建"><span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送简单邮件"><span class="toc-text">发送简单邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带附件的邮件"><span class="toc-text">发送带附件的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带图片资源的邮件"><span class="toc-text">发送带图片资源的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Freemarker-作邮件模板"><span class="toc-text">使用 Freemarker 作邮件模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Thymeleaf-作邮件模板"><span class="toc-text">使用 Thymeleaf 作邮件模板</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-邮件发送的-5-种姿势！"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot 邮件发送的 5 种姿势！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件基础"><span class="toc-number">2.</span> <span class="toc-text">邮件基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目创建"><span class="toc-number">4.</span> <span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送简单邮件"><span class="toc-number">5.</span> <span class="toc-text">发送简单邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带附件的邮件"><span class="toc-number">6.</span> <span class="toc-text">发送带附件的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送带图片资源的邮件"><span class="toc-number">7.</span> <span class="toc-text">发送带图片资源的邮件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Freemarker-作邮件模板"><span class="toc-number">8.</span> <span class="toc-text">使用 Freemarker 作邮件模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Thymeleaf-作邮件模板"><span class="toc-number">9.</span> <span class="toc-text">使用 Thymeleaf 作邮件模板</span></a></li></ol>
 	</section>
 </div>
             

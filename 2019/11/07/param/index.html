@@ -53,7 +53,7 @@
                     
                         <span class="meta-info">
                             <span class="octicon octicon-file-directory"></span>
-                            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+                            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
                         </span>
                     
                 </div>
@@ -65,7 +65,8 @@
     <div class="columns">
         <div class="column  three-fourths " >
             <article class="article-content markdown-body">
-                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 最近在进行SpringBoot2.0进行项目开发的过程发现，SpringBoot提供了丰富的参数传递的注解。于是在空闲的时间，整理了关于SpringBoot在开发实际案例时正确的传参姿势。希望能够帮到大家。希望大家能够在下方评论交流，希望得到大牛的指点！</p>
+                <p>最近在进行SpringBoot2.0进行项目开发的过程发现，SpringBoot提供了丰富的参数传递的注解。于是在空闲的时间，整理了关于SpringBoot在开发实际案例时正确的传参姿势。希望能够帮到大家。希望大家能够在下方评论交流，希望得到大牛的指点！</p>
+<a id="more"></a>
 <h3 id="传递"><a href="#传递" class="headerlink" title="传递"></a>传递</h3><p><strong>用户登录</strong></p>
 <p>前端代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var param = &#123;</span><br><span class="line">    &quot;username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;password&quot;: &quot;admin&quot;</span><br><span class="line">&#125;</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &quot;/sys/login&quot;,</span><br><span class="line">    data: param,</span><br><span class="line">    type: &quot;post&quot;,</span><br><span class="line">    dataType: &quot;json&quot;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
@@ -132,7 +133,7 @@
             
                 <div class="share">
                     <!--开启分享-->
-<div class="share-component" data-disabled="google,twitter,facebook" data-description=""></div>
+<div class="share-component" data-disabled="google,twitter,facebook" data-description="最近在进行SpringBoot2.0进行项目开发的过程..."></div>
 
 <script src="/js/share.min.js"></script>
 
@@ -168,12 +169,11 @@
                 
 
 
-<h3>Post Directory</h3>
+<h3>文章目录</h3>
 
 <div id="post-directory-module">
 	<section class="post-directory">
-		<p><strong class="toc-title">文章目录</strong></p>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递"><span class="toc-text">传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#炒鸡复杂"><span class="toc-text">炒鸡复杂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-text">扩展</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#传递"><span class="toc-number">1.</span> <span class="toc-text">传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#炒鸡复杂"><span class="toc-number">2.</span> <span class="toc-text">炒鸡复杂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-number">3.</span> <span class="toc-text">扩展</span></a></li></ol>
 	</section>
 </div>
             

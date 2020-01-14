@@ -41,7 +41,7 @@
         <div class="container">
             <div class="collection-title">
                 <h1 class="collection-header" id="site-description">
-                    111
+                    分享技术，品味人生
                 </h1>
                 <div class="collection-info">
                     
@@ -72,7 +72,7 @@
                             
                                 <span class="octicon octicon-organization">
                                    
-                                        组织/公司
+                                        爱生活,爱编码
                                     
                                 </span>
                                 
@@ -88,39 +88,6 @@
     <div class="columns">
         <div class="column two-thirds">
             
-                  <article id="post-ss" class="repo-list">
-    <div class="repo-list-item" >
-      <h3 class="repo-list-name" itemprop="name">
-        
-  
-      <a class="article-title" href="/2020/01/14/ss/">Hello World</a>
-  
-
-      </h3>
-      <div class="repo-list-description">
-        
-          <h3 id="hahahah"><a href="#hahahah" class="headerlink" title="hahahah"></a>hahahah</h3><ul>
-<li>点上班v传递深V发点上班v</li>
-</ul>
-
-        
-      </div>
-      <p class="repo-list-meta">
-        <span class="meta-info">
-          <span class="octicon octicon-calendar"></span>
-           <time datetime="2020-01-14T03:44:41.940Z" itemprop="datePublished">2020-01-14</time>
-        </span>
-
-        
-      
-        <!--
-          
-        -->
-
-      </p>
-    </div>
-  </article>
-            
                   <article id="post-speingboot-session" class="repo-list">
     <div class="repo-list-item" >
       <h3 class="repo-list-name" itemprop="name">
@@ -135,33 +102,6 @@
           <blockquote>
 <p>2020年，只有更加努力的自己，才能创造自己更加美好的生活！乾坤未定，你我皆是黑马！</p>
 </blockquote>
-<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p>在传统的单服务架构中，一般来说，只有一个服务器，那么不存在 Session 共享问题，但是在分布式/集群项目中，Session 共享则是一个必须面对的问题，先看一个简单的架构图：<br><img src="http://www.javaboy.org/images/boot/14-1.png#pic_center" alt=""><br>在这样的架构中，会出现一些单服务中不存在的问题，例如客户端发起一个请求，这个请求到达 Nginx 上之后，被 Nginx 转发到 Tomcat A 上，然后在 Tomcat A 上往 session 中保存了一份数据，下次又来一个请求，这个请求被转发到 Tomcat B 上，此时再去 Session 中获取数据，发现没有之前的数据。<br>对于这一类问题的解决，思路很简单，就是将各个服务之间需要共享的数据，保存到一个公共的地方（主流方案就是 Redis）：<br><img src="http://www.javaboy.org/images/boot/14-2.png#pic_center" alt=""><br>当所有 Tomcat 需要往 Session 中写数据时，都往 Redis 中写，当所有 Tomcat 需要读数据时，都从 Redis 中读。这样，不同的服务就可以使用相同的 Session 数据了。<br>这样的方案，可以由开发者手动实现，即手动往 Redis 中存储数据，手动从 Redis 中读取数据，相当于使用一些 Redis 客户端工具来实现这样的功能，毫无疑问，手动实现工作量还是蛮大的。<br>一个简化的方案就是使用 Spring Session 来实现这一功能，Spring Session 就是使用 Spring 中的代理过滤器，将所有的 Session 操作拦截下来，自动的将数据 同步到 Redis 中，或者自动的从 Redis 中读取数据。<br>对于开发者来说，所有关于 Session 同步的操作都是透明的，开发者使用 Spring Session，一旦配置完成后，具体的用法就像使用一个普通的 Session 一样。</p>
-<h2 id="实战-创建工程"><a href="#实战-创建工程" class="headerlink" title="实战-创建工程"></a>实战-创建工程</h2><p>首先 创建一个 Spring Boot 工程，引入 Web、Spring Session 以及 Redis:<br><img src="http://www.javaboy.org/images/boot/14-3.png#pic_center" alt=""><br>创建成功之后，pom.xml 文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong><br>这里我使用的 Spring Boot 版本是 2.1.4 ，如果使用当前最新版 Spring Boot2.1.5 的话，除了上面这些依赖之外，需要额外添加 Spring Security 依赖（其他操作不受影响，仅仅只是多了一个依赖，当然也多了 Spring Security 的一些默认认证流程）。</p>
-<h2 id="配置-Redis"><a href="#配置-Redis" class="headerlink" title="配置 Redis"></a>配置 Redis</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=192.168.66.128</span><br><span class="line">spring.redis.port=6379</span><br><span class="line">spring.redis.password=123</span><br><span class="line">spring.redis.database=0</span><br></pre></td></tr></table></figure>
-<p>这里的 Redis ，我虽然配置了四行，但是考虑到端口默认就是 6379 ，database 默认就是 0，所以真正要配置的，其实就是两行。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>配置完成后 ，就可以使用 Spring Session 了，其实就是使用普通的 HttpSession ，其他的 Session 同步到 Redis 等操作，框架已经自动帮你完成了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    @Value(&quot;$&#123;server.port&#125;&quot;)</span><br><span class="line">    Integer port;</span><br><span class="line">    @GetMapping(&quot;/set&quot;)</span><br><span class="line">    public String set(HttpSession session) &#123;</span><br><span class="line">        session.setAttribute(&quot;user&quot;, &quot;javaboy&quot;);</span><br><span class="line">        return String.valueOf(port);</span><br><span class="line">    &#125;</span><br><span class="line">    @GetMapping(&quot;/get&quot;)</span><br><span class="line">    public String get(HttpSession session) &#123;</span><br><span class="line">        return session.getAttribute(&quot;user&quot;) + &quot;:&quot; + port;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>考虑到一会 Spring Boot 将以集群的方式启动 ，为了获取每一个请求到底是哪一个 Spring Boot 提供的服务，需要在每次请求时返回当前服务的端口号，因此这里我注入了 server.port 。<br>接下来 ，项目打包：<br><img src="http://www.javaboy.org/images/boot/14-4.png#pic_center" alt=""><br>打包之后，启动项目的两个实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8080</span><br><span class="line">java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081</span><br></pre></td></tr></table></figure>
-<p>然后先访问 localhost:8080/set 向 8080 这个服务的 Session 中保存一个变量，访问完成后，数据就已经自动同步到 Redis 中 了 ：<br><img src="http://www.javaboy.org/images/boot/14-5.png#pic_center" alt=""><br>然后，再调用 localhost:8081/get 接口，就可以获取到 8080 服务的 session 中的数据：<br><img src="http://www.javaboy.org/images/boot/14-6.png#pic_center" alt=""></p>
-<p>此时关于 session 共享的配置就已经全部完成了，session 共享的效果我们已经看到了，但是每次访问都是我自己手动切换服务实例，因此，接下来我们来引入 Nginx ，实现服务实例自动切换。</p>
-<h2 id="引入-Nginx"><a href="#引入-Nginx" class="headerlink" title="引入 Nginx"></a>引入 Nginx</h2><p>很简单，进入 Nginx 的安装目录的 conf 目录下（默认是在 /usr/local/nginx/conf），编辑 nginx.conf 文件:<br><img src="http://www.javaboy.org/images/boot/14-7.png#pic_center" alt=""></p>
-<p><strong>在这段配置中：</strong></p>
-<ul>
-<li>upstream 表示配置上游服务器</li>
-<li>javaboy.org 表示服务器集群的名字，这个可以随意取名字</li>
-<li>upstream 里边配置的是一个个的单独服务</li>
-<li>weight 表示服务的权重，意味者将有多少比例的请求从 Nginx 上转发到该服务上</li>
-<li>location 中的 proxy_pass 表示请求转发的地址，/ 表示拦截到所有的请求，转发转发到刚刚配置好的服务集群中</li>
-<li>proxy_redirect 表示设置当发生重定向请求时，nginx 自动修正响应头数据（默认是 Tomcat 返回重定向，此时重定向的地址是 Tomcat 的地址，我们需要将之修改使之成为 Nginx 的地址）。<br>配置完成后，将本地的 Spring Boot 打包好的 jar 上传到 Linux ，然后在 Linux 上分别启动两个 Spring Boot 实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8080 &amp;</span><br><span class="line">nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081 &amp;</span><br></pre></td></tr></table></figure>
-其中</li>
-</ul>
-<p><strong>nohup</strong> 表示当终端关闭时，Spring Boot 不要停止运行<br><strong>&amp;</strong> 表示让 Spring Boot 在后台启动<br>配置完成后，重启 Nginx：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
-<p>Nginx 启动成功后，我们首先手动清除 Redis 上的数据，然后访问 192.168.66.128/set 表示向 session 中保存数据，这个请求首先会到达 Nginx 上，再由 Nginx 转发给某一个 Spring Boot 实例：<br><img src="http://www.javaboy.org/images/boot/14-8.png#pic_center" alt=""><br>如上，表示端口为 8081 的 Spring Boot 处理了这个 /set 请求，再访问 /get 请求：<br><img src="http://www.javaboy.org/images/boot/14-9.png#pic_center" alt=""><br>可以看到，/get 请求是被端口为 8080 的服务所处理的。</p>
-
         
       </div>
       <p class="repo-list-meta">
@@ -173,13 +113,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/springboot、session/' title=''>springboot、session</a>
+            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot%E7%B3%BB%E5%88%97/" rel="tag">SpringBoot系列</a></li></ul>
           
         -->
 
@@ -201,163 +141,6 @@
           <blockquote>
 <p>过去了就是昨天，新的一页翻开还是晴朗的天。</p>
 </blockquote>
-<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><p>微人事是一个前后端分离的人力资源管理系统，项目采用 SpringBoot+Vue 开发，项目加入常见的企业级应用所涉及到的技术点，例如 Redis、RabbitMQ 等。</p>
-<ul>
-<li>项目地址：<a href="https://github.com/lenve/vhr" target="_blank" rel="noopener">https://github.com/lenve/vhr</a> </li>
-<li><a href="https://mp.weixin.qq.com/s/qN01Le434FWom0c3jqiQmA" target="_blank" rel="noopener">项目部署视频教程（旧版）</a></li>
-<li><a href="https://mp.weixin.qq.com/s/FoNVyAR1BkYfutFq9sjJNQ" target="_blank" rel="noopener">项目部署视频教程（新版）</a></li>
-</ul>
-<h3 id="项目技术栈"><a href="#项目技术栈" class="headerlink" title="项目技术栈"></a>项目技术栈</h3><h4 id="后端技术栈"><a href="#后端技术栈" class="headerlink" title="后端技术栈"></a>后端技术栈</h4><ol>
-<li>Spring Boot</li>
-<li>Spring Security</li>
-<li>MyBatis</li>
-<li>MySQL</li>
-<li>Redis</li>
-<li>RabbitMQ</li>
-<li>Spring Cache</li>
-<li>WebSocket</li>
-<li>…</li>
-</ol>
-<h4 id="前端技术栈"><a href="#前端技术栈" class="headerlink" title="前端技术栈"></a>前端技术栈</h4><ol>
-<li>Vue</li>
-<li>ElementUI</li>
-<li>axios</li>
-<li>vue-router</li>
-<li>Vuex</li>
-<li>WebSocket</li>
-<li>vue-cli4</li>
-<li>…</li>
-</ol>
-<h3 id="项目效果图"><a href="#项目效果图" class="headerlink" title="项目效果图"></a>项目效果图</h3><p>首先，不同的用户在登录成功之后，根据不同的角色，会看到不同的系统菜单，完整菜单如下：</p>
-<p><img src="https://raw.githubusercontent.com/wiki/lenve/vhr/doc/p278.png#pic_center" alt="p278"></p>
-<p>不同用户登录上来之后，可能看到的会有差异，如下：</p>
-<p><img src="https://raw.githubusercontent.com/wiki/lenve/vhr/doc/p279.png#pic_center" alt="p279"></p>
-<p>每个用户的角色是由系统管理员进行分配的，系统管理员给用户分配角色的页面如下：</p>
-<p><img src="https://raw.githubusercontent.com/wiki/lenve/vhr/doc/p280.png#pic_center" alt="p280"></p>
-<p>系统管理员也可以管理不同角色可以操作的资源，页面如下：</p>
-<p><img src="https://raw.githubusercontent.com/wiki/lenve/vhr/doc/p281.png#pic_center" alt="p281"></p>
-<h2 id="快速部署"><a href="#快速部署" class="headerlink" title="快速部署"></a>快速部署</h2><ol>
-<li>clone 项目到本地 <code>git@github.com:lenve/vhr.git</code></li>
-<li>数据库脚本放在项目根目录下，在 MySQL 中执行数据库脚本，导入数据库，并修改项目中关于数据的配置（resources 目录下的 application.properties 文件中）</li>
-<li>提前准备好 Redis，在 项目的 application.properties 文件中，将 Redis 配置改为自己的</li>
-<li>提前准备好 RabbitMQ，在项目的 application.properties 文件中将 RabbitMQ 的配置改为自己的（<strong>注意，RabbitMQ 需要分别修改 mailserver 和 vhrserver 的配置文件</strong>）</li>
-<li>在 IntelliJ IDEA 中打开 vhr 项目，启动 mailserver 模块</li>
-<li>运行 vhrserver 中的 vhr-web 模块</li>
-</ol>
-<p><strong>OK，至此，服务端就启动成功了，此时我们直接在地址栏输入 <code>http://localhost:8081/index.html</code> 即可访问我们的项目，如果要做二次开发，请继续看第七、八步。</strong></p>
-<ol start="7">
-<li>进入到vuehr目录中，在命令行依次输入如下命令：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 安装依赖</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"># 在 localhost:8080 启动项目</span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
-
-<p>由于我在 vuehr 项目中已经配置了端口转发，将数据转发到 Spring Boot 上，因此项目启动之后，在浏览器中输入 <code>http://localhost:8080</code> 就可以访问我们的前端项目了，所有的请求通过端口转发将数据传到 Spring Boot 中（注意此时不要关闭 Sprin gBoot 项目）。</p>
-<ol start="8">
-<li>最后可以用 WebStorm 等工具打开 vuehr 项目，继续开发，开发完成后，当项目要上线时，依然进入到 vuehr 目录，然后执行如下命令：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>该命令执行成功之后，vuehr 目录下生成一个 dist 文件夹，将该文件夹中的两个文件 static 和 index.html 拷贝到 Spring Boot 项目中 resources/static/ 目录下，然后就可以像第 6 步那样直接访问了（关于前后端分离部署，大家也可以参考这个<a href="https://mp.weixin.qq.com/s/C7PIck3SIPPTcA3NX3ELoQ" target="_blank" rel="noopener">使用 Nginx 部署前后端分离项目，解决跨域问题</a>）。</p>
-<p><strong>步骤 7 中需要大家对 NodeJS、NPM 等有一定的使用经验，不熟悉的小伙伴可以先自行搜索学习下，推荐 <a href="https://cn.vuejs.org/v2/guide/" target="_blank" rel="noopener">Vue 官方教程</a>。</strong></p>
-<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p>文档是对项目开发过程中遇到的一些问题的详细记录，主要是为了帮助没有基础的小伙伴快速理解这个项目。</p>
-<ol>
-<li><a href="https://github.com/lenve/vhr/wiki/1.%E6%9D%83%E9%99%90%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener">权限数据库设计</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/2.%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" target="_blank" rel="noopener">服务端环境搭建</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/3.%E5%8A%A8%E6%80%81%E5%A4%84%E7%90%86%E8%A7%92%E8%89%B2%E5%92%8C%E8%B5%84%E6%BA%90%E7%9A%84%E5%85%B3%E7%B3%BB" target="_blank" rel="noopener">动态处理角色和资源的关系</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/4.%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E5%B9%B6%E5%8A%A0%E7%9B%90" target="_blank" rel="noopener">密码加密并加盐</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/5.%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E5%B8%B8%E7%9A%84%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86" target="_blank" rel="noopener">服务端异常的统一处理</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/6.axios%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85,%E8%AF%B7%E6%B1%82%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86" target="_blank" rel="noopener">axios 请求封装,请求异常统一处理</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/7.%E5%B0%86%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%8C%82%E5%88%B0Vue%E4%B8%8A" target="_blank" rel="noopener">将请求方法挂到Vue上</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/8.%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%E7%9A%84%E4%BF%9D%E5%AD%98" target="_blank" rel="noopener">登录状态的保存</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/9.%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F%E5%90%8E%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%BB%84%E4%BB%B6" target="_blank" rel="noopener">登录成功后动态加载组件</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/10.%E8%A7%92%E8%89%B2%E8%B5%84%E6%BA%90%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">角色资源关系管理</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/11.%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">用户角色关系管理</a></li>
-</ol>
-<h3 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h3><h3 id="2018-1-10-更新"><a href="#2018-1-10-更新" class="headerlink" title="2018.1.10 更新"></a>2018.1.10 更新</h3><p>本次更新版本：v20180110</p>
-<p>本次更新完成了部门管理功能，页面在 <strong>[系统管理-&gt;基础信息设置-&gt;部门管理]</strong></p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档："><a href="#相关文档：" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="12">
-<li><a href="https://github.com/lenve/vhr/wiki/12.%E9%83%A8%E9%97%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%BC%96%E5%86%99" target="_blank" rel="noopener">部门数据库设计与存储过程编写</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/13.%E9%80%92%E5%BD%92%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8" target="_blank" rel="noopener">递归查询与存储过程调用</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/14.Tree%E6%A0%91%E5%BD%A2%E6%8E%A7%E4%BB%B6%E4%BD%BF%E7%94%A8%E8%A6%81%E7%82%B9" target="_blank" rel="noopener">Tree 树形控件使用要点</a></li>
-</ol>
-<h3 id="2018-1-12-更新"><a href="#2018-1-12-更新" class="headerlink" title="2018.1.12 更新"></a>2018.1.12 更新</h3><p>本次更新版本：v20180112</p>
-<p>本次更新完成了职称管理和职位管理，页面在 <strong>[系统管理-&gt;基础信息设置-&gt;职位管理]</strong> 和 <strong>[系统管理-&gt;基础信息设置-&gt;职称管理]</strong> </p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档：-1"><a href="#相关文档：-1" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="15">
-<li><a href="https://github.com/lenve/vhr/wiki/15.%E8%81%8C%E4%BD%8D%E7%AE%A1%E7%90%86%E5%92%8C%E8%81%8C%E7%A7%B0%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">职位管理和职称管理功能介绍</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/16.%E7%BB%84%E4%BB%B6%E5%A4%8D%E7%94%A8" target="_blank" rel="noopener">组件复用</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/17.%5B%E9%A2%98%E5%A4%96%E8%AF%9D%5D%E5%88%A9%E7%94%A8git%E6%A0%87%E7%AD%BE%E5%9B%9E%E9%80%80%E8%87%B3%E4%BB%BB%E6%84%8F%E7%89%88%E6%9C%AC" target="_blank" rel="noopener">[题外话]利用 git 标签回退至任意版本</a></li>
-</ol>
-<h3 id="2018-1-15-更新"><a href="#2018-1-15-更新" class="headerlink" title="2018.1.15 更新"></a>2018.1.15 更新</h3><p>本次更新版本：v20180115</p>
-<p>本次更新完成了员工基本信息管理，页面在 <strong>[员工资料-&gt;基本资料]</strong></p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档：-2"><a href="#相关文档：-2" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="18">
-<li><a href="https://github.com/lenve/vhr/wiki/18.%E5%91%98%E5%B7%A5%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">员工基本信息管理功能介绍</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/19.SpringBoot%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A" target="_blank" rel="noopener">Spring Boot 中自定义参数绑定</a></li>
-</ol>
-<h3 id="2018-1-16-更新"><a href="#2018-1-16-更新" class="headerlink" title="2018.1.16 更新"></a>2018.1.16 更新</h3><p>本次更新版本：v20180116</p>
-<p>本次更新完成了员工的高级搜索功能，页面在 <strong>[员工资料-&gt;基本资料]</strong></p>
-<h4 id="相关文档：-3"><a href="#相关文档：-3" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="20">
-<li><a href="https://github.com/lenve/vhr/wiki/20.%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">高级搜索功能介绍</a></li>
-</ol>
-<h3 id="2018-1-17-更新"><a href="#2018-1-17-更新" class="headerlink" title="2018.1.17 更新"></a>2018.1.17 更新</h3><p>本次更新版本：v20180117</p>
-<p>本次更新完成了员工数据的导入导出功能，即可将员工数据导出为Excel，也可以将外部Excel导入到员工数据表中，页面在 <strong>[员工资料-&gt;基本资料]</strong></p>
-<h4 id="相关文档：-4"><a href="#相关文档：-4" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="21">
-<li><a href="https://github.com/lenve/vhr/wiki/21.Excel%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%88%E6%9E%9C%E5%9B%BE" target="_blank" rel="noopener">Excel 导入导出效果图</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/22.SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F" target="_blank" rel="noopener">SpringMVC 文件下载的两种方式</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/23.POI%E7%94%9F%E6%88%90Excel" target="_blank" rel="noopener">POI 生成 Excel</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/24.axios%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">axios 下载文件</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/25.%E4%BD%BF%E7%94%A8POI%E5%AE%9E%E7%8E%B0Excel%E5%AF%BC%E5%85%A5" target="_blank" rel="noopener">使用 POI 实现 Excel 导入</a></li>
-</ol>
-<h3 id="2018-1-19-更新"><a href="#2018-1-19-更新" class="headerlink" title="2018.1.19 更新"></a>2018.1.19 更新</h3><p>本次更新版本：v20180119</p>
-<p>本次更新主要实现了当管理员添加一个用户时，添加成功后，会根据该用户的邮箱自动向用户发送一封欢迎入职邮件，页面在 <strong>[员工资料-&gt;基本资料-&gt;添加员工]</strong> 详情可以参考下面的文档。 <strong>注意：邮件发送需要小伙伴小伙伴自己配置授权码，配置方式参考下面的文档，配置文件在<a href="https://github.com/lenve/vhr/blob/master/hrserver/src/main/java/org/sang/common/EmailRunnable.java" target="_blank" rel="noopener">src/main/java/org/sang/common/EmailRunnable.java</a></strong> </p>
-<h4 id="相关文档：-5"><a href="#相关文档：-5" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="26">
-<li><a href="https://github.com/lenve/vhr/wiki/26.SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8Freemarker%E9%82%AE%E4%BB%B6%E6%A8%A1%E6%9D%BF%E7%94%9F%E6%88%90%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">Spring Boot 中使用 Freemarker 邮件模板生成邮件</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/27.Java%E4%B8%AD%E9%82%AE%E4%BB%B6%E7%9A%84%E5%8F%91%E9%80%81" target="_blank" rel="noopener">Java 中邮件的发送</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/28.SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%96%B0%E7%BA%BF%E7%A8%8B%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">Spring Boot 中使用新线程发送邮件</a></li>
-</ol>
-<h3 id="2018-1-25-更新"><a href="#2018-1-25-更新" class="headerlink" title="2018.1.25 更新"></a>2018.1.25 更新</h3><p>本次更新版本：v20180125</p>
-<p>本次更新主要完成了工资账套管理功能，页面在 <strong>[薪资管理-&gt;工资账套管理]</strong></p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档：-6"><a href="#相关文档：-6" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="29">
-<li><a href="https://github.com/lenve/vhr/wiki/29.%E5%B7%A5%E8%B5%84%E8%B4%A6%E5%A5%97%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">工资账套管理功能介绍</a></li>
-</ol>
-<h3 id="2018-1-26-更新"><a href="#2018-1-26-更新" class="headerlink" title="2018.1.26 更新"></a>2018.1.26 更新</h3><p>本次更新版本：v20180126</p>
-<p>本次更新主要完成了员工账套设置功能，页面在 <strong>[薪资管理-&gt;员工账套设置]</strong></p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档：-7"><a href="#相关文档：-7" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="30">
-<li><a href="https://github.com/lenve/vhr/wiki/30.%E5%91%98%E5%B7%A5%E8%B4%A6%E5%A5%97%E8%AE%BE%E7%BD%AE%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">员工账套设置功能介绍</a></li>
-</ol>
-<h3 id="2018-2-2-更新"><a href="#2018-2-2-更新" class="headerlink" title="2018.2.2 更新"></a>2018.2.2 更新</h3><p>本次更新版本：v20180202</p>
-<p>本次更新完成了HR在线聊天功能，页面在 <strong>[Home页-&gt;右上角铃铛-&gt;好友聊天]</strong></p>
-<h4 id="相关文档：-8"><a href="#相关文档：-8" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="31">
-<li><a href="https://github.com/lenve/vhr/wiki/31.%E5%9C%A8%E7%BA%BF%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">在线聊天功能介绍</a></li>
-<li><a href="https://github.com/lenve/vhr/wiki/32.%E5%9C%A8%E7%BA%BF%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0" target="_blank" rel="noopener">在线聊天功能实现</a></li>
-</ol>
-<h3 id="2018-2-5-更新"><a href="#2018-2-5-更新" class="headerlink" title="2018.2.5 更新"></a>2018.2.5 更新</h3><p>本次更新版本：v20180205</p>
-<p>本次更新完成了管理员发送系统通知功能，页面在 <strong>[Home页-&gt;右上角铃铛-&gt;系统通知]</strong></p>
-<blockquote>
-<p>本次更新也更新了数据库脚本，小伙伴们需要重新下载数据库脚本执行。</p>
-</blockquote>
-<h4 id="相关文档：-9"><a href="#相关文档：-9" class="headerlink" title="相关文档："></a>相关文档：</h4><ol start="33">
-<li><a href="https://github.com/lenve/vhr/wiki/33.%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0" target="_blank" rel="noopener">系统通知功能实现</a></li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://github.com/microzz/vue-chat" target="_blank" rel="noopener">vue-chat</a></li>
-</ul>
-<h2 id="新的源码地址"><a href="#新的源码地址" class="headerlink" title="新的源码地址"></a>新的源码地址</h2><p><strong>github:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/vanicesun/vue-hr.git</span><br></pre></td></tr></table></figure>
-
         
       </div>
       <p class="repo-list-meta">
@@ -369,13 +152,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/vue/' title=''>vue</a>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
           
         -->
 
@@ -397,59 +180,6 @@
           <blockquote>
 <p>希望,是一种甜蜜的等待;想念,是一份温馨的心情;朋友,是一生修来的福分;爱情;是一世难解的缘分。祝你在人生的道路上多点快乐!多点开心!</p>
 </blockquote>
-<h3 id="每日一笑"><a href="#每日一笑" class="headerlink" title="每日一笑"></a>每日一笑</h3><p>遇见两个法国人。一个可能是教汉语的老师，另一个应该是他学生。老师高兴地指着中国日历对学生说：看，这两个字念’雷锋’。这是雷锋纪念日。他在中国非常有名，因为他生前帮助过很多人）学生佩服地说：啊，你真是见多识广！说完俩人高兴地走了。我凑过去一看，见日历上写的是：”霜降</p>
-<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p>在上篇文章中介绍了Vue的安装和基本的入门级操作。这篇文章主要通过一个手机端掌上书城的简单案例来带大家深入的了解Vue和了解在实际开发中的项目的搭建和部署。</p>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><strong>首页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163023262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>列表页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163154578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>新增页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163238823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<h3 id="初始化Mobile项目"><a href="#初始化Mobile项目" class="headerlink" title="初始化Mobile项目"></a>初始化Mobile项目</h3><ul>
-<li>项目结构如下：<br><img src="https://img-blog.csdnimg.cn/20191225160737799.png#pic_center" alt=""></li>
-</ul>
-<p><strong>dist:</strong>是我们项目打包完成后的目录<br><strong>mock:</strong>是本地服务端测试数据<br><strong>node-modules:</strong>项目所需要的插件安装位置<br><strong>src:</strong>项目的核心目录<br><strong>api:</strong>所有请求数据的接口存放的位置<br><strong>assets:</strong>静态资源存放的位置包括css,images等<br><strong>base:</strong>存放我们的基础组件<br><strong>components:</strong>存放我们的页面组件<br><strong>router:</strong>存放路由</p>
-<h3 id="项目所需要的插件"><a href="#项目所需要的插件" class="headerlink" title="项目所需要的插件"></a>项目所需要的插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">前端UI框架：element-ui   -- npm install element-ui --save-dev</span><br><span class="line">发送请求axios： --npm install axios --save-dev</span><br><span class="line">路由组件router:  --npm install vue-router</span><br><span class="line">轮播图插件：  --npm install vue-awesome-swiper</span><br><span class="line">实现图片的懒加载：  --npm install vue-lazyload</span><br><span class="line">阿里巴巴图标库地址:   https://www.iconfont.cn/search/index?q=%E9%A6%96%E9%A1%B5</span><br></pre></td></tr></table></figure>
-
-<h3 id="基础组件的使用"><a href="#基础组件的使用" class="headerlink" title="基础组件的使用"></a>基础组件的使用</h3><p>一个完整的页面组件并不是一个独立的整体，它是由很多的基础组件的组合形成的。那么在一个组件中如何引入其他组件呢？例如Home.vue中包括Top.vue,Tab.vue,Swiper.vue,Loading.vue等。<br>以Home.vue组件中引入Tab.vue为例进行说明。其他进行参考即可！<br>具体的步骤如下：</p>
-<ul>
-<li>新建Home.vue和Tab.vue文件</li>
-<li>在Home.vue中导入Tab.vue<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Tab from &apos;./base/Tab.vue&apos;</span><br></pre></td></tr></table></figure></li>
-<li>注册组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">    name: &apos;App&apos;,</span><br><span class="line">    components: &#123;</span><br><span class="line">      Tab</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-<li>使用组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Tab&gt;&lt;/Tab&gt;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="轮播图插件的使用"><a href="#轮播图插件的使用" class="headerlink" title="轮播图插件的使用"></a>轮播图插件的使用</h3><ul>
-<li>轮播图插件安装完成后再main.js文件中进行导入并使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import VueAwesomeSwiper from &apos;vue-awesome-swiper&apos;   //轮播图插件</span><br><span class="line">import &apos;swiper/dist/css/swiper.css&apos;</span><br><span class="line">Vue.use(VueAwesomeSwiper);</span><br></pre></td></tr></table></figure></li>
-<li>新建轮播图基础组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;swiper :options=&quot;swiperOption&quot;&gt;</span><br><span class="line">    &lt;swiper-slide v-for=&quot;(slide, index) in swiperSlides&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">      &lt;img :src=&quot;slide&quot; alt=&quot;轮播图&quot;&gt;</span><br><span class="line">    &lt;/swiper-slide&gt;</span><br><span class="line">    &lt;div class=&quot;swiper-pagination&quot; slot=&quot;pagination&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;/swiper&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &apos;carousel&apos;,</span><br><span class="line">    props:[&apos;swiperSlides&apos;],</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        swiperOption: &#123;</span><br><span class="line">          autoplay:1200,</span><br><span class="line">          pagination: &apos;.swiper-pagination&apos;,</span><br><span class="line">          mousewheelControl : true</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped lang=&quot;less&quot;&gt;</span><br><span class="line">  img&#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 200px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="数据请求Axios"><a href="#数据请求Axios" class="headerlink" title="数据请求Axios"></a>数据请求Axios</h3><p>上述轮播图组件新建完成，在Home.vue中引入轮播图组件<br>轮播图的测试数据sliders.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module.exports = [</span><br><span class="line">  &apos;https://img12.360buyimg.com/babel/s590x470_jfs/t1/85934/6/7983/82595/5e008712E0e3b9c12/7cfc1ce9f03369f3.jpg.webp&apos;,</span><br><span class="line">  &apos;https://img20.360buyimg.com/pop/s590x470_jfs/t1/106050/5/7033/72549/5df99388Ed5c1018a/6eb231965d4b0432.jpg.webp&apos;,</span><br><span class="line">  &apos;https://imgcps.jd.com/ling/100010137716/55S16ISR5pWw56CB5Zyj6K-e5a2j/5pyA6auYNuacn-WFjeaBrw/p-5bd8253082acdd181d02f9d8/baf73efa.jpg&apos;,</span><br><span class="line">  &apos;https://img14.360buyimg.com/pop/s590x470_jfs/t1/98586/8/2744/73547/5dd6443fE552a8e86/2e055c6666d0c336.jpg.webp&apos;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
-<h3 id="服务端代码"><a href="#服务端代码" class="headerlink" title="服务端代码"></a>服务端代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line">//服务端代码</span><br><span class="line">let http = require(&apos;http&apos;);</span><br><span class="line">let fs = require(&apos;fs&apos;);</span><br><span class="line">let url = require(&apos;url&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//获取热门图书数据</span><br><span class="line">function readBook(cb) &#123;</span><br><span class="line">  fs.readFile(&apos;./book.json&apos;, &apos;utf8&apos;, function (err, data) &#123;</span><br><span class="line">    if (err || data.length == 0) &#123;</span><br><span class="line">      cb([]);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      cb(JSON.parse(data));   //将内容转化为对象</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function writeBook(data, cb) &#123;   //写入内容</span><br><span class="line">  fs.writeFile(&apos;./book.json&apos;, JSON.stringify(data), cb);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let pageSize = 5;  //每页显示5个</span><br><span class="line"></span><br><span class="line">//获取轮播图数据/sliders</span><br><span class="line">let sliders = require(&apos;./sliders.js&apos;);</span><br><span class="line">http.createServer((req, res) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  //解决跨域问题</span><br><span class="line">  res.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span><br><span class="line">  res.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;Content-Type,Content-Length, Authorization, Accept,X-Requested-With&quot;);</span><br><span class="line">  res.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;PUT,POST,GET,DELETE,OPTIONS&quot;);</span><br><span class="line">  res.setHeader(&quot;X-Powered-By&quot;, &apos; 3.2.1&apos;)</span><br><span class="line">  if (req.method == &quot;OPTIONS&quot;) &#123;</span><br><span class="line">    return res.end(&quot;200&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  /*让options请求快速返回*/</span><br><span class="line"></span><br><span class="line">  let &#123;pathname, query&#125; = url.parse(req.url, true);</span><br><span class="line">  if (pathname === &apos;/sliders&apos;) &#123;</span><br><span class="line">    res.setHeader(&apos;Content-Type&apos;, &apos;application/json;charset=utf8&apos;)</span><br><span class="line">    return res.end(JSON.stringify(sliders))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  if (pathname === &apos;/hot&apos;) &#123;</span><br><span class="line">    readBook(function (books) &#123;</span><br><span class="line">      let hot = books.reverse().slice(0, 6);</span><br><span class="line">      res.setHeader(&apos;Content-Type&apos;, &apos;application/json;charset=utf8&apos;);</span><br><span class="line">      //设置加载延迟</span><br><span class="line">      setTimeout(() =&gt; &#123;</span><br><span class="line">        res.end(JSON.stringify(hot));</span><br><span class="line">      &#125;, 500);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  //对图书数据进行查询下拉(就是分页查询数据)</span><br><span class="line">  if (pathname === &apos;/page&apos;) &#123;</span><br><span class="line">    let offset = parseInt(query.offset) || 0;</span><br><span class="line">    //拿到前端传递的值</span><br><span class="line">    readBook(function (books) &#123;</span><br><span class="line">      let result = books.reverse().slice(offset, pageSize+offset);</span><br><span class="line">      let hasMore = true;</span><br><span class="line">      if (books.length &lt;= pageSize + offset) &#123;</span><br><span class="line">        hasMore = false;</span><br><span class="line">      &#125;</span><br><span class="line">      res.setHeader(&apos;Content-Type&apos;, &apos;application/json;charset=utf8&apos;);</span><br><span class="line">      res.end(JSON.stringify(&#123;hasMore,books:result&#125;));</span><br><span class="line">    &#125;);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (pathname === &apos;/book&apos;) &#123;  //对书的增删改查</span><br><span class="line">    let id = parseInt(query.id);</span><br><span class="line">    switch (req.method) &#123;</span><br><span class="line">      case &apos;GET&apos;:</span><br><span class="line">        if (id) &#123;//查询单个图书</span><br><span class="line">          readBook(function (books) &#123;</span><br><span class="line">            let book = books.find(item =&gt; item.id === id);</span><br><span class="line">            if (!book) &#123;</span><br><span class="line">              book = &#123;&#125;;  //如果没有数据则返回undifined</span><br><span class="line">            &#125;</span><br><span class="line">            res.setHeader(&apos;Content-Type&apos;, &apos;application/json;charset=utf8&apos;);</span><br><span class="line">            res.end(JSON.stringify(book));</span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;//获取所有图书</span><br><span class="line">          readBook(function (books) &#123;</span><br><span class="line">            res.setHeader(&apos;Content-Type&apos;, &apos;application/json;charset=utf8&apos;);</span><br><span class="line">            res.end(JSON.stringify(books));</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">      case &apos;POST&apos;:</span><br><span class="line">        let str = &apos;&apos;;</span><br><span class="line">        req.on(&apos;data&apos;, chunk =&gt; &#123;</span><br><span class="line">          str += chunk</span><br><span class="line">        &#125;);</span><br><span class="line">        req.on(&apos;end&apos;, () =&gt; &#123;</span><br><span class="line">          let book = JSON.parse(str);</span><br><span class="line">          readBook(function (books) &#123;</span><br><span class="line">            book.id = books.length ? books[books.length - 1].id + 1 : 1;</span><br><span class="line">            books.push(book);</span><br><span class="line">            writeBook(books, function () &#123;</span><br><span class="line">              res.end(JSON.stringify(book));</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        break;</span><br><span class="line">      case &apos;PUT&apos;:</span><br><span class="line">        if (id) &#123;//获取当前修改的ID</span><br><span class="line">          let str = &apos;&apos;;</span><br><span class="line">          req.on(&apos;data&apos;, (chunk) =&gt; &#123;</span><br><span class="line">            str += chunk;</span><br><span class="line">          &#125;);</span><br><span class="line">          req.on(&apos;end&apos;, () =&gt; &#123;</span><br><span class="line">            let book = JSON.parse(str);</span><br><span class="line">            readBook(function (books) &#123;</span><br><span class="line">              books = books.map(item =&gt; &#123;</span><br><span class="line">                if (item.id === id) &#123;//找到ID相同的修改返回</span><br><span class="line">                  return book;</span><br><span class="line">                &#125;</span><br><span class="line">                return item;  //ID不同的正常返回其他的数据</span><br><span class="line">              &#125;);</span><br><span class="line">              writeBook(books, function () &#123;  //将数据写回JSON文件中</span><br><span class="line">                res.end(JSON.stringify(book));</span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">      case &apos;DELETE&apos;:</span><br><span class="line">        readBook(function (books) &#123;</span><br><span class="line">          books = books.filter(item =&gt; item.id !== id);</span><br><span class="line">          writeBook(books, function () &#123;</span><br><span class="line">            res.end(JSON.stringify(&#123;&#125;));   //删除成功返回空对象</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  //运行静态文件读取一个路径</span><br><span class="line">  fs.stat(&apos;.&apos; + pathname,function (err,stats) &#123;</span><br><span class="line">    if(err)&#123;</span><br><span class="line">      res.statusCode = 404;</span><br><span class="line">      res.end(&apos;NOT FOUND&apos;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      if(stats.isDirectory())&#123;</span><br><span class="line">        let path = require(&apos;path&apos;).join(&apos;.&apos; + pathname,&apos;./index.html&apos;);</span><br><span class="line">        fs.createReadStream(path).pipe(res);</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">        fs.createReadStream(&apos;.&apos; + pathname).pipe(res);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;).listen(3000);</span><br></pre></td></tr></table></figure>
-
-<h3 id="对应接口代码"><a href="#对应接口代码" class="headerlink" title="对应接口代码"></a>对应接口代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">import axios from &apos;axios&apos;</span><br><span class="line">//默认url</span><br><span class="line">axios.defaults.baseURL = &apos;http://localhost:3000&apos;;</span><br><span class="line"></span><br><span class="line">//获取轮播图方法</span><br><span class="line">export let getSliders = ()=&gt;&#123;</span><br><span class="line">  return axios.get(&apos;/sliders&apos;)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//获取热门图书数据</span><br><span class="line">export let getHotBook = ()=&gt;&#123;</span><br><span class="line">  return axios.get(&apos;/hot&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//获取所有图书</span><br><span class="line">export let getAllBook = ()=&gt;&#123;</span><br><span class="line">  return axios.get(&apos;/book&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除某一本图书</span><br><span class="line">export let removeBook=(id)=&gt;&#123;</span><br><span class="line">  return axios.delete(`/book?id=$&#123;id&#125;`)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//查询图书详情信息</span><br><span class="line">export let findBookInfoById=(id)=&gt;&#123;</span><br><span class="line">  return axios.get(`/book?id=$&#123;id&#125;`);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 修改图书</span><br><span class="line"> * @param id</span><br><span class="line"> * @param data 数据</span><br><span class="line"> * @returns &#123;Promise&lt;AxiosResponse&lt;T&gt;&gt;&#125;</span><br><span class="line"> */</span><br><span class="line">export let editBookInfo=(id,data)=&gt;&#123;</span><br><span class="line"> return axios.put(`/book?id=$&#123;id&#125;`,data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//新增图书</span><br><span class="line">export let addBookInfo=(data)=&gt;&#123;</span><br><span class="line">  return axios.post(&apos;/book&apos;,data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//实现全局加载</span><br><span class="line">// export let getAll=()=&gt;&#123;</span><br><span class="line">//   return axios.all([getSliders(),getHotBook()]);</span><br><span class="line">// &#125;</span><br><span class="line"></span><br><span class="line">//数据下拉</span><br><span class="line">export let moreData =(offset)=&gt;&#123;</span><br><span class="line">  return axios.get(`/page?offset=$&#123;offset&#125;`);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由元信息实现页面缓存和路由动画"><a href="#路由元信息实现页面缓存和路由动画" class="headerlink" title="路由元信息实现页面缓存和路由动画"></a>路由元信息实现页面缓存和路由动画</h3><p>对于数据量较大的网页，我们采用缓存机制，这样下次在进行加载时速度会得到明显的提升<br>在首页进行数据缓存在router.js下找到要进行缓存的路由地址添加 meta:{keepAlive: true} 即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: &apos;/home&apos;,</span><br><span class="line">  name: &apos;Home&apos;,</span><br><span class="line">  component: ()=&gt;import(&apos;../components/Home.vue&apos;),</span><br><span class="line">  meta:&#123;keepAlive: true&#125;   //是否需要缓存   取得时候:this.$route.meta.keepAlive</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后在App.vue中使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!--实现路由动画--&gt;</span><br><span class="line">    &lt;transition name=&quot;fadeIn&quot;&gt;</span><br><span class="line">      &lt;keep-alive&gt;</span><br><span class="line">        &lt;!--需要进行缓存--&gt;</span><br><span class="line">        &lt;router-view v-if=&quot;$route.meta.keepAlive&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">      &lt;/keep-alive&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">    &lt;!--正常的访问走下面--&gt;</span><br><span class="line">    &lt;transition name=&quot;fadeIn&quot;&gt;</span><br><span class="line">      &lt;router-view v-if=&quot;!$route.meta.keepAlive&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">    &lt;Tab&gt;&lt;/Tab&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="图片的懒加载"><a href="#图片的懒加载" class="headerlink" title="图片的懒加载"></a>图片的懒加载</h3><p>使用图片的懒加载，当访问时才进行图片资源的访问，减少流量，提升资源的使用率。<br>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//实现图片懒加载</span><br><span class="line">import VueLazyload from &apos;vue-lazyload&apos;</span><br><span class="line">Vue.use(VueLazyload,&#123;</span><br><span class="line">  preLoad:1.3,</span><br><span class="line">  error:&apos;http://bpic.588ku.com/element_origin_min_pic/00/56/29/4556d9f8022935e.jpg&apos;,</span><br><span class="line">  loading:&apos;http://www.17qq.com/img_qqtouxiang/79912467.jpeg&apos;,</span><br><span class="line">  attempt:1</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>在图片标签中使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img v-lazy=&quot;hot.bookCover&quot; alt=&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="代码分割-coding-split"><a href="#代码分割-coding-split" class="headerlink" title="代码分割 coding split"></a>代码分割 coding split</h3><p>为减少资源的使用率，提升项目的运行速度。每当我们新建一个组件时就在router.js中导入。原来的处理形式为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import Home from &apos;@/components/Home&apos;</span><br><span class="line">import Add from &apos;@/components/Add&apos;</span><br><span class="line">import Collect from &apos;@/components/Collect&apos;</span><br><span class="line">import Detail from &apos;@/components/Detail&apos;</span><br><span class="line">import List from &apos;@/components/List</span><br></pre></td></tr></table></figure>
-<p>这样项目启东时会加载所有的组件，在最后项目打包时也会占用大量的资源和生成的文件较大。所以采用下述的形式进行代码分割：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/&apos;,</span><br><span class="line">      redirect: &apos;/home&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;*&apos;,</span><br><span class="line">      redirect: &apos;/home&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/add&apos;,</span><br><span class="line">      name: &apos;Add&apos;,</span><br><span class="line">      component: ()=&gt;import(&apos;../components/Add.vue&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/home&apos;,</span><br><span class="line">      name: &apos;Home&apos;,</span><br><span class="line">      component: ()=&gt;import(&apos;../components/Home.vue&apos;),</span><br><span class="line">      meta:&#123;keepAlive: true&#125;   //是否需要缓存   取得时候:this.$route.meta.keepAlive</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/detail/:bid&apos;,</span><br><span class="line">      name: &apos;detail&apos;,</span><br><span class="line">      component: ()=&gt;import(&apos;../components/Detail.vue&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/list&apos;,</span><br><span class="line">      name: &apos;List&apos;,</span><br><span class="line">      component: ()=&gt;import(&apos;../components/List.vue&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/collect&apos;,</span><br><span class="line">      name: &apos;Collect&apos;,</span><br><span class="line">      //将组件按照函数的方法进行动态加载组件</span><br><span class="line">      component:()=&gt;import(&apos;../components/Collect.vue&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
-<p>这样请求那个路由，对应的组件才会加载出来。节省资源</p>
-<h3 id="项目打包"><a href="#项目打包" class="headerlink" title="项目打包"></a>项目打包</h3><p><strong>npm run build</strong><br>右键启动server.js文件</p>
-<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><p><strong>github地址：</strong> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/vanicesun/vue-mobil.git</span><br></pre></td></tr></table></figure>
-
-
-
         
       </div>
       <p class="repo-list-meta">
@@ -461,13 +191,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/vue/' title=''>vue</a>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
           
         -->
 
@@ -489,25 +219,6 @@
           <blockquote>
 <p>成功的花，人们只惊羡它的明艳，然而当初的芽儿浸透了奋斗的泪泉，洒遍了牺牲的血雨。</p>
 </blockquote>
-<h3 id="Vue-js是什么？"><a href="#Vue-js是什么？" class="headerlink" title="Vue.js是什么？"></a>Vue.js是什么？</h3><p>Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。<br>官方提供的视频:<img src="https://player.youku.com/embed/XMzMwMTYyODMyNA==?autoplay=true&client_id=37ae6144009e277d" alt=""><br>官方提供的学习地址:<img src="https://vuejs.bootcss.com/v2/guide/" alt=""></p>
-<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>在这篇博客中只是简单的介绍vue的相关基础用法，我们采用npm的方式进行vue项目的安装和运行，前提条件是安装node.js具体的安装步骤参考node官方网站<br><strong>node.js的下载地址:</strong><img src="https://nodejs.org/en/download/" alt=""></p>
-<h3 id="初始化Vue项目"><a href="#初始化Vue项目" class="headerlink" title="初始化Vue项目"></a>初始化Vue项目</h3><p>在这里采用淘宝镜像进行安装<br><strong>可以通过node -v 和 npm -v 命令来查看对应的版本号</strong><br>1.全局安装vue的脚手架，类似于Java的开发环境一样。vue的运行也同样需要环境来支持<br><strong>npm install vue-cli -g</strong><br>2.初始化一个vue项目<br><strong>vue init webpack ‘项目名’</strong><br>3.进入创建好得项目中<br><strong>npm install</strong><br>4.运行环境<br><strong>npm run dev</strong></p>
-<h3 id="安装前端组件element-ui"><a href="#安装前端组件element-ui" class="headerlink" title="安装前端组件element-ui"></a>安装前端组件element-ui</h3><p>vue项目中组件化是vue的核心，常用的前端框架ElementUI<br>1.安装element-ui<br><strong>npm i element-ui -S</strong><br>当element-ui安装完成后再main.js中进行引用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import ElementUI from &apos;element-ui&apos;</span><br><span class="line">import &apos;element-ui/lib/theme-chalk/index.css&apos;</span><br><span class="line">Vue.use(ElementUI);</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装路由组件Router"><a href="#安装路由组件Router" class="headerlink" title="安装路由组件Router"></a>安装路由组件Router</h3><p>vue项目中常用到页面之间的相互跳转<br><strong>npm install vue-router –save</strong><br>安装完成后再main.js中进行引用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import router from &apos;./router&apos;</span><br><span class="line">Vue.use(router);</span><br></pre></td></tr></table></figure>
-<h3 id="新建-vue文件"><a href="#新建-vue文件" class="headerlink" title="新建.vue文件"></a>新建.vue文件</h3><p>vue项目初始化完成后运行显示的App.vue但是在实际的开发过程中我们需要新建一个.vue文件<br>一般来说在component文件夹中新建或者自建一个新的文件夹来存放改文件<br>新建Home.vue文件代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123;message&#125;&#125;&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default&#123;</span><br><span class="line">    data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            message: &apos;welcome&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>完成后需要在router中进行路由的配置：<br>在router的index.js中代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import Home from &apos;@/views/Home&apos;</span><br><span class="line"></span><br><span class="line">export default new Router(&#123;</span><br><span class="line">  mode: &apos;history&apos;,</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      name: &apos;Homes&apos;,</span><br><span class="line">      path: &apos;/home&apos;,</span><br><span class="line">      component: Home</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="页面间进行跳转"><a href="#页面间进行跳转" class="headerlink" title="页面间进行跳转"></a>页面间进行跳转</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//点击跳转新的页面</span><br><span class="line">    newPage()&#123;</span><br><span class="line">     const vm = this;</span><br><span class="line">     vm.$router.push(&#123;name: &apos;Homes&apos;, params: &#123; id: 10 &#125;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数的接受"><a href="#参数的接受" class="headerlink" title="参数的接受"></a>参数的接受</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;获取参数ID为:&#123;&#123;this.$route.params.id&#125;&#125;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
-
-
-
         
       </div>
       <p class="repo-list-meta">
@@ -519,13 +230,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/vue/' title=''>vue</a>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
           
         -->
 
@@ -547,25 +258,6 @@
           <blockquote>
 <p>移动互联时代的来临，快捷的移动支付使得生活变得越来越多姿多彩。那么移动支付到底是怎么实现的呢？今天就让我们来揭开它的神秘面纱！</p>
 </blockquote>
-<h3 id="支付宝测试环境代码测试"><a href="#支付宝测试环境代码测试" class="headerlink" title="支付宝测试环境代码测试"></a>支付宝测试环境代码测试</h3><p><strong>源代码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Github地址：https://github.com/OUYANGSIHAI/sihai-maven-ssm-alipay</span><br></pre></td></tr></table></figure>
-<p><strong>当然可以下载官方的demo</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://docs.open.alipay.com/270/106291/</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/2019121614310813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<h3 id="配置AlipayConfig"><a href="#配置AlipayConfig" class="headerlink" title="配置AlipayConfig"></a>配置AlipayConfig</h3><p><strong>(1) 注册蚂蚁金服开发者账号（免费，不像苹果会收取费用）</strong></p>
-<p>*<em>注册地址：<a href="https://open.alipay.com" target="_blank" rel="noopener">https://open.alipay.com</a> *</em>，用你的支付宝账号扫码登录，完善个人信息，选择服务类型（我选的是自研）。<br><img src="https://img-blog.csdnimg.cn/20191216143438154.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>(2)设置app_id和gatewayUrl</strong><br><img src="https://img-blog.csdnimg.cn/20191216143747263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>其中密钥需要自己生成，appID和支付宝网关是已经给好的，网关有dev字样，表明是用于开发测试。<br><strong>(3) 设置密钥</strong><br><img src="https://img-blog.csdnimg.cn/20191216144028707.png#pic_center" alt=""><br>点击“生成方法”，打开界面如下：<br><img src="https://img-blog.csdnimg.cn/20191216144111780.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>下载密钥生成工具，解压打开后，选择2048位生成密钥：<br><img src="https://img-blog.csdnimg.cn/20191216144331953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>设置方法,”打开密钥文件路径”：<br><img src="https://img-blog.csdnimg.cn/20191216144510845.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br><img src="https://img-blog.csdnimg.cn/20191216144605254.png#pic_center" alt=""><br>复制应用公钥2048.txt中的内容到点击”设置应用公钥”的弹出框中，保存：</p>
-<h3 id="商户私钥（merchant-private-key）"><a href="#商户私钥（merchant-private-key）" class="headerlink" title="商户私钥（merchant_private_key）"></a>商户私钥（merchant_private_key）</h3><p>复制 应用私钥2048.txt 中的内容到merchant_private_key中。</p>
-<h3 id="支付宝公钥（alipay-public-key）"><a href="#支付宝公钥（alipay-public-key）" class="headerlink" title="支付宝公钥（alipay_public_key）"></a>支付宝公钥（alipay_public_key）</h3><p><img src="https://img-blog.csdnimg.cn/20191216144847151.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>点击如上图链接，复制弹出框里面的内容到alipay_public_key。<br>如果这个设置不对，结果是：支付成功，但是验签失败。<br>如果是正式环境，需要上传到对应的应用中：<br><img src="https://img-blog.csdnimg.cn/20191216145134149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>(4) 服务器异步通知页面路径（notify_url）</strong></p>
-<p>如果没有改名，修改IP和端口号就可以了，我自己的如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/alipay.trade.page.pay-JAVA-UTF-8/notify_url.jsp</span><br></pre></td></tr></table></figure>
-<p><strong>(5) 页面跳转同步通知页面的路径（return_url）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/alipay.trade.page.pay-JAVA-UTF-8/return_url.jsp</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h3><p><img src="https://img-blog.csdnimg.cn/20191216145430728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p>测试用的支付宝买家账户可以在”沙箱账”这个页面可以找到：<br><img src="https://img-blog.csdnimg.cn/20191216145557853.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>支付成功后，验签结果</p>
-
         
       </div>
       <p class="repo-list-meta">
@@ -583,7 +275,7 @@
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98/" rel="tag">移动支付</a></li></ul>
           
         -->
 
@@ -602,36 +294,9 @@
       </h3>
       <div class="repo-list-description">
         
-          <h3 id="一、PathVariable校验"><a href="#一、PathVariable校验" class="headerlink" title="一、PathVariable校验"></a>一、PathVariable校验</h3><p>在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/path/&#123;group:[a-zA-Z0-9_]+&#125;/&#123;userid&#125;&quot;)</span><br><span class="line">@ResponseBody</span><br><span class="line">public String path(@PathVariable(&quot;group&quot;) String group,@PathVariable(&quot;userid&quot;) Integer userid)&#123;</span><br><span class="line">   return group + &quot;:&quot; + userid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>{group:[a-zA-Z0-9_]+} 这样的表达式指定了 group 必须是以大小写字母、数字或下划线组成的字符串。<br>试着访问一个错误的路径：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /path/testIllegal.get/10000</span><br></pre></td></tr></table></figure>
-<p>此时会得到<strong>404</strong>的响应，因此对于PathVariable 仅由正则表达式可达到校验的目的</p>
-<h3 id="二、方法参数校验"><a href="#二、方法参数校验" class="headerlink" title="二、方法参数校验"></a>二、方法参数校验</h3><p>就像前面所描述的那样，大多数情况下，我们都会直接将HTTP请求参数映射到请求的方法参数上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/param&quot;)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public String param(@RequestParam(&quot;group&quot;)@Email String group, </span><br><span class="line">                        @RequestParam(&quot;userid&quot;) Integer userid) &#123;</span><br><span class="line">       return group + &quot;:&quot; + userid;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码中，@RequestParam 声明了映射，此外我们还为 group 定义了一个规则(复合Email格式)<br>这段代码是否能直接使用呢？答案是否定的，为了启用方法参数的校验能力，还需要完成以下步骤：<br>1.<strong>声明 MethodValidationPostProcessor</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">   public MethodValidationPostProcessor methodValidationPostProcessor() &#123;</span><br><span class="line">        return new MethodValidationPostProcessor();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>2.<strong>Controller指定@Validated注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">    @RequestMapping(&quot;/validate&quot;)</span><br><span class="line">    @Validated</span><br><span class="line">    public class ValidateController &#123;</span><br></pre></td></tr></table></figure>
-<p>如此之后，方法上的@Email规则才能生效。<br><strong>检验异常</strong><br>如果此时我们尝试通过非法参数进行访问时，比如提供非Email格式的 group会得到以下错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?group=simple&amp;userid=10000</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530955093583,</span><br><span class="line">       &quot;status&quot;: 500,</span><br><span class="line">       &quot;error&quot;: &quot;Internal Server Error&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;javax.validation.ConstraintViolationException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;No message available&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>而如果参数类型错误，比如提供非整数的 userid，会得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?group=simple&amp;userid=1f</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530954430720,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.web.method.annotation.MethodArgumentTypeMismatchException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;Failed to convert value of type &apos;java.lang.String&apos; to required type &apos;java.lang.Integer&apos;; nested exception is java.lang.NumberFormatException: For input string: \&quot;1f\&quot;&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>当存在参数缺失时，由于定义的@RequestParam注解中，属性 required=true，也将会导致失败：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /validate/param?userid=10000</span><br><span class="line">   ====&gt;</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530954345877,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.web.bind.MissingServletRequestParameterException&quot;,</span><br><span class="line">       &quot;message&quot;: &quot;Required String parameter &apos;group&apos; is not present&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/param&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="三、表单对象校验"><a href="#三、表单对象校验" class="headerlink" title="三、表单对象校验"></a>三、表单对象校验</h3><p>页面的表单通常比较复杂，此时可以将请求参数封装到表单对象中，<br>并指定一系列对应的规则，参考JSR-303<img src="https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/index.html" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static class FormRequest &#123;</span><br><span class="line"></span><br><span class="line">        @NotEmpty</span><br><span class="line">        @Email</span><br><span class="line">        private String email;</span><br><span class="line"></span><br><span class="line">        @Pattern(regexp = &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;)</span><br><span class="line">        private String name;</span><br><span class="line"></span><br><span class="line">        @Min(5)</span><br><span class="line">        @Max(199)</span><br><span class="line">        private int age;</span><br></pre></td></tr></table></figure>
-<p>上面定义的属性中：<br>email必须非空、符合Email格式规则；<br>name必须为大小写字母、数字及下划线组成，长度在6-30个；<br>age必须在5-199范围内<br>Controller方法中的定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/form&quot;)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public FormRequest form(@Validated FormRequest form) &#123;</span><br><span class="line">        return form;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>@Validated</strong>指定了参数对象需要执行一系列校验。</p>
-<p><strong>校验异常</strong><br>此时我们尝试构造一些违反规则的输入，会得到以下的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">       &quot;timestamp&quot;: 1530955713166,</span><br><span class="line">       &quot;status&quot;: 400,</span><br><span class="line">       &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">       &quot;exception&quot;: &quot;org.springframework.validation.BindException&quot;,</span><br><span class="line">       &quot;errors&quot;: [</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Email.formRequest.email&quot;,</span><br><span class="line">                   &quot;Email.email&quot;,</span><br><span class="line">                   &quot;Email.java.lang.String&quot;,</span><br><span class="line">                   &quot;Email&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.email&quot;,</span><br><span class="line">                           &quot;email&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;email&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;email&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   [],</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;.*&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;.*&quot;</span><br><span class="line">                   &#125;</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;不是一个合法的电子邮件地址&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;email&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: &quot;tecom&quot;,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Email&quot;</span><br><span class="line">           &#125;,</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Pattern.formRequest.name&quot;,</span><br><span class="line">                   &quot;Pattern.name&quot;,</span><br><span class="line">                   &quot;Pattern.java.lang.String&quot;,</span><br><span class="line">                   &quot;Pattern&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.name&quot;,</span><br><span class="line">                           &quot;name&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;name&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;name&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   [],</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;[a-zA-Z0-9_]&#123;6,30&#125;&quot;</span><br><span class="line">                   &#125;</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;需要匹配正则表达式\&quot;[a-zA-Z0-9_]&#123;6,30&#125;\&quot;&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;name&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: &quot;fefe&quot;,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Pattern&quot;</span><br><span class="line">           &#125;,</span><br><span class="line">           &#123;</span><br><span class="line">               &quot;codes&quot;: [</span><br><span class="line">                   &quot;Min.formRequest.age&quot;,</span><br><span class="line">                   &quot;Min.age&quot;,</span><br><span class="line">                   &quot;Min.int&quot;,</span><br><span class="line">                   &quot;Min&quot;</span><br><span class="line">               ],</span><br><span class="line">               &quot;arguments&quot;: [</span><br><span class="line">                   &#123;</span><br><span class="line">                       &quot;codes&quot;: [</span><br><span class="line">                           &quot;formRequest.age&quot;,</span><br><span class="line">                           &quot;age&quot;</span><br><span class="line">                       ],</span><br><span class="line">                       &quot;arguments&quot;: null,</span><br><span class="line">                       &quot;defaultMessage&quot;: &quot;age&quot;,</span><br><span class="line">                       &quot;code&quot;: &quot;age&quot;</span><br><span class="line">                   &#125;,</span><br><span class="line">                   5</span><br><span class="line">               ],</span><br><span class="line">               &quot;defaultMessage&quot;: &quot;最小不能小于5&quot;,</span><br><span class="line">               &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">               &quot;field&quot;: &quot;age&quot;,</span><br><span class="line">               &quot;rejectedValue&quot;: 2,</span><br><span class="line">               &quot;bindingFailure&quot;: false,</span><br><span class="line">               &quot;code&quot;: &quot;Min&quot;</span><br><span class="line">           &#125;</span><br><span class="line">       ],</span><br><span class="line">       &quot;message&quot;: &quot;Validation failed for object=&apos;formRequest&apos;. Error count: 3&quot;,</span><br><span class="line">       &quot;path&quot;: &quot;/validate/form&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>如果是参数类型不匹配，会得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        &quot;timestamp&quot;: 1530955359265,</span><br><span class="line">        &quot;status&quot;: 400,</span><br><span class="line">        &quot;error&quot;: &quot;Bad Request&quot;,</span><br><span class="line">        &quot;exception&quot;: &quot;org.springframework.validation.BindException&quot;,</span><br><span class="line">        &quot;errors&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;codes&quot;: [</span><br><span class="line">                    &quot;typeMismatch.formRequest.age&quot;,</span><br><span class="line">                    &quot;typeMismatch.age&quot;,</span><br><span class="line">                    &quot;typeMismatch.int&quot;,</span><br><span class="line">                    &quot;typeMismatch&quot;</span><br><span class="line">                ],</span><br><span class="line">                &quot;arguments&quot;: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;codes&quot;: [</span><br><span class="line">                            &quot;formRequest.age&quot;,</span><br><span class="line">                            &quot;age&quot;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;arguments&quot;: null,</span><br><span class="line">                        &quot;defaultMessage&quot;: &quot;age&quot;,</span><br><span class="line">                        &quot;code&quot;: &quot;age&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                &quot;defaultMessage&quot;: &quot;Failed to convert property value of type &apos;java.lang.String&apos; </span><br><span class="line">    to required type &apos;int&apos; for property &apos;age&apos;; nested exception is java.lang.NumberFormatException: </span><br><span class="line">    For input string: \&quot;\&quot;&quot;,</span><br><span class="line">                &quot;objectName&quot;: &quot;formRequest&quot;,</span><br><span class="line">                &quot;field&quot;: &quot;age&quot;,</span><br><span class="line">                &quot;rejectedValue&quot;: &quot;&quot;,</span><br><span class="line">                &quot;bindingFailure&quot;: true,</span><br><span class="line">                &quot;code&quot;: &quot;typeMismatch&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;message&quot;: &quot;Validation failed for object=&apos;formRequest&apos;. Error count: 1&quot;,</span><br><span class="line">        &quot;path&quot;: &quot;/validate/form&quot;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Form表单参数上，使用@Valid注解可达到同样目的，而关于两者的区别则是：<br>@Valid 基于JSR303，即 Bean Validation 1.0，由Hibernate Validator实现；<br> @Validated 基于JSR349，是Bean Validation 1.1，由Spring框架扩展实现；</p>
+          <blockquote>
+<p>参数的校验在开发中的应用</p>
 </blockquote>
-
         
       </div>
       <p class="repo-list-meta">
@@ -643,13 +308,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot%E7%B3%BB%E5%88%97/" rel="tag">SpringBoot系列</a></li></ul>
           
         -->
 
@@ -668,44 +333,9 @@
       </h3>
       <div class="repo-list-description">
         
-          <h3 id="linux上安装mysql5-7"><a href="#linux上安装mysql5-7" class="headerlink" title="linux上安装mysql5.7:"></a>linux上安装mysql5.7:</h3><p>1.下载tar包，这里使用wget从官网下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
-<p>2.将mysql安装到/usr/local/mysql下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 解压</span><br><span class="line">tar -xvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 移动</span><br><span class="line">mv mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 重命名</span><br><span class="line">mv /usr/local/mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/mysql</span><br></pre></td></tr></table></figure>
-<p>3.新建data目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/mysql/data</span><br></pre></td></tr></table></figure>
-<p>4.新建mysql用户、mysql用户组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mysql用户组</span><br><span class="line">groupadd mysql</span><br><span class="line"># mysql用户</span><br><span class="line">useradd mysql -g mysql</span><br></pre></td></tr></table></figure>
-<p>5.将/usr/local/mysql的所有者及所属组改为mysql</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mysql.mysql /usr/local/mysql</span><br></pre></td></tr></table></figure>
-<p>6.配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysql_install_db --user=mysql --basedir=/usr/local/mysql/ --datadir=/usr/local/mysql/data</span><br></pre></td></tr></table></figure>
-<p><strong>如果出现以下错误：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2018-07-14 06:40:32 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize</span><br><span class="line">2018-07-14 06:40:32 [ERROR]   Child process: /usr/local/mysql/bin/mysqldterminated prematurely with errno= 32</span><br><span class="line">2018-07-14 06:40:32 [ERROR]   Failed to execute /usr/local/mysql/bin/mysqld --bootstrap --datadir=/usr/local/mysql/data --lc-messages-dir=/usr/local/mysql/share --lc-messages=en_US --basedir=/usr/local/mysql</span><br><span class="line">-- server log begin --</span><br><span class="line"></span><br><span class="line">-- server log end --</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>则使用以下命令：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysqld --user=mysql --basedir=/usr/local/mysql/ --datadir=/usr/local/mysql/data --initialize</span><br></pre></td></tr></table></figure>
-<p><strong>如果出现以下错误：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysqld: error while loading shared libraries: libnuma.so.1: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
-<p><strong>则执行以下命令：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install numactl</span><br></pre></td></tr></table></figure>
-<p><strong>完成后继续安装：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysqld --user=mysql --basedir=/usr/local/mysql/ --datadir=/usr/local/mysql/data --initialize</span><br></pre></td></tr></table></figure>
-<p><strong>编辑/etc/my.cnf</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/usr/local/mysql/data</span><br><span class="line">basedir=/usr/local/mysql</span><br><span class="line">socket=/tmp/mysql.sock</span><br><span class="line">user=mysql</span><br><span class="line">port=3306</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 取消密码验证</span><br><span class="line">skip-grant-tables</span><br><span class="line"># Disabling symbolic-links is recommended to prevent assorted security risks</span><br><span class="line">symbolic-links=0</span><br><span class="line"># skip-grant-tables</span><br><span class="line">[mysqld_safe]</span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br></pre></td></tr></table></figure>
-
-<h3 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 将mysql加入服务</span><br><span class="line"></span><br><span class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql</span><br><span class="line"></span><br><span class="line"># 开机自启</span><br><span class="line"></span><br><span class="line">chkconfig mysql on</span><br><span class="line"></span><br><span class="line"># 开启</span><br><span class="line"></span><br><span class="line">service mysql start</span><br><span class="line"></span><br><span class="line">#重启</span><br><span class="line"></span><br><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
-<h3 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 登录（由于/etc/my.cnf中设置了取消密码验证，所以此处密码任意）</span><br><span class="line"></span><br><span class="line">/usr/local/mysql/bin/mysql -u root -p</span><br><span class="line"></span><br><span class="line"># 操作mysql数据库</span><br><span class="line"></span><br><span class="line">&gt;&gt;use mysql;</span><br><span class="line"></span><br><span class="line"># 修改密码</span><br><span class="line"></span><br><span class="line">&gt;&gt;update user set authentication_string=password(&apos;你的密码&apos;) where user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">&gt;&gt;flush privileges;</span><br><span class="line"></span><br><span class="line">&gt;&gt;exit;</span><br></pre></td></tr></table></figure>
-<h3 id="将-etc-my-cnf中的skip-grant-tables删除"><a href="#将-etc-my-cnf中的skip-grant-tables删除" class="headerlink" title="将/etc/my.cnf中的skip-grant-tables删除"></a>将/etc/my.cnf中的skip-grant-tables删除</h3><h3 id="登录再次设置密码"><a href="#登录再次设置密码" class="headerlink" title="登录再次设置密码"></a>登录再次设置密码</h3><p>（不知道为啥如果不再次设置密码就操作不了数据库了）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysql -u root -p</span><br><span class="line"></span><br><span class="line"> &gt;&gt;ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;修改后的密码&apos;;</span><br><span class="line"></span><br><span class="line">&gt;&gt;exit;</span><br></pre></td></tr></table></figure>
-<h3 id="允许远程连接"><a href="#允许远程连接" class="headerlink" title="允许远程连接"></a>允许远程连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysql -u root -p</span><br><span class="line"></span><br><span class="line">&gt;&gt;use mysql;</span><br><span class="line"></span><br><span class="line">&gt;&gt;update user set host=&apos;%&apos; where user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">&gt;&gt;flush privileges;</span><br><span class="line"></span><br><span class="line">&gt;&gt;eixt;</span><br></pre></td></tr></table></figure>
-<h3 id="添加快捷方式"><a href="#添加快捷方式" class="headerlink" title="添加快捷方式"></a>添加快捷方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/mysql/bin/mysql /usr/bin</span><br></pre></td></tr></table></figure>
-<h3 id="开放3306端口"><a href="#开放3306端口" class="headerlink" title="开放3306端口"></a>开放3306端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">开放3306端口：firewall-cmd --zone=public --add-port=3306/tcp --permanent</span><br><span class="line">重启服务：systemctl restart firewalld.service</span><br></pre></td></tr></table></figure>
-<h3 id="若开放端口是出现相关问题，请参考下面博客内容："><a href="#若开放端口是出现相关问题，请参考下面博客内容：" class="headerlink" title="若开放端口是出现相关问题，请参考下面博客内容："></a>若开放端口是出现相关问题，请参考下面博客内容：</h3><p><a href="https://blog.csdn.net/weixin_42100064/article/details/93970096" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42100064/article/details/93970096</a></p>
-
+          <blockquote>
+<p>越努力，越幸运</p>
+</blockquote>
         
       </div>
       <p class="repo-list-meta">
@@ -717,13 +347,13 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/mysql-linux/' title=''>mysql linux</a>
+            <a href='/categories/Linux服务器系列/' title=''>Linux服务器系列</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%B3%BB%E5%88%97/" rel="tag">Linux服务器系列</a></li></ul>
           
         -->
 
@@ -742,256 +372,9 @@
       </h3>
       <div class="repo-list-description">
         
-          <h3 id="FastDFS介绍"><a href="#FastDFS介绍" class="headerlink" title="FastDFS介绍"></a>FastDFS介绍</h3><p>参考：分布式文件系统FastDFS设计原理<br>参考：FastDFS分布式文件系统</p>
-<p>FastDFS 是一个开源的高性能分布式文件系统（DFS）。 它的主要功能包括：文件存储，文件同步和文件访问，以及高容量和负载平衡。主要解决了海量数据存储问题，特别适合以中小文件（建议范围：4KB &lt; file_size &lt;500MB）为载体的在线服务。<br>FastDFS 系统有三个角色：跟踪服务器(Tracker Server)、存储服务器(Storage Server)和客户端(Client)。<br>       <strong>Tracker Server：</strong>跟踪服务器，主要做调度工作，起到均衡的作用；负责管理所有的 storage server和 group，每个 storage 在启动后会连接 Tracker，告知自己所属 group 等信息，并保持周期性心跳。<br>       <strong>Storage Server：</strong>存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server，数据互为备份。<br>       <strong>Client：</strong>客户端，上传下载数据的服务器，也就是我们自己的项目所部署在的服务器。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE3LmNuYmxvZ3MuY29tL2Jsb2cvODU2MTU0LzIwMTcxMC84NTYxNTQtMjAxNzEwMTExNDQxNTM4NDAtMTE4NTE0MTkwMy5wbmc#pic_center" alt=""></p>
-<h3 id="FastDFS的存储策略"><a href="#FastDFS的存储策略" class="headerlink" title="FastDFS的存储策略"></a>FastDFS的存储策略</h3><p>为了支持大容量，存储节点（服务器）采用了分卷（或分组）的组织方式。存储系统由一个或多个卷组成，卷与卷之间的文件是相互独立的，所有卷的文件容量累加就是整个存储系统中的文件容量。一个卷可以由一台或多台存储服务器组成，一个卷下的存储服务器中的文件都是相同的，卷中的多台存储服务器起到了冗余备份和负载均衡的作用。<br>在卷中增加服务器时，同步已有的文件由系统自动完成，同步完成后，系统自动将新增服务器切换到线上提供服务。当存储空间不足或即将耗尽时，可以动态添加卷。只需要增加一台或多台服务器，并将它们配置为一个新的卷，这样就扩大了存储系统的容量。</p>
-<h3 id="FastDFS的上传过程"><a href="#FastDFS的上传过程" class="headerlink" title="FastDFS的上传过程"></a>FastDFS的上传过程</h3><p>FastDFS向使用者提供基本文件访问接口，比如upload、download、append、delete等，以客户端库的方式提供给用户使用。<br>Storage Server会定期的向Tracker Server发送自己的存储信息。当Tracker Server Cluster中的Tracker Server不止一个时，各个Tracker之间的关系是对等的，所以客户端上传时可以选择任意一个Tracker。<br>当Tracker收到客户端上传文件的请求时，会为该文件分配一个可以存储文件的group，当选定了group后就要决定给客户端分配group中的哪一个storage server。当分配好storage server后，客户端向storage发送写文件请求，storage将会为文件分配一个数据存储目录。然后为文件分配一个fileid，最后根据以上的信息生成文件名存储文件。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE3LmNuYmxvZ3MuY29tL2Jsb2cvODU2MTU0LzIwMTcxMC84NTYxNTQtMjAxNzEwMTIxMjE2MzkzODctMTU3NDE0NzkyNi5wbmc#pic_center" alt=""></p>
-<h3 id="FastDFS的文件同步"><a href="#FastDFS的文件同步" class="headerlink" title="FastDFS的文件同步"></a>FastDFS的文件同步</h3><p>写文件时，客户端将文件写至group内一个storage server即认为写文件成功，storage server写完文件后，会由后台线程将文件同步至同group内其他的storage server。<br>每个storage写文件后，同时会写一份binlog，binlog里不包含文件数据，只包含文件名等元信息，这份binlog用于后台同步，storage会记录向group内其他storage同步的进度，以便重启后能接上次的进度继续同步；进度以时间戳的方式进行记录，所以最好能保证集群内所有server的时钟保持同步。<br>storage的同步进度会作为元数据的一部分汇报到tracker上，tracke在选择读storage的时候会以同步进度作为参考。</p>
-<h3 id="FastDFS的文件下载"><a href="#FastDFS的文件下载" class="headerlink" title="FastDFS的文件下载"></a>FastDFS的文件下载</h3><p>客户端uploadfile成功后，会拿到一个storage生成的文件名，接下来客户端根据这个文件名即可访问到该文件。 </p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE1LmNuYmxvZ3MuY29tL2Jsb2cvMzgwMjUyLzIwMTcwNC8zODAyNTItMjAxNzA0MTUwOTA2MTEwMTctMjA0OTEwNzc1LnBuZw#pic_center" alt=""><br>跟upload file一样，在downloadfile时客户端可以选择任意tracker server。tracker发送download请求给某个tracker，必须带上文件名信息，tracke从文件名中解析出文件的group、大小、创建时间等信息，然后为该请求选择一个storage用来服务读请求。</p>
-<h3 id="安装FastDFS环境"><a href="#安装FastDFS环境" class="headerlink" title="安装FastDFS环境"></a>安装FastDFS环境</h3><p><strong>服务器规划</strong></p>
-<p>跟踪服务器（Tracker Server）：192.168.2.125<br>存储服务器（Storage Server）：192.168.2.125<br>操作系统：CentOS7<br>用户：root<br>数据存储目录：/home/fastdfs</p>
-<p><strong>安装所需的依赖包</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install make cmake gcc gcc-c++</span><br></pre></td></tr></table></figure>
-
-<p><strong>下载安装 libfastcommon</strong></p>
-<p>libfastcommon是从 FastDFS 和 FastDHT 中提取出来的公共 C 函数库，基础环境，安装即可 。<br>①下载libfastcommon</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https://github.com/happyfish100/libfastcommon/archive/V1.0.7.tar.gz</span><br></pre></td></tr></table></figure>
-<p>② 解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># tar -zxvf V1.0.7.tar.gz</span><br><span class="line"># cd libfastcommon-1.0.7</span><br></pre></td></tr></table></figure>
-
-<p>③ 编译、安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ./make.sh</span><br><span class="line"># ./make.sh install</span><br></pre></td></tr></table></figure>
-
-<p>④ libfastcommon.so 安装到了/usr/lib64/libfastcommon.so，但是FastDFS主程序设置的lib目录是/usr/local/lib，所以需要创建软链接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so</span><br><span class="line"># ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so</span><br><span class="line"># ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so</span><br><span class="line"># ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so</span><br></pre></td></tr></table></figure>
-
-<h3 id="下载安装FastDFS"><a href="#下载安装FastDFS" class="headerlink" title="下载安装FastDFS"></a>下载安装FastDFS</h3><p>① 下载FastDFS</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https://github.com/happyfish100/fastdfs/archive/V5.05.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>② 解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd ~</span><br><span class="line"># tar -zxvf V5.05.tar.gz</span><br><span class="line"># cd fastdfs-5.05</span><br></pre></td></tr></table></figure>
-
-<p>③ 编译、安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ./make.sh</span><br><span class="line"># ./make.sh install</span><br></pre></td></tr></table></figure>
-
-<p>④ 默认安装方式安装后的相应文件与目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A、服务脚本：</span><br><span class="line">/etc/init.d/fdfs_storaged</span><br><span class="line">/etc/init.d/fdfs_tracker</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">B、配置文件（这三个是作者给的样例配置文件） :</span><br><span class="line">/etc/fdfs/client.conf.sample</span><br><span class="line">/etc/fdfs/storage.conf.sample</span><br><span class="line">/etc/fdfs/tracker.conf.sample</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">C、命令工具在 /usr/bin/ 目录下：</span><br><span class="line">fdfs_appender_test</span><br><span class="line">fdfs_appender_test1</span><br><span class="line">fdfs_append_file</span><br><span class="line">fdfs_crc32</span><br><span class="line">fdfs_delete_file</span><br><span class="line">fdfs_download_file</span><br><span class="line">fdfs_file_info</span><br><span class="line">fdfs_monitor</span><br><span class="line">fdfs_storaged</span><br><span class="line">fdfs_test</span><br><span class="line">fdfs_test1</span><br><span class="line">fdfs_trackerd</span><br><span class="line">fdfs_upload_appender</span><br><span class="line">fdfs_upload_file</span><br><span class="line">stop.sh</span><br><span class="line">restart.sh</span><br></pre></td></tr></table></figure>
-
-<p>⑤ FastDFS 服务脚本设置的 bin 目录是 /usr/local/bin， 但实际命令安装在 /usr/bin/ 下。<br>       两种方式：<br>       ☞1：修改FastDFS 服务脚本中相应的命令路径，也就是把 /etc/init.d/fdfs_storaged 和 /etc/init.d/fdfs_trackerd 两个脚本中的 /usr/local/bin 修改成 /usr/bin。(本人采用的这种方式)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/init.d/fdfs_storaged </span><br><span class="line">使用替换命令统一修改（进入命令行模式：%s+/usr/local/bin+/usr/bin）</span><br><span class="line"># vi /etc/init.d/fdfs_trackerd</span><br><span class="line">使用替换命令统一修改（进入命令行模式：%s+/usr/local/bin+/usr/bin）</span><br></pre></td></tr></table></figure>
-
-
-<pre><code>☞2:建立/usr/bin 到 /usr/local/bin 的软链接</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># ln -s /usr/bin/fdfs_trackerd   /usr/local/bin</span><br><span class="line"># ln -s /usr/bin/fdfs_storaged   /usr/local/bin</span><br><span class="line"># ln -s /usr/bin/stop.sh         /usr/local/bin</span><br><span class="line"># ln -s /usr/bin/restart.sh      /usr/local/bin</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置FastDFS跟踪器-Tracker"><a href="#配置FastDFS跟踪器-Tracker" class="headerlink" title="配置FastDFS跟踪器(Tracker)"></a>配置FastDFS跟踪器(Tracker)</h3><p>配置文件详细说明参考：FastDFS 配置文件详解<br>① 进入 /etc/fdfs，复制 FastDFS 跟踪器样例配置文件 tracker.conf.sample，并重命名为 tracker.conf。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/fdfs</span><br><span class="line"># cp tracker.conf.sample tracker.conf</span><br><span class="line"># vi tracker.conf</span><br></pre></td></tr></table></figure>
-
-<p>② 编辑tracker.conf ，其它的默认即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 配置文件是否不生效，false 为生效</span><br><span class="line">disabled=false</span><br></pre></td></tr></table></figure>
-<h3 id="提供服务的端口"><a href="#提供服务的端口" class="headerlink" title="提供服务的端口"></a>提供服务的端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port=22122</span><br></pre></td></tr></table></figure>
-<h3 id="Tracker-数据和日志目录地址-根目录必须存在-子目录会自动创建"><a href="#Tracker-数据和日志目录地址-根目录必须存在-子目录会自动创建" class="headerlink" title="Tracker 数据和日志目录地址(根目录必须存在,子目录会自动创建)"></a>Tracker 数据和日志目录地址(根目录必须存在,子目录会自动创建)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base_path=/home/fastdfs/tracker</span><br></pre></td></tr></table></figure>
-<h3 id="HTTP-服务端口"><a href="#HTTP-服务端口" class="headerlink" title="HTTP 服务端口"></a>HTTP 服务端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.server_port=80</span><br></pre></td></tr></table></figure>
-
-<p>③ 创建tracker基础数据目录，即base_path对应的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /home/fastdfs/tracker</span><br></pre></td></tr></table></figure>
-
-<p>④ 防火墙中打开跟踪端口（默认的22122）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
-<p>添加如下端口行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22122 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<p>重启防火墙：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service iptables restart</span><br></pre></td></tr></table></figure>
-
-<p>⑤ 启动Tracker<br>初次成功启动，会在 /home/fdfsdfs/tracker/ (配置的base_path)下创建 data、logs 两个目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">可以用这种方式启动</span><br><span class="line"># /etc/init.d/fdfs_trackerd start</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">也可以用这种方式启动，前提是上面创建了软链接，后面都用这种方式</span><br><span class="line"># service fdfs_trackerd start</span><br></pre></td></tr></table></figure>
-
-<p>查看 FastDFS Tracker 是否已成功启动 ，22122端口正在被监听，则算是Tracker服务安装成功。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># netstat -unltp|grep fdfs</span><br></pre></td></tr></table></figure>
-
-
-<p>关闭Tracker命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service fdfs_trackerd stop</span><br></pre></td></tr></table></figure>
-
-<p>⑥ 设置Tracker开机启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig fdfs_trackerd on</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
-<p>加入配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/init.d/fdfs_trackerd start</span><br></pre></td></tr></table></figure>
-
-<p>⑦ tracker server 目录及文件结构<br>Tracker服务启动成功后，会在base_path下创建data、logs两个目录。目录结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$&#123;base_path&#125;</span><br><span class="line">  |__data</span><br><span class="line">  |   |__storage_groups.dat：存储分组信息</span><br><span class="line">  |   |__storage_servers.dat：存储服务器列表</span><br><span class="line">  |__logs</span><br><span class="line">  |   |__trackerd.log： tracker server 日志文件</span><br></pre></td></tr></table></figure>
-<p>5、配置 FastDFS 存储 (Storage)</p>
-<p>① 进入 /etc/fdfs 目录，复制 FastDFS 存储器样例配置文件 storage.conf.sample，并重命名为 storage.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/fdfs</span><br><span class="line"># cp storage.conf.sample storage.conf</span><br><span class="line"># vi storage.conf</span><br></pre></td></tr></table></figure>
-
-<p>② 编辑storage.conf<br>标记的需要修改，其它的默认即可。</p>
-<h3 id="配置文件是否不生效，false-为生效"><a href="#配置文件是否不生效，false-为生效" class="headerlink" title="配置文件是否不生效，false 为生效"></a>配置文件是否不生效，false 为生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disabled=false</span><br></pre></td></tr></table></figure>
-<h3 id="指定此-storage-server-所在-组-卷"><a href="#指定此-storage-server-所在-组-卷" class="headerlink" title="指定此 storage server 所在 组(卷)"></a>指定此 storage server 所在 组(卷)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">group_name=group1</span><br></pre></td></tr></table></figure>
-<h3 id="storage-server-服务端口"><a href="#storage-server-服务端口" class="headerlink" title="storage server 服务端口"></a>storage server 服务端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port=23000</span><br></pre></td></tr></table></figure>
-<h3 id="心跳间隔时间，单位为秒-这里是指主动向-tracker-server-发送心跳"><a href="#心跳间隔时间，单位为秒-这里是指主动向-tracker-server-发送心跳" class="headerlink" title="心跳间隔时间，单位为秒 (这里是指主动向 tracker server 发送心跳)"></a>心跳间隔时间，单位为秒 (这里是指主动向 tracker server 发送心跳)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">heart_beat_interval=30</span><br></pre></td></tr></table></figure>
-<h3 id="Storage-数据和日志目录地址-根目录必须存在，子目录会自动生成"><a href="#Storage-数据和日志目录地址-根目录必须存在，子目录会自动生成" class="headerlink" title="Storage 数据和日志目录地址(根目录必须存在，子目录会自动生成)"></a>Storage 数据和日志目录地址(根目录必须存在，子目录会自动生成)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base_path=/home/fastdfs/storage  --需要修改，默认也可--</span><br></pre></td></tr></table></figure>
-<h3 id="存放文件时-storage-server-支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。"><a href="#存放文件时-storage-server-支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。" class="headerlink" title="存放文件时 storage server 支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。"></a>存放文件时 storage server 支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store_path_count=1</span><br></pre></td></tr></table></figure>
-
-<h3 id="逐一配置-store-path-count-个路径，索引号基于-0。"><a href="#逐一配置-store-path-count-个路径，索引号基于-0。" class="headerlink" title="逐一配置 store_path_count 个路径，索引号基于 0。"></a>逐一配置 store_path_count 个路径，索引号基于 0。</h3><h3 id="如果不配置-store-path0，那它就和-base-path-对应的路径一样。"><a href="#如果不配置-store-path0，那它就和-base-path-对应的路径一样。" class="headerlink" title="如果不配置 store_path0，那它就和 base_path 对应的路径一样。"></a>如果不配置 store_path0，那它就和 base_path 对应的路径一样。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store_path0=/home/fastdfs/file  --需要修改，默认也可--</span><br></pre></td></tr></table></figure>
-<h3 id="FastDFS-存储文件时，采用了两级目录。这里配置存放文件的目录个数。"><a href="#FastDFS-存储文件时，采用了两级目录。这里配置存放文件的目录个数。" class="headerlink" title="FastDFS 存储文件时，采用了两级目录。这里配置存放文件的目录个数。"></a>FastDFS 存储文件时，采用了两级目录。这里配置存放文件的目录个数。</h3><h3 id="如果本参数只为-N（如：-256），那么-storage-server-在初次运行时，会在-store-path-下自动创建-N-N-个存放文件的子目录。"><a href="#如果本参数只为-N（如：-256），那么-storage-server-在初次运行时，会在-store-path-下自动创建-N-N-个存放文件的子目录。" class="headerlink" title="如果本参数只为 N（如： 256），那么 storage server 在初次运行时，会在 store_path 下自动创建 N * N 个存放文件的子目录。"></a>如果本参数只为 N（如： 256），那么 storage server 在初次运行时，会在 store_path 下自动创建 N * N 个存放文件的子目录。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">subdir_count_per_path=256</span><br></pre></td></tr></table></figure>
-
-<h3 id="tracker-server-的列表-，会主动连接-tracker-server"><a href="#tracker-server-的列表-，会主动连接-tracker-server" class="headerlink" title="tracker_server 的列表 ，会主动连接 tracker_server"></a>tracker_server 的列表 ，会主动连接 tracker_server</h3><h3 id="有多个-tracker-server-时，每个-tracker-server-写一行"><a href="#有多个-tracker-server-时，每个-tracker-server-写一行" class="headerlink" title="有多个 tracker server 时，每个 tracker server 写一行"></a>有多个 tracker server 时，每个 tracker server 写一行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tracker_server=192.168.2.125:22122  --需要修改--</span><br></pre></td></tr></table></figure>
-<h3 id="允许系统同步的时间段-默认是全天-。一般用于避免高峰同步产生一些问题而设定。"><a href="#允许系统同步的时间段-默认是全天-。一般用于避免高峰同步产生一些问题而设定。" class="headerlink" title="允许系统同步的时间段 (默认是全天) 。一般用于避免高峰同步产生一些问题而设定。"></a>允许系统同步的时间段 (默认是全天) 。一般用于避免高峰同步产生一些问题而设定。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sync_start_time=00:00</span><br><span class="line">sync_end_time=23:59</span><br></pre></td></tr></table></figure>
-<h3 id="访问端口"><a href="#访问端口" class="headerlink" title="访问端口"></a>访问端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.server_port=80  --需要修改，对应tracker配置的http端口--</span><br></pre></td></tr></table></figure>
-
-
-<p>③ 创建Storage基础数据目录，对应上述配置文件所配置的目录</p>
-<h3 id="这是配置的base-path路径"><a href="#这是配置的base-path路径" class="headerlink" title="这是配置的base_path路径"></a>这是配置的base_path路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /home/fastdfs/storage</span><br></pre></td></tr></table></figure>
-<h3 id="这是配置的store-path0路径"><a href="#这是配置的store-path0路径" class="headerlink" title="这是配置的store_path0路径"></a>这是配置的store_path0路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /home/fastdfs/file</span><br></pre></td></tr></table></figure>
-
-
-<p>④ 防火墙中打开存储器端口（默认的 23000）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
-<p>添加如下端口行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 23000 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<p>重启防火墙：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service iptables restart</span><br></pre></td></tr></table></figure>
-
-
-<p>⑤ 启动 Storage<br>启动Storage前确保Tracker是启动的。初次启动成功，会在 /home/fastdfs/storage 目录下创建 data、 logs 两个目录。</p>
-<p>可以用这种方式启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /etc/init.d/fdfs_storaged start</span><br></pre></td></tr></table></figure>
-<p>也可以用这种方式，后面都用这种</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service fdfs_storaged start</span><br></pre></td></tr></table></figure>
-
-<p>查看 Storage 是否成功启动，23000 端口正在被监听，就算 Storage 启动成功。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># netstat -unltp|grep fdfs</span><br></pre></td></tr></table></figure>
-
-
-<p>关闭Storage命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service fdfs_storaged stop</span><br></pre></td></tr></table></figure>
-
-<p>查看Storage和Tracker是否在通信：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_monitor /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
-
-
-<p>⑥ 设置 Storage 开机启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig fdfs_storaged on</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
-<p>加入配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_storaged start</span><br></pre></td></tr></table></figure>
-
-<p>⑦ Storage 目录<br>Tracker，Storage 启动成功后，在base_path 下创建了data、logs目录，记录着 Storage Server 的信息。<br>在 store_path0 目录下，创建了N*N个子目录： </p>
-<h3 id="文件上传测试"><a href="#文件上传测试" class="headerlink" title="文件上传测试"></a>文件上传测试</h3><p>① 修改 Tracker 服务器中的客户端配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/fdfs</span><br><span class="line"># cp client.conf.sample client.conf</span><br><span class="line"># vi client.conf</span><br></pre></td></tr></table></figure>
-
-<p>修改如下配置即可，其它默认。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Client 的数据和日志目录</span><br><span class="line">base_path=/home/fastdfs/client</span><br><span class="line"></span><br><span class="line"># Tracker端口</span><br><span class="line">tracker_server=192.168.2.125:22122</span><br></pre></td></tr></table></figure>
-
-<p>创建配置的目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /home/fastdfs/client</span><br></pre></td></tr></table></figure>
-
-<p>② 上传测试<br>准备一张图片test.jpg，在linux内部执行如下命令上传 test.jpg 图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /usr/bin/fdfs_upload_file /etc/fdfs/client.conf test.jpg</span><br></pre></td></tr></table></figure>
-
-<p>上传成功后返回文件ID号：group1/M00/00/00/wKgCfVseZceAd9P1AAO9QRktgHc307.jpg </p>
-<p>返回的文件ID由group、存储目录、两级子目录、fileid、文件后缀名（由客户端指定，主要用于区分文件类型）拼接而成。 </p>
-<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><p>上面将文件上传成功了，但我们无法下载。因此安装Nginx作为服务器以支持Http方式访问文件。同时，后面安装FastDFS的Nginx模块也需要Nginx环境。<br>Nginx只需要安装到StorageServer所在的服务器即可，用于访问文件。我这里由于是单机，TrackerServer和StorageServer在一台服务器上。</p>
-<p>1.安装nginx所需环境</p>
-<p>① gcc 安装 前面已安装<br>② PCRE pcre-devel 安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install -y pcre pcre-devel</span><br></pre></td></tr></table></figure>
-
-<p>③ zlib 安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install -y zlib zlib-devel</span><br></pre></td></tr></table></figure>
-
-<p>④ OpenSSL 安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
-
-<p>2.安装Nginx</p>
-<p>① 下载nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget -c https://nginx.org/download/nginx-1.12.1.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>② 解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># tar -zxvf nginx-1.12.1.tar.gz</span><br><span class="line"># cd nginx-1.12.1</span><br></pre></td></tr></table></figure>
-
-<p>③ 使用默认配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ./configure</span><br></pre></td></tr></table></figure>
-
-<p>④ 编译、安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># make</span><br><span class="line"># make install</span><br></pre></td></tr></table></figure>
-
-<p>⑤ 启动nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
-
-<p>其它命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># /usr/local/nginx/sbin/nginx -s stop</span><br><span class="line"># /usr/local/nginx/sbin/nginx -s quit</span><br><span class="line"># /usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
-
-<p>⑥ 设置开机启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rc.local</span><br><span class="line">添加一行：</span><br><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
-
-<p>⑦ 查看nginx的版本及模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure>
-
-<p>⑧ 防火墙中打开Nginx端口（默认的 80）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
-<p>添加如下端口行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<p>重启防火墙：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service iptables restart</span><br></pre></td></tr></table></figure>
-
-<p>3.访问文件</p>
-<p>① 修改nginx.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下行，将 /group1/M00 映射到 /home/fastdfs/file/data</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /group1/M00 &#123;</span><br><span class="line">    alias /home/fastdfs/file/data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="重启nginx"><a href="#重启nginx" class="headerlink" title="重启nginx"></a>重启nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
-
-
-<p>② 在浏览器访问之前上传的图片、成功。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.2.125:80/group1/M00/00/00/wKgCfVseZceAd9P1AAO9QRktgHc307.jpg</span><br></pre></td></tr></table></figure>
-<h3 id="FastDFS-配置-Nginx-模块"><a href="#FastDFS-配置-Nginx-模块" class="headerlink" title="FastDFS 配置 Nginx 模块"></a>FastDFS 配置 Nginx 模块</h3><p>1、安装配置Nginx模块</p>
-<p>① fastdfs-nginx-module 模块说明<br>        FastDFS 通过 Tracker 服务器，将文件放在 Storage 服务器存储， 但是同组存储服务器之间需要进行文件复制， 有同步延迟的问题。<br>        假设 Tracker 服务器将文件上传到了 192.168.2.125，上传成功后文件 ID已经返回给客户端。<br>        此时 FastDFS 存储集群机制会将这个文件同步到同组存储 192.168.2.126，在文件还没有复制完成的情况下，客户端如果用这个文件 ID 在 192.168.51.126 上取文件,就会出现文件无法访问的错误。<br>        而 fastdfs-nginx-module 可以重定向文件链接到源服务器取文件，避免客户端由于复制延迟导致的文件无法访问错误。<br>② 下载 fastdfs-nginx-module、解压</p>
-<p><strong>这里为啥这么长一串呢，因为最新版的master与当前nginx有些版本问题。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https://github.com/happyfish100/fastdfs-nginx-module/archive/5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 解压</span><br><span class="line"># unzip 5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 重命名</span><br><span class="line"># mv fastdfs-nginx-module-5e5f3566bbfa57418b5506aaefbe107a42c9fcb1  fastdfs-nginx-module-master</span><br></pre></td></tr></table></figure>
-
-<p>③ 配置Nginx<br>在nginx中添加模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 先停掉nginx服务</span><br><span class="line"># /usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure>
-<p>进入解压包目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># cd ~/nginx-1.12.1/</span><br><span class="line"></span><br><span class="line"># 添加模块</span><br><span class="line"># ./configure --add-module=../fastdfs-nginx-module-master/src</span><br></pre></td></tr></table></figure>
-<p>重新编译、安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-
-<p>④ 查看Nginx的模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># /usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure>
-
-<p>有下面这个就说明添加模块成功 </p>
-<p>⑤ 复制 fastdfs-nginx-module 源码中的配置文件到/etc/fdfs 目录， 并修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># cd ~/fastdfs-nginx-module-master/src</span><br><span class="line"></span><br><span class="line"># cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line"></span><br><span class="line"># vi /etc/fdfs/mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
-
-<p>修改如下配置，其它默认</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 连接超时时间</span><br><span class="line">connect_timeout=10  --根据需要修改--</span><br><span class="line"></span><br><span class="line"># Tracker Server</span><br><span class="line">tracker_server=192.168.2。125:22122  --修改为自己的ip--</span><br><span class="line"></span><br><span class="line"># StorageServer 默认端口</span><br><span class="line">storage_server_port=23000</span><br><span class="line"></span><br><span class="line"># 如果文件ID的uri中包含/group**，则要设置为true</span><br><span class="line">url_have_group_name = true   --需要修改--</span><br><span class="line"></span><br><span class="line"># Storage 配置的store_path0路径，必须和storage.conf中的一致</span><br><span class="line">store_path0=/home/fastdfs/file  --需要修改--</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">⑥ 复制 FastDFS 的部分配置文件到/etc/fdfs 目录</span><br><span class="line"></span><br><span class="line"># cd ~/fastdfs-5.05/conf/</span><br><span class="line"></span><br><span class="line"># cp anti-steal.jpg http.conf mime.types /etc/fdfs/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">⑦ 配置nginx，修改nginx.conf</span><br><span class="line"></span><br><span class="line"># vi /usr/local/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在80端口下添加fastdfs-nginx模块</span><br><span class="line"></span><br><span class="line">location ~/group([0-9])/M00 &#123;</span><br><span class="line">    ngx_fastdfs_module;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong><br>       listen 80 端口值是要与 /etc/fdfs/storage.conf 中的 http.server_port=80 (前面改成80了)相对应。如果改成其它端口，则需要统一，同时在防火墙中打开该端口。<br>       location 的配置，如果有多个group则配置location ~/group([0-9])/M00 ，没有则不用配group。<br>⑧ 在/home/fastdfs/file 文件存储目录下创建软连接，将其链接到实际存放数据的目录，这一步可以省略。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ln -s /home/fastdfs/file/data/ /home/fastdfs/file/data/M00/</span><br></pre></td></tr></table></figure>
-
-<p>打印处如下就算配置成功 </p>
-<p>⑩ 在地址栏访问。<br>能下载文件就算安装成功。注意和第三点中直接使用nginx路由访问不同的是，这里配置 fastdfs-nginx-module 模块，可以重定向文件链接到源服务器取文件。<br><a href="http://192.168.2.125/group1/M00/00/00/wKgCfVseZceAd9P1AAO9QRktgHc307.jpg" target="_blank" rel="noopener">http://192.168.2.125/group1/M00/00/00/wKgCfVseZceAd9P1AAO9QRktgHc307.jpg</a><br>最终部署结构图(盗的图)：可以按照下面的结构搭建环境。 </p>
-<h3 id="Java客户端"><a href="#Java客户端" class="headerlink" title="Java客户端"></a>Java客户端</h3><p>前面文件系统平台搭建好了，现在就要写客户端代码在系统中实现上传下载。</p>
-<p>1.首先需要搭建 FastDFS 客户端Java开发环境</p>
-<p>① 项目中使用maven进行依赖管理，可以在pom.xml中引入如下依赖即可：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;net.oschina.zcx7878&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;fastdfs-client-java&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;1.27.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>② 引入配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#################### FastDFS-Client Start ####################</span><br><span class="line"></span><br><span class="line"># 文件服务器地址</span><br><span class="line">file_server_addr=192.168.2.125:80</span><br><span class="line"># 最大连接数 并发量较大的话可加大该连接数</span><br><span class="line">max_storage_connection=8</span><br><span class="line"></span><br><span class="line">## fastdfs为前缀的是FastDFS的配置</span><br><span class="line">fastdfs.connect_timeout_in_seconds=10</span><br><span class="line">fastdfs.network_timeout_in_seconds=30</span><br><span class="line"></span><br><span class="line">fastdfs.charset=UTF-8</span><br><span class="line"></span><br><span class="line"># token 防盗链功能</span><br><span class="line">fastdfs.http_anti_steal_token=fasle</span><br><span class="line"># 密钥</span><br><span class="line">fastdfs.http_secret_key=HandFastDFSToken</span><br><span class="line"></span><br><span class="line"># TrackerServer port</span><br><span class="line">fastdfs.http_tracker_http_port=80</span><br><span class="line"></span><br><span class="line">## Tracker Server, if more than one, separate with &quot;,&quot;</span><br><span class="line"># fastdfs.tracker_servers=10.0.11.201:22122,10.0.11.202:22122,10.0.11.203:22122</span><br><span class="line">#fastdfs.tracker_servers=$&#123;tracker_server_addr&#125;:22122</span><br><span class="line">fastdfs.tracker_servers=192.168.2.125:22122</span><br><span class="line"></span><br><span class="line">#################### FastDFS-Client End ####################</span><br></pre></td></tr></table></figure>
-
-<p>2.FastDFS整合SpringMVC+layui Demo</p>
-<p>整合的Demo已同步到githup：<a href="https://github.com/yinZh0522/fastdfs-upload" target="_blank" rel="noopener">https://github.com/yinZh0522/fastdfs-upload</a><br>修改conf.properties下的内容即可。</p>
-
+          <blockquote>
+<p>细节决定成败</p>
+</blockquote>
         
       </div>
       <p class="repo-list-meta">
@@ -1003,13 +386,11 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/linux-FastDFS分布式文件系统/' title=''>linux FastDFS分布式文件系统</a>
+            <a href='/categories/FastDFS分布式文件系统/' title=''>FastDFS分布式文件系统</a>
           </span>
         
       
         <!--
-          
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FastDFS-Linux/" rel="tag">FastDFS Linux</a></li></ul>
           
         -->
 
@@ -1031,64 +412,6 @@
           <blockquote>
 <p>程序员都有着一种天生的好奇心，这种好奇心引导着我们的编程生涯。写几行代码，装载到计算机里，让它按照你的思路工作，这是非常有趣的事情。但随着开发的东西越来越多，我们变的越来越忙，这种好奇心会慢慢的减退。我们应该时不时的用一些新思路挑战自己，让自己的思想保持锋锐和专注，提醒自己为什么当初选择码农这条道路。</p>
 </blockquote>
-<h3 id="版本标注"><a href="#版本标注" class="headerlink" title="版本标注"></a>版本标注</h3><p>小伙伴们可能会发现pom.xml中很多是没有版本号的比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>其实，在头部我们加了以下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>spring-boot-starter-parent包含了大量配置好的依赖管理，在自己项目添加这些依赖的时候不需要写<version>版本号</strong></p>
-<h3 id="注解说明"><a href="#注解说明" class="headerlink" title="注解说明"></a>注解说明</h3><p>@SpringBootApplication : 是Spring Boot 项目的核心注解 主要目的是开启自动配置<br>@SpringBootApplication注解是一个组合注解,主要组合了@Configuration .+@EnableAutoConfiguration.+@ComponentScan<br>@Value : 属性注入,读取properties或者 Yml 文件中的属性<br>@ConfigurationProperties : 将properties属性和一个Bean及其属性关联,从而实现类型安全的配置<br>@ConfigurationProperties(prefix = “author”,locations = {“classpath:config/author.properties”})<br>通过@ConfigurationProperties加载配置,通过prefix属性指定配置前缀,通过location指定配置文件位置<br>@EnableAutoConfiguration 注解:作用在于让 Spring Boot 根据应用所声明的依赖来对 Spring 框架进行自动配置<br>这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于spring-boot-starter-web添加了Tomcat和Spring MVC，所以auto-configuration将假定你正在开发一个web应用并相应地对Spring进行设置。<br>@ Configuration @EnableAutoConfiguration (exclude={xxxx.class}) 禁用特定的自动配置<br>@SpringBootApplication 注解等价于以默认属性使用 @Configuration，@EnableAutoConfiguration和 @ComponentScan。</p>
-<h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><p>方法1 添加springloaded依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;springloaded&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.2.5.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>原理：基于ASM实现动态生成类或者增强既有类，每次类的修改会被检测到，然后重新生成新的类并加载。如果不懂什么是ASM可以百度JAVA-ASM。</p>
-<p>方法2 添加spring-boot-devtools依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>原理：spring-boot-devtools 是一个为开发者服务的一个模块，其中最重要的功能就是自动应用代码更改到最新的App上面去。原理是在发现代码有更改之后，重新启动应用，但是速度比手动停止后再启动还要更快，更快指的不是节省出来的手工操作的时间。其深层原理是使用了两个ClassLoader，一个Classloader加载那些不会改变的类（第三方Jar包），另一个ClassLoader加载会更改的类，称为 restart ClassLoader,这样在有代码更改的时候，原来的restart ClassLoader 被丢弃，重新创建一个restart ClassLoader，由于需要加载的类相比较少，所以实现了较快的重启时间（5秒以内）。</p>
-<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>在 spring boot 中，有两种方式实现文件配置，application.properties 和 application.yml。大家可能对properties 比较熟悉，而另一种yml是基于YAML实现的，YAML 是一种比JSON（json多层次与 会被搞晕的）更直观的表现形式，展示上更易查错和关系描述。因为不需要一个专业工具就可以排查正确性。</p>
-<p>下面，我们以server为例展示下两者的不同。</p>
-<p><strong>application.properties</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server.context-path=/springboot</span><br><span class="line">server.port=8080</span><br><span class="line">server.session-timeout=60</span><br><span class="line">server.address=192.168.1.66</span><br><span class="line"></span><br><span class="line">server.tomcat.max-threads=300</span><br><span class="line">server.tomcat.uri-encoding=UTF-8</span><br></pre></td></tr></table></figure>
-<p><strong>application.yml</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    context-path: /springboot</span><br><span class="line">    port: 8080</span><br><span class="line">    session-timeout: 60</span><br><span class="line">    address: 192.168.1.66</span><br><span class="line">    tomcat:</span><br><span class="line">      max-threads: 300</span><br><span class="line">      uri-encoding: UTF-8</span><br><span class="line">logging:</span><br><span class="line">    level:</span><br><span class="line">      root: INFO</span><br></pre></td></tr></table></figure>
-<p>yml天然的树状结构，一目了然，层次感强，有没有亮瞎你。当然使用yml要注意，层次间隔必须是空格不能是TAB，并且属性名的值和冒号中间必须有空格。</p>
-<h3 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h3><p><strong>开发环境(development)</strong><br>application-dev.properties</p>
-<p><strong>测试环境(test)</strong><br>application-test.properties</p>
-<p><strong>生产环境(production)</strong><br>application-prod.properties</p>
-<p>那么如何定义使用哪种配置文件呢？<br>　　在主配置文件application.yml中配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: dev</span><br></pre></td></tr></table></figure>
-
-<h3 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h3><p>如何在代码中获取配置文件中的属性呢？spring-boot为我们提供了这样一种方式，只需要使用@Value注解即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;spring.mail.username&#125;&quot;)</span><br><span class="line">public String USER_NAME;</span><br></pre></td></tr></table></figure>
-<h3 id="thymeleaf模版"><a href="#thymeleaf模版" class="headerlink" title="thymeleaf模版"></a>thymeleaf模版</h3><p>默认配置下，thymeleaf对html的内容要求很严格，比如，如果少最后的标签封闭符号/，就会报错而转到错误页。</p>
-<h3 id="忽略thymeleaf严格的校验"><a href="#忽略thymeleaf严格的校验" class="headerlink" title="忽略thymeleaf严格的校验"></a>忽略thymeleaf严格的校验</h3><p>spring.thymeleaf.mode=LEGACYHTML5</p>
-<h3 id="开发阶段设置为false方便调试"><a href="#开发阶段设置为false方便调试" class="headerlink" title="开发阶段设置为false方便调试"></a>开发阶段设置为false方便调试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.devtools.livereload.enabled=true</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.thymeleaf.cache-period=0</span><br><span class="line">spring.thymeleaf.template.cache=false</span><br></pre></td></tr></table></figure>
-
-<h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><p>Spring Boot中静态资源（JS, 图片）等应该放在什么位置？</p>
-<p>Spring Boot能大大简化WEB应用开发的原因， 最重要的就是遵循“约定优于配置”这一基本原则。Spring Boot的关于静态资源的默认配置已经完全满足绝大部分WEB应用的需求。没必要去弄手续繁杂的自定义，用Spring Boot的约定就好了。</p>
-<p>在Maven 工程目录下，所有静态资源都放在src/main/resource目录下，结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src/main/resource</span><br><span class="line">          |__________static</span><br><span class="line">                        |_________js</span><br><span class="line">                        |_________images</span><br><span class="line">                        |_________css</span><br><span class="line">                 .....</span><br></pre></td></tr></table></figure>
-<p>比如，我们引入以下css:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; th:href=&quot;@&#123;css/alipay.css&#125;&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="自定义静态资源"><a href="#自定义静态资源" class="headerlink" title="自定义静态资源"></a>自定义静态资源</h3><h3 id="通过配置文件配置"><a href="#通过配置文件配置" class="headerlink" title="通过配置文件配置"></a>通过配置文件配置</h3><p>在application.properties（或.yml）中配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 静态文件请求匹配方式</span><br><span class="line">spring.mvc.static-path-pattern=/**</span><br><span class="line"># 修改默认的静态寻址资源目录 多个使用逗号分隔</span><br><span class="line">spring.resources.static-locations = classpath:/templates/,classpath:/resources/,classpath:/static/</span><br></pre></td></tr></table></figure>
-<h3 id="通过代码配置"><a href="#通过代码配置" class="headerlink" title="通过代码配置"></a>通过代码配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@EnableAutoConfiguration</span><br><span class="line">@ComponentScan(basePackages = &#123; &quot;com.itstyle.modules&quot; &#125;)</span><br><span class="line">public class Application extends WebMvcConfigurerAdapter &#123;</span><br><span class="line">    private static final Logger logger = Logger.getLogger(Application.class);</span><br><span class="line">    @Override</span><br><span class="line">    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">        registry.addResourceHandler(&quot;/cert/**&quot;).addResourceLocations(</span><br><span class="line">                &quot;classpath:/cert/&quot;);</span><br><span class="line">        super.addResourceHandlers(registry);</span><br><span class="line">        logger.info(&quot;自定义静态资源目录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException,</span><br><span class="line">            IOException &#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">        logger.info(&quot;支付项目启动 &quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h3 id="获取文件"><a href="#获取文件" class="headerlink" title="获取文件"></a>获取文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File file = ResourceUtils.getFile(&quot;classpath:cert/readme.txt&quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassUtils.getDefaultClassLoader().getResource(&quot;cert&quot;).getPath()</span><br></pre></td></tr></table></figure>
-<h3 id="Controller和RestController的区别？"><a href="#Controller和RestController的区别？" class="headerlink" title="Controller和RestController的区别？"></a>Controller和RestController的区别？</h3><p>官方文档：<br>@RestController is a stereotype annotation that combines @ResponseBody and @Controller.<br>意思是：<br>@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。<br>1)如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。<br>例如：本来应该到success.jsp页面的，则其显示success.<br>2)如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。<br>3)如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。</p>
-<h3 id="部署到JavaEE容器"><a href="#部署到JavaEE容器" class="headerlink" title="部署到JavaEE容器"></a>部署到JavaEE容器</h3><p>修改启动类，继承 SpringBootServletInitializer 并重写 configure 方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Application extends SpringBootServletInitializer&#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(SpringBootSampleApplication.class);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(this.getClass());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改pom文件中jar 为 war</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- &lt;packaging&gt;jar&lt;/packaging&gt; --&gt;</span><br><span class="line">&lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
-<p>修改pom，排除tomcat插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>最后，打包部署到容器。</p>
-<p>打包排除</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">        &lt;excludes&gt;</span><br><span class="line">            &lt;exclude&gt;**/static/**&lt;/exclude&gt;</span><br><span class="line">            &lt;exclude&gt;**/templates/**&lt;/exclude&gt;</span><br><span class="line">        &lt;/excludes&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="指定外部的配置文件"><a href="#指定外部的配置文件" class="headerlink" title="指定外部的配置文件"></a>指定外部的配置文件</h3><p>有些系统，关于一些数据库或其他第三方账户等信息，由于安全问题，其配置并不会提前配置在项目中暴露给开发人员。<br>对于这种情况，我们在运行程序的时候，可以通过参数指定一个外部配置文件。<br>以 itstyle.jar 为例，方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar itstyle.jar --spring.config.location=/opt/config/application.properties</span><br></pre></td></tr></table></figure>
-<h3 id="创建脚本"><a href="#创建脚本" class="headerlink" title="创建脚本"></a>创建脚本</h3><p>为了在linux下方便启动，停止项目<br>start.sh：</p>
-<p>#!/bin/sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar $1  --server.port=$2  --spring.profiles.active=prod &amp;</span><br><span class="line"></span><br><span class="line">echo &apos;Start Success!&apos;</span><br><span class="line">执行方式：start.sh itstyle.jar 8886</span><br><span class="line">$1和$2分别为传入的参数itstyle.jar 和 8886</span><br><span class="line"></span><br><span class="line">stop.sh：</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">if [ &quot;$&#123;tpid&#125;&quot; ]; then</span><br><span class="line">	echo &apos;Stop Process...&apos;</span><br><span class="line">	kill -15 $tpid</span><br><span class="line">fi</span><br><span class="line">sleep 3</span><br><span class="line">tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">if [ &quot;$&#123;tpid&#125;&quot; ]; then</span><br><span class="line">	echo &apos;Kill Process!&apos;</span><br><span class="line">	kill -9 $tpid</span><br><span class="line">else</span><br><span class="line">	echo &apos;Stop Success!&apos;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
         
       </div>
       <p class="repo-list-meta">
@@ -1100,13 +423,50 @@
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot%E7%B3%BB%E5%88%97/" rel="tag">SpringBoot系列</a></li></ul>
+          
+        -->
+
+      </p>
+    </div>
+  </article>
+            
+                  <article id="post-email" class="repo-list">
+    <div class="repo-list-item" >
+      <h3 class="repo-list-name" itemprop="name">
+        
+  
+      <a class="article-title" href="/2019/11/07/email/">Spring Boot 邮件发送的 5 种姿势！</a>
+  
+
+      </h3>
+      <div class="repo-list-description">
+        
+          <h3 id="Spring-Boot-邮件发送的-5-种姿势！"><a href="#Spring-Boot-邮件发送的-5-种姿势！" class="headerlink" title="Spring Boot 邮件发送的 5 种姿势！"></a>Spring Boot 邮件发送的 5 种姿势！</h3><p>邮件发送其实是一个非常常见的需求，用户注册，找回密码等地方，都会用到，使用 JavaSE 代码发送邮件，步骤还是挺繁琐的，Spring Boot 中对于邮件发送，提供了相关的自动化配置类，使得邮件发送变得非常容易，本文我们就来一探究竟！看看使用 Spring Boot 发送邮件的 5 中姿势。</p>
+        
+      </div>
+      <p class="repo-list-meta">
+        <span class="meta-info">
+          <span class="octicon octicon-calendar"></span>
+           <time datetime="2019-11-07T07:49:11.000Z" itemprop="datePublished">2019-11-07</time>
+        </span>
+
+        
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
+          </span>
+        
+      
+        <!--
+          
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot%E7%B3%BB%E5%88%97/" rel="tag">SpringBoot系列</a></li></ul>
           
         -->
 
@@ -1119,7 +479,7 @@
           <!--处理未安装 search 插件 默认 Google 搜索-->
  
 
-<h3>Search</h3>
+<h3>搜索</h3>
 
 <div id="site_search">
 
@@ -1182,7 +542,7 @@
 
 </div>
 
-<h3>Popular Repositories</h3>
+<h3>流行仓库</h3>
     <div class="popular-container"></div>
     
     <script type="text/template" id="popular-list-template">
@@ -1265,7 +625,7 @@
     
       <div class="pagination text-align">
           <div class="btn-group">
-              <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">&amp;raquo;</a>
+              <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">上一页</a>
           </div>
       </div>
     

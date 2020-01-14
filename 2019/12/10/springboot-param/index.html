@@ -53,7 +53,7 @@
                     
                         <span class="meta-info">
                             <span class="octicon octicon-file-directory"></span>
-                            <a href='/categories/SpringBoot/' title=''>SpringBoot</a>
+                            <a href='/categories/SpringBoot系列/' title=''>SpringBoot系列</a>
                         </span>
                     
                 </div>
@@ -65,7 +65,11 @@
     <div class="columns">
         <div class="column  three-fourths " >
             <article class="article-content markdown-body">
-                <h3 id="一、PathVariable校验"><a href="#一、PathVariable校验" class="headerlink" title="一、PathVariable校验"></a>一、PathVariable校验</h3><p>在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下：</p>
+                <blockquote>
+<p>参数的校验在开发中的应用</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="一、PathVariable校验"><a href="#一、PathVariable校验" class="headerlink" title="一、PathVariable校验"></a>一、PathVariable校验</h3><p>在定义Restful风格的接口时，通常会采用PathVariable指定关键业务参数如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/path/&#123;group:[a-zA-Z0-9_]+&#125;/&#123;userid&#125;&quot;)</span><br><span class="line">@ResponseBody</span><br><span class="line">public String path(@PathVariable(&quot;group&quot;) String group,@PathVariable(&quot;userid&quot;) Integer userid)&#123;</span><br><span class="line">   return group + &quot;:&quot; + userid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>{group:[a-zA-Z0-9_]+} 这样的表达式指定了 group 必须是以大小写字母、数字或下划线组成的字符串。<br>试着访问一个错误的路径：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /path/testIllegal.get/10000</span><br></pre></td></tr></table></figure>
@@ -99,7 +103,9 @@
             
                 <div class="share">
                     <!--开启分享-->
-<div class="share-component" data-disabled="google,twitter,facebook" data-description=""></div>
+<div class="share-component" data-disabled="google,twitter,facebook" data-description="
+参数的校验在开发中的应用
+"></div>
 
 <script src="/js/share.min.js"></script>
 
@@ -135,12 +141,11 @@
                 
 
 
-<h3>Post Directory</h3>
+<h3>文章目录</h3>
 
 <div id="post-directory-module">
 	<section class="post-directory">
-		<p><strong class="toc-title">文章目录</strong></p>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、PathVariable校验"><span class="toc-text">一、PathVariable校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、方法参数校验"><span class="toc-text">二、方法参数校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、表单对象校验"><span class="toc-text">三、表单对象校验</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、PathVariable校验"><span class="toc-number">1.</span> <span class="toc-text">一、PathVariable校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、方法参数校验"><span class="toc-number">2.</span> <span class="toc-text">二、方法参数校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、表单对象校验"><span class="toc-number">3.</span> <span class="toc-text">三、表单对象校验</span></a></li></ol>
 	</section>
 </div>
             

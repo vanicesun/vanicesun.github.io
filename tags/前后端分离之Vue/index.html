@@ -41,7 +41,7 @@
         <div class="container">
             <div class="collection-title">
                 <h1 class="collection-header" id="site-description">
-                    111
+                    分享技术，品味人生
                 </h1>
                 <div class="collection-info">
                     
@@ -72,7 +72,7 @@
                             
                                 <span class="octicon octicon-organization">
                                    
-                                        组织/公司
+                                        爱生活,爱编码
                                     
                                 </span>
                                 
@@ -88,57 +88,116 @@
     <div class="columns">
         <div class="column two-thirds">
             
-                  <article id="post-aipay" class="repo-list">
+                  <article id="post-vue - hr" class="repo-list">
     <div class="repo-list-item" >
       <h3 class="repo-list-name" itemprop="name">
         
   
-      <a class="article-title" href="/2019/12/16/aipay/">SSM框架实现支付宝支付功能</a>
+      <a class="article-title" href="/2019/12/30/vue%20-%20hr/">推荐开源项目-微人事</a>
   
 
       </h3>
       <div class="repo-list-description">
         
           <blockquote>
-<p>移动互联时代的来临，快捷的移动支付使得生活变得越来越多姿多彩。那么移动支付到底是怎么实现的呢？今天就让我们来揭开它的神秘面纱！</p>
+<p>过去了就是昨天，新的一页翻开还是晴朗的天。</p>
 </blockquote>
-<h3 id="支付宝测试环境代码测试"><a href="#支付宝测试环境代码测试" class="headerlink" title="支付宝测试环境代码测试"></a>支付宝测试环境代码测试</h3><p><strong>源代码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Github地址：https://github.com/OUYANGSIHAI/sihai-maven-ssm-alipay</span><br></pre></td></tr></table></figure>
-<p><strong>当然可以下载官方的demo</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://docs.open.alipay.com/270/106291/</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/2019121614310813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<h3 id="配置AlipayConfig"><a href="#配置AlipayConfig" class="headerlink" title="配置AlipayConfig"></a>配置AlipayConfig</h3><p><strong>(1) 注册蚂蚁金服开发者账号（免费，不像苹果会收取费用）</strong></p>
-<p>*<em>注册地址：<a href="https://open.alipay.com" target="_blank" rel="noopener">https://open.alipay.com</a> *</em>，用你的支付宝账号扫码登录，完善个人信息，选择服务类型（我选的是自研）。<br><img src="https://img-blog.csdnimg.cn/20191216143438154.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>(2)设置app_id和gatewayUrl</strong><br><img src="https://img-blog.csdnimg.cn/20191216143747263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>其中密钥需要自己生成，appID和支付宝网关是已经给好的，网关有dev字样，表明是用于开发测试。<br><strong>(3) 设置密钥</strong><br><img src="https://img-blog.csdnimg.cn/20191216144028707.png#pic_center" alt=""><br>点击“生成方法”，打开界面如下：<br><img src="https://img-blog.csdnimg.cn/20191216144111780.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>下载密钥生成工具，解压打开后，选择2048位生成密钥：<br><img src="https://img-blog.csdnimg.cn/20191216144331953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>设置方法,”打开密钥文件路径”：<br><img src="https://img-blog.csdnimg.cn/20191216144510845.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br><img src="https://img-blog.csdnimg.cn/20191216144605254.png#pic_center" alt=""><br>复制应用公钥2048.txt中的内容到点击”设置应用公钥”的弹出框中，保存：</p>
-<h3 id="商户私钥（merchant-private-key）"><a href="#商户私钥（merchant-private-key）" class="headerlink" title="商户私钥（merchant_private_key）"></a>商户私钥（merchant_private_key）</h3><p>复制 应用私钥2048.txt 中的内容到merchant_private_key中。</p>
-<h3 id="支付宝公钥（alipay-public-key）"><a href="#支付宝公钥（alipay-public-key）" class="headerlink" title="支付宝公钥（alipay_public_key）"></a>支付宝公钥（alipay_public_key）</h3><p><img src="https://img-blog.csdnimg.cn/20191216144847151.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>点击如上图链接，复制弹出框里面的内容到alipay_public_key。<br>如果这个设置不对，结果是：支付成功，但是验签失败。<br>如果是正式环境，需要上传到对应的应用中：<br><img src="https://img-blog.csdnimg.cn/20191216145134149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p><strong>(4) 服务器异步通知页面路径（notify_url）</strong></p>
-<p>如果没有改名，修改IP和端口号就可以了，我自己的如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/alipay.trade.page.pay-JAVA-UTF-8/notify_url.jsp</span><br></pre></td></tr></table></figure>
-<p><strong>(5) 页面跳转同步通知页面的路径（return_url）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/alipay.trade.page.pay-JAVA-UTF-8/return_url.jsp</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h3><p><img src="https://img-blog.csdnimg.cn/20191216145430728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
-<p>测试用的支付宝买家账户可以在”沙箱账”这个页面可以找到：<br><img src="https://img-blog.csdnimg.cn/20191216145557853.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>支付成功后，验签结果</p>
-
         
       </div>
       <p class="repo-list-meta">
         <span class="meta-info">
           <span class="octicon octicon-calendar"></span>
-           <time datetime="2019-12-16T06:20:50.000Z" itemprop="datePublished">2019-12-16</time>
+           <time datetime="2019-12-30T01:34:17.000Z" itemprop="datePublished">2019-12-30</time>
         </span>
 
         
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href='/categories/移动支付/' title=''>移动支付</a>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
           </span>
         
       
         <!--
           
-            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
+          
+        -->
+
+      </p>
+    </div>
+  </article>
+            
+                  <article id="post-vue-1" class="repo-list">
+    <div class="repo-list-item" >
+      <h3 class="repo-list-name" itemprop="name">
+        
+  
+      <a class="article-title" href="/2019/12/25/vue-1/">掌上书城-mobile</a>
+  
+
+      </h3>
+      <div class="repo-list-description">
+        
+          <blockquote>
+<p>希望,是一种甜蜜的等待;想念,是一份温馨的心情;朋友,是一生修来的福分;爱情;是一世难解的缘分。祝你在人生的道路上多点快乐!多点开心!</p>
+</blockquote>
+        
+      </div>
+      <p class="repo-list-meta">
+        <span class="meta-info">
+          <span class="octicon octicon-calendar"></span>
+           <time datetime="2019-12-25T07:00:48.000Z" itemprop="datePublished">2019-12-25</time>
+        </span>
+
+        
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
+          </span>
+        
+      
+        <!--
+          
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
+          
+        -->
+
+      </p>
+    </div>
+  </article>
+            
+                  <article id="post-vue" class="repo-list">
+    <div class="repo-list-item" >
+      <h3 class="repo-list-name" itemprop="name">
+        
+  
+      <a class="article-title" href="/2019/12/18/vue/">初识渐进式框架Vue</a>
+  
+
+      </h3>
+      <div class="repo-list-description">
+        
+          <blockquote>
+<p>成功的花，人们只惊羡它的明艳，然而当初的芽儿浸透了奋斗的泪泉，洒遍了牺牲的血雨。</p>
+</blockquote>
+        
+      </div>
+      <p class="repo-list-meta">
+        <span class="meta-info">
+          <span class="octicon octicon-calendar"></span>
+           <time datetime="2019-12-18T03:51:53.000Z" itemprop="datePublished">2019-12-18</time>
+        </span>
+
+        
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href='/categories/前后端分离之Vue/' title=''>前后端分离之Vue</a>
+          </span>
+        
+      
+        <!--
+          
+            <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E4%B9%8BVue/" rel="tag">前后端分离之Vue</a></li></ul>
           
         -->
 
@@ -151,7 +210,7 @@
           <!--处理未安装 search 插件 默认 Google 搜索-->
  
 
-<h3>Search</h3>
+<h3>搜索</h3>
 
 <div id="site_search">
 
@@ -214,7 +273,7 @@
 
 </div>
 
-<h3>Popular Repositories</h3>
+<h3>流行仓库</h3>
     <div class="popular-container"></div>
     
     <script type="text/template" id="popular-list-template">
