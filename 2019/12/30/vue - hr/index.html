@@ -131,15 +131,15 @@
 <ol start="7">
 <li>进入到vuehr目录中，在命令行依次输入如下命令：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 安装依赖</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"># 在 localhost:8080 启动项目</span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<pre><code># 安装依赖
+npm install
 
-<p>由于我在 vuehr 项目中已经配置了端口转发，将数据转发到 Spring Boot 上，因此项目启动之后，在浏览器中输入 <code>http://localhost:8080</code> 就可以访问我们的前端项目了，所有的请求通过端口转发将数据传到 Spring Boot 中（注意此时不要关闭 Sprin gBoot 项目）。</p>
+# 在 localhost:8080 启动项目
+npm run serve</code></pre><p>由于我在 vuehr 项目中已经配置了端口转发，将数据转发到 Spring Boot 上，因此项目启动之后，在浏览器中输入 <code>http://localhost:8080</code> 就可以访问我们的前端项目了，所有的请求通过端口转发将数据传到 Spring Boot 中（注意此时不要关闭 Sprin gBoot 项目）。</p>
 <ol start="8">
 <li>最后可以用 WebStorm 等工具打开 vuehr 项目，继续开发，开发完成后，当项目要上线时，依然进入到 vuehr 目录，然后执行如下命令：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>该命令执行成功之后，vuehr 目录下生成一个 dist 文件夹，将该文件夹中的两个文件 static 和 index.html 拷贝到 Spring Boot 项目中 resources/static/ 目录下，然后就可以像第 6 步那样直接访问了（关于前后端分离部署，大家也可以参考这个<a href="https://mp.weixin.qq.com/s/C7PIck3SIPPTcA3NX3ELoQ" target="_blank" rel="noopener">使用 Nginx 部署前后端分离项目，解决跨域问题</a>）。</p>
+<pre><code>npm run build</code></pre><p>该命令执行成功之后，vuehr 目录下生成一个 dist 文件夹，将该文件夹中的两个文件 static 和 index.html 拷贝到 Spring Boot 项目中 resources/static/ 目录下，然后就可以像第 6 步那样直接访问了（关于前后端分离部署，大家也可以参考这个<a href="https://mp.weixin.qq.com/s/C7PIck3SIPPTcA3NX3ELoQ" target="_blank" rel="noopener">使用 Nginx 部署前后端分离项目，解决跨域问题</a>）。</p>
 <p><strong>步骤 7 中需要大家对 NodeJS、NPM 等有一定的使用经验，不熟悉的小伙伴可以先自行搜索学习下，推荐 <a href="https://cn.vuejs.org/v2/guide/" target="_blank" rel="noopener">Vue 官方教程</a>。</strong></p>
 <h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p>文档是对项目开发过程中遇到的一些问题的详细记录，主要是为了帮助没有基础的小伙伴快速理解这个项目。</p>
 <ol>
@@ -239,8 +239,7 @@
 <li><a href="https://github.com/microzz/vue-chat" target="_blank" rel="noopener">vue-chat</a></li>
 </ul>
 <h2 id="新的源码地址"><a href="#新的源码地址" class="headerlink" title="新的源码地址"></a>新的源码地址</h2><p><strong>github:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/vanicesun/vue-hr.git</span><br></pre></td></tr></table></figure>
-
+<pre><code>https://github.com/vanicesun/vue-hr.git</code></pre>
             </article>
             
                 <div class="share">

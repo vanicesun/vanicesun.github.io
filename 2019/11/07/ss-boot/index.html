@@ -84,63 +84,153 @@
 </blockquote>
 <a id="more"></a>
 <h3 id="版本标注"><a href="#版本标注" class="headerlink" title="版本标注"></a>版本标注</h3><p>小伙伴们可能会发现pom.xml中很多是没有版本号的比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>其实，在头部我们加了以下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>spring-boot-starter-parent包含了大量配置好的依赖管理，在自己项目添加这些依赖的时候不需要写<version>版本号</strong></p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre><p>其实，在头部我们加了以下配置：</p>
+<pre><code>&lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt;
+&lt;/parent&gt;</code></pre><p><strong>spring-boot-starter-parent包含了大量配置好的依赖管理，在自己项目添加这些依赖的时候不需要写<version>版本号</strong></p>
 <h3 id="注解说明"><a href="#注解说明" class="headerlink" title="注解说明"></a>注解说明</h3><p>@SpringBootApplication : 是Spring Boot 项目的核心注解 主要目的是开启自动配置<br>@SpringBootApplication注解是一个组合注解,主要组合了@Configuration .+@EnableAutoConfiguration.+@ComponentScan<br>@Value : 属性注入,读取properties或者 Yml 文件中的属性<br>@ConfigurationProperties : 将properties属性和一个Bean及其属性关联,从而实现类型安全的配置<br>@ConfigurationProperties(prefix = “author”,locations = {“classpath:config/author.properties”})<br>通过@ConfigurationProperties加载配置,通过prefix属性指定配置前缀,通过location指定配置文件位置<br>@EnableAutoConfiguration 注解:作用在于让 Spring Boot 根据应用所声明的依赖来对 Spring 框架进行自动配置<br>这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于spring-boot-starter-web添加了Tomcat和Spring MVC，所以auto-configuration将假定你正在开发一个web应用并相应地对Spring进行设置。<br>@ Configuration @EnableAutoConfiguration (exclude={xxxx.class}) 禁用特定的自动配置<br>@SpringBootApplication 注解等价于以默认属性使用 @Configuration，@EnableAutoConfiguration和 @ComponentScan。</p>
 <h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><p>方法1 添加springloaded依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;springloaded&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.2.5.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>原理：基于ASM实现动态生成类或者增强既有类，每次类的修改会被检测到，然后重新生成新的类并加载。如果不懂什么是ASM可以百度JAVA-ASM。</p>
+<pre><code>&lt;dependency&gt;
+     &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+     &lt;artifactId&gt;springloaded&lt;/artifactId&gt;
+     &lt;version&gt;1.2.5.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;</code></pre><p>原理：基于ASM实现动态生成类或者增强既有类，每次类的修改会被检测到，然后重新生成新的类并加载。如果不懂什么是ASM可以百度JAVA-ASM。</p>
 <p>方法2 添加spring-boot-devtools依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>原理：spring-boot-devtools 是一个为开发者服务的一个模块，其中最重要的功能就是自动应用代码更改到最新的App上面去。原理是在发现代码有更改之后，重新启动应用，但是速度比手动停止后再启动还要更快，更快指的不是节省出来的手工操作的时间。其深层原理是使用了两个ClassLoader，一个Classloader加载那些不会改变的类（第三方Jar包），另一个ClassLoader加载会更改的类，称为 restart ClassLoader,这样在有代码更改的时候，原来的restart ClassLoader 被丢弃，重新创建一个restart ClassLoader，由于需要加载的类相比较少，所以实现了较快的重启时间（5秒以内）。</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre><p>原理：spring-boot-devtools 是一个为开发者服务的一个模块，其中最重要的功能就是自动应用代码更改到最新的App上面去。原理是在发现代码有更改之后，重新启动应用，但是速度比手动停止后再启动还要更快，更快指的不是节省出来的手工操作的时间。其深层原理是使用了两个ClassLoader，一个Classloader加载那些不会改变的类（第三方Jar包），另一个ClassLoader加载会更改的类，称为 restart ClassLoader,这样在有代码更改的时候，原来的restart ClassLoader 被丢弃，重新创建一个restart ClassLoader，由于需要加载的类相比较少，所以实现了较快的重启时间（5秒以内）。</p>
 <h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>在 spring boot 中，有两种方式实现文件配置，application.properties 和 application.yml。大家可能对properties 比较熟悉，而另一种yml是基于YAML实现的，YAML 是一种比JSON（json多层次与 会被搞晕的）更直观的表现形式，展示上更易查错和关系描述。因为不需要一个专业工具就可以排查正确性。</p>
 <p>下面，我们以server为例展示下两者的不同。</p>
 <p><strong>application.properties</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server.context-path=/springboot</span><br><span class="line">server.port=8080</span><br><span class="line">server.session-timeout=60</span><br><span class="line">server.address=192.168.1.66</span><br><span class="line"></span><br><span class="line">server.tomcat.max-threads=300</span><br><span class="line">server.tomcat.uri-encoding=UTF-8</span><br></pre></td></tr></table></figure>
-<p><strong>application.yml</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    context-path: /springboot</span><br><span class="line">    port: 8080</span><br><span class="line">    session-timeout: 60</span><br><span class="line">    address: 192.168.1.66</span><br><span class="line">    tomcat:</span><br><span class="line">      max-threads: 300</span><br><span class="line">      uri-encoding: UTF-8</span><br><span class="line">logging:</span><br><span class="line">    level:</span><br><span class="line">      root: INFO</span><br></pre></td></tr></table></figure>
-<p>yml天然的树状结构，一目了然，层次感强，有没有亮瞎你。当然使用yml要注意，层次间隔必须是空格不能是TAB，并且属性名的值和冒号中间必须有空格。</p>
+<pre><code>server.context-path=/springboot
+server.port=8080
+server.session-timeout=60
+server.address=192.168.1.66
+
+server.tomcat.max-threads=300
+server.tomcat.uri-encoding=UTF-8</code></pre><p><strong>application.yml</strong></p>
+<pre><code>server:
+    context-path: /springboot
+    port: 8080
+    session-timeout: 60
+    address: 192.168.1.66
+    tomcat:
+      max-threads: 300
+      uri-encoding: UTF-8
+logging:
+    level:
+      root: INFO</code></pre><p>yml天然的树状结构，一目了然，层次感强，有没有亮瞎你。当然使用yml要注意，层次间隔必须是空格不能是TAB，并且属性名的值和冒号中间必须有空格。</p>
 <h3 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h3><p><strong>开发环境(development)</strong><br>application-dev.properties</p>
 <p><strong>测试环境(test)</strong><br>application-test.properties</p>
 <p><strong>生产环境(production)</strong><br>application-prod.properties</p>
 <p>那么如何定义使用哪种配置文件呢？<br>　　在主配置文件application.yml中配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: dev</span><br></pre></td></tr></table></figure>
-
-<h3 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h3><p>如何在代码中获取配置文件中的属性呢？spring-boot为我们提供了这样一种方式，只需要使用@Value注解即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;spring.mail.username&#125;&quot;)</span><br><span class="line">public String USER_NAME;</span><br></pre></td></tr></table></figure>
-<h3 id="thymeleaf模版"><a href="#thymeleaf模版" class="headerlink" title="thymeleaf模版"></a>thymeleaf模版</h3><p>默认配置下，thymeleaf对html的内容要求很严格，比如，如果少最后的标签封闭符号/，就会报错而转到错误页。</p>
+<pre><code>spring:
+  profiles:
+    active: dev</code></pre><h3 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h3><p>如何在代码中获取配置文件中的属性呢？spring-boot为我们提供了这样一种方式，只需要使用@Value注解即可。</p>
+<pre><code>@Value(&quot;${spring.mail.username}&quot;)
+public String USER_NAME;</code></pre><h3 id="thymeleaf模版"><a href="#thymeleaf模版" class="headerlink" title="thymeleaf模版"></a>thymeleaf模版</h3><p>默认配置下，thymeleaf对html的内容要求很严格，比如，如果少最后的标签封闭符号/，就会报错而转到错误页。</p>
 <h3 id="忽略thymeleaf严格的校验"><a href="#忽略thymeleaf严格的校验" class="headerlink" title="忽略thymeleaf严格的校验"></a>忽略thymeleaf严格的校验</h3><p>spring.thymeleaf.mode=LEGACYHTML5</p>
-<h3 id="开发阶段设置为false方便调试"><a href="#开发阶段设置为false方便调试" class="headerlink" title="开发阶段设置为false方便调试"></a>开发阶段设置为false方便调试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.devtools.livereload.enabled=true</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.thymeleaf.cache-period=0</span><br><span class="line">spring.thymeleaf.template.cache=false</span><br></pre></td></tr></table></figure>
-
-<h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><p>Spring Boot中静态资源（JS, 图片）等应该放在什么位置？</p>
+<h3 id="开发阶段设置为false方便调试"><a href="#开发阶段设置为false方便调试" class="headerlink" title="开发阶段设置为false方便调试"></a>开发阶段设置为false方便调试</h3><pre><code>spring.devtools.livereload.enabled=true
+spring.thymeleaf.cache=false
+spring.thymeleaf.cache-period=0
+spring.thymeleaf.template.cache=false</code></pre><h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><p>Spring Boot中静态资源（JS, 图片）等应该放在什么位置？</p>
 <p>Spring Boot能大大简化WEB应用开发的原因， 最重要的就是遵循“约定优于配置”这一基本原则。Spring Boot的关于静态资源的默认配置已经完全满足绝大部分WEB应用的需求。没必要去弄手续繁杂的自定义，用Spring Boot的约定就好了。</p>
 <p>在Maven 工程目录下，所有静态资源都放在src/main/resource目录下，结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src/main/resource</span><br><span class="line">          |__________static</span><br><span class="line">                        |_________js</span><br><span class="line">                        |_________images</span><br><span class="line">                        |_________css</span><br><span class="line">                 .....</span><br></pre></td></tr></table></figure>
-<p>比如，我们引入以下css:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; th:href=&quot;@&#123;css/alipay.css&#125;&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="自定义静态资源"><a href="#自定义静态资源" class="headerlink" title="自定义静态资源"></a>自定义静态资源</h3><h3 id="通过配置文件配置"><a href="#通过配置文件配置" class="headerlink" title="通过配置文件配置"></a>通过配置文件配置</h3><p>在application.properties（或.yml）中配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 静态文件请求匹配方式</span><br><span class="line">spring.mvc.static-path-pattern=/**</span><br><span class="line"># 修改默认的静态寻址资源目录 多个使用逗号分隔</span><br><span class="line">spring.resources.static-locations = classpath:/templates/,classpath:/resources/,classpath:/static/</span><br></pre></td></tr></table></figure>
-<h3 id="通过代码配置"><a href="#通过代码配置" class="headerlink" title="通过代码配置"></a>通过代码配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@EnableAutoConfiguration</span><br><span class="line">@ComponentScan(basePackages = &#123; &quot;com.itstyle.modules&quot; &#125;)</span><br><span class="line">public class Application extends WebMvcConfigurerAdapter &#123;</span><br><span class="line">    private static final Logger logger = Logger.getLogger(Application.class);</span><br><span class="line">    @Override</span><br><span class="line">    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">        registry.addResourceHandler(&quot;/cert/**&quot;).addResourceLocations(</span><br><span class="line">                &quot;classpath:/cert/&quot;);</span><br><span class="line">        super.addResourceHandlers(registry);</span><br><span class="line">        logger.info(&quot;自定义静态资源目录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException,</span><br><span class="line">            IOException &#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">        logger.info(&quot;支付项目启动 &quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h3 id="获取文件"><a href="#获取文件" class="headerlink" title="获取文件"></a>获取文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">File file = ResourceUtils.getFile(&quot;classpath:cert/readme.txt&quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassUtils.getDefaultClassLoader().getResource(&quot;cert&quot;).getPath()</span><br></pre></td></tr></table></figure>
-<h3 id="Controller和RestController的区别？"><a href="#Controller和RestController的区别？" class="headerlink" title="Controller和RestController的区别？"></a>Controller和RestController的区别？</h3><p>官方文档：<br>@RestController is a stereotype annotation that combines @ResponseBody and @Controller.<br>意思是：<br>@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。<br>1)如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。<br>例如：本来应该到success.jsp页面的，则其显示success.<br>2)如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。<br>3)如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。</p>
-<h3 id="部署到JavaEE容器"><a href="#部署到JavaEE容器" class="headerlink" title="部署到JavaEE容器"></a>部署到JavaEE容器</h3><p>修改启动类，继承 SpringBootServletInitializer 并重写 configure 方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Application extends SpringBootServletInitializer&#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(SpringBootSampleApplication.class);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(this.getClass());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改pom文件中jar 为 war</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- &lt;packaging&gt;jar&lt;/packaging&gt; --&gt;</span><br><span class="line">&lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
-<p>修改pom，排除tomcat插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>最后，打包部署到容器。</p>
-<p>打包排除</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">        &lt;excludes&gt;</span><br><span class="line">            &lt;exclude&gt;**/static/**&lt;/exclude&gt;</span><br><span class="line">            &lt;exclude&gt;**/templates/**&lt;/exclude&gt;</span><br><span class="line">        &lt;/excludes&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="指定外部的配置文件"><a href="#指定外部的配置文件" class="headerlink" title="指定外部的配置文件"></a>指定外部的配置文件</h3><p>有些系统，关于一些数据库或其他第三方账户等信息，由于安全问题，其配置并不会提前配置在项目中暴露给开发人员。<br>对于这种情况，我们在运行程序的时候，可以通过参数指定一个外部配置文件。<br>以 itstyle.jar 为例，方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar itstyle.jar --spring.config.location=/opt/config/application.properties</span><br></pre></td></tr></table></figure>
-<h3 id="创建脚本"><a href="#创建脚本" class="headerlink" title="创建脚本"></a>创建脚本</h3><p>为了在linux下方便启动，停止项目<br>start.sh：</p>
-<p>#!/bin/sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar $1  --server.port=$2  --spring.profiles.active=prod &amp;</span><br><span class="line"></span><br><span class="line">echo &apos;Start Success!&apos;</span><br><span class="line">执行方式：start.sh itstyle.jar 8886</span><br><span class="line">$1和$2分别为传入的参数itstyle.jar 和 8886</span><br><span class="line"></span><br><span class="line">stop.sh：</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">if [ &quot;$&#123;tpid&#125;&quot; ]; then</span><br><span class="line">	echo &apos;Stop Process...&apos;</span><br><span class="line">	kill -15 $tpid</span><br><span class="line">fi</span><br><span class="line">sleep 3</span><br><span class="line">tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">if [ &quot;$&#123;tpid&#125;&quot; ]; then</span><br><span class="line">	echo &apos;Kill Process!&apos;</span><br><span class="line">	kill -9 $tpid</span><br><span class="line">else</span><br><span class="line">	echo &apos;Stop Success!&apos;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<pre><code>src/main/resource
+          |__________static
+                        |_________js
+                        |_________images
+                        |_________css
+                 .....</code></pre><p>比如，我们引入以下css:</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; th:href=&quot;@{css/alipay.css}&quot; /&gt;</code></pre><h3 id="自定义静态资源"><a href="#自定义静态资源" class="headerlink" title="自定义静态资源"></a>自定义静态资源</h3><h3 id="通过配置文件配置"><a href="#通过配置文件配置" class="headerlink" title="通过配置文件配置"></a>通过配置文件配置</h3><p>在application.properties（或.yml）中配置</p>
+<pre><code># 静态文件请求匹配方式
+spring.mvc.static-path-pattern=/**
+# 修改默认的静态寻址资源目录 多个使用逗号分隔
+spring.resources.static-locations = classpath:/templates/,classpath:/resources/,classpath:/static/</code></pre><h3 id="通过代码配置"><a href="#通过代码配置" class="headerlink" title="通过代码配置"></a>通过代码配置</h3><pre><code>@EnableAutoConfiguration
+@ComponentScan(basePackages = { &quot;com.itstyle.modules&quot; })
+public class Application extends WebMvcConfigurerAdapter {
+    private static final Logger logger = Logger.getLogger(Application.class);
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(&quot;/cert/**&quot;).addResourceLocations(
+                &quot;classpath:/cert/&quot;);
+        super.addResourceHandlers(registry);
+        logger.info(&quot;自定义静态资源目录&quot;);
+    }
 
+    public static void main(String[] args) throws InterruptedException,
+            IOException {
+        SpringApplication.run(Application.class, args);
+        logger.info(&quot;支付项目启动 &quot;);
+    }
+
+}</code></pre><h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h3 id="获取文件"><a href="#获取文件" class="headerlink" title="获取文件"></a>获取文件</h3><pre><code>File file = ResourceUtils.getFile(&quot;classpath:cert/readme.txt&quot;);</code></pre><h3 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h3><pre><code>ClassUtils.getDefaultClassLoader().getResource(&quot;cert&quot;).getPath()</code></pre><h3 id="Controller和RestController的区别？"><a href="#Controller和RestController的区别？" class="headerlink" title="Controller和RestController的区别？"></a>Controller和RestController的区别？</h3><p>官方文档：<br>@RestController is a stereotype annotation that combines @ResponseBody and @Controller.<br>意思是：<br>@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。<br>1)如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。<br>例如：本来应该到success.jsp页面的，则其显示success.<br>2)如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。<br>3)如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。</p>
+<h3 id="部署到JavaEE容器"><a href="#部署到JavaEE容器" class="headerlink" title="部署到JavaEE容器"></a>部署到JavaEE容器</h3><p>修改启动类，继承 SpringBootServletInitializer 并重写 configure 方法</p>
+<pre><code>public class Application extends SpringBootServletInitializer{
+
+    private static final Logger logger = LoggerFactory.getLogger(SpringBootSampleApplication.class);
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
+    }
+
+}</code></pre><p>修改pom文件中jar 为 war</p>
+<pre><code>&lt;!-- &lt;packaging&gt;jar&lt;/packaging&gt; --&gt;
+&lt;packaging&gt;war&lt;/packaging&gt;</code></pre><p>修改pom，排除tomcat插件</p>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+&lt;/dependency&gt;</code></pre><p>最后，打包部署到容器。</p>
+<p>打包排除</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+        &lt;excludes&gt;
+            &lt;exclude&gt;**/static/**&lt;/exclude&gt;
+            &lt;exclude&gt;**/templates/**&lt;/exclude&gt;
+        &lt;/excludes&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre><h3 id="指定外部的配置文件"><a href="#指定外部的配置文件" class="headerlink" title="指定外部的配置文件"></a>指定外部的配置文件</h3><p>有些系统，关于一些数据库或其他第三方账户等信息，由于安全问题，其配置并不会提前配置在项目中暴露给开发人员。<br>对于这种情况，我们在运行程序的时候，可以通过参数指定一个外部配置文件。<br>以 itstyle.jar 为例，方法如下：</p>
+<pre><code>java -jar itstyle.jar --spring.config.location=/opt/config/application.properties</code></pre><h3 id="创建脚本"><a href="#创建脚本" class="headerlink" title="创建脚本"></a>创建脚本</h3><p>为了在linux下方便启动，停止项目<br>start.sh：</p>
+<p>#!/bin/sh</p>
+<pre><code>        nohup java -jar $1  --server.port=$2  --spring.profiles.active=prod &amp;
+
+        echo &#39;Start Success!&#39;
+        执行方式：start.sh itstyle.jar 8886
+        $1和$2分别为传入的参数itstyle.jar 和 8886
+
+        stop.sh：
+
+        #!/bin/sh
+
+        tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &#39;{print $2}&#39;`
+        if [ &quot;${tpid}&quot; ]; then
+            echo &#39;Stop Process...&#39;
+            kill -15 $tpid
+        fi
+        sleep 3
+        tpid=`ps -ef|grep $1|grep -v grep|grep -v kill|awk &#39;{print $2}&#39;`
+        if [ &quot;${tpid}&quot; ]; then
+            echo &#39;Kill Process!&#39;
+            kill -9 $tpid
+        else
+            echo &#39;Stop Success!&#39;
+        fi</code></pre>
             </article>
             
                 <div class="share">

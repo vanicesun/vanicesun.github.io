@@ -100,29 +100,183 @@
 <p>1.在File菜单里面选择 New &gt; Project,然后选择Spring Initializr，接着如下图一步步操作即可。<br><img src="http://image.tengj.top/springboot1-2.png#pic_center" alt=""><br><img src="http://image.tengj.top/springboot1-3.png#pic_center" alt=""><br><img src="http://image.tengj.top/springboot1-4.png#pic_center" alt=""><br><img src="http://image.tengj.top/springboot1-5.png#pic_center" alt=""></p>
 <h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><p>根据上面的操作已经初始化了一个Spring Boot的框架了，项目结构如下：<br><img src="http://image.tengj.top/springboot1-6.png#pic_center" alt=""><br>如你所见，项目里面基本没有代码，除了几个空目录外，还包含如下几样东西。</p>
 <ul>
-<li>pom.xml：Maven构建说明文件。</li>
-<li>Chapter1Application.java：一个带有main()方法的类，用于启动应用程序（关键）。</li>
-<li>Chapter1ApplicationTests.java：一个空的Junit测试类，它加载了一个使用Spring Boot字典配置功能的Spring应用程序上下文。</li>
-<li>application.properties：一个空的properties文件，你可以根据需要添加配置属性。<h3 id="解析pom-xml文件"><a href="#解析pom-xml文件" class="headerlink" title="解析pom.xml文件"></a>解析pom.xml文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.dudu&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;chapter1&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;name&gt;chapter1&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-可以看出，有几个配置是不大一样的,我们挑几个重要的说说，要是客观不想过早的了解这些，自行跳过这一知识点即可。<h3 id="Spring-Boot父级依赖"><a href="#Spring-Boot父级依赖" class="headerlink" title="Spring Boot父级依赖"></a>Spring Boot父级依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
- 这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom<br>这里我就贴一点点意思意思，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">        &lt;!-- Dependency versions --&gt;</span><br><span class="line">        &lt;activemq.version&gt;5.14.3&lt;/activemq.version&gt;</span><br><span class="line">        &lt;antlr2.version&gt;2.7.7&lt;/antlr2.version&gt;</span><br><span class="line">        &lt;appengine-sdk.version&gt;1.9.48&lt;/appengine-sdk.version&gt;</span><br><span class="line">        &lt;artemis.version&gt;1.5.2&lt;/artemis.version&gt;</span><br><span class="line">        &lt;aspectj.version&gt;1.8.9&lt;/aspectj.version&gt;</span><br><span class="line">        &lt;assertj.version&gt;2.6.0&lt;/assertj.version&gt;</span><br><span class="line">        &lt;atomikos.version&gt;3.9.3&lt;/atomikos.version&gt;</span><br><span class="line">        &lt;bitronix.version&gt;2.1.4&lt;/bitronix.version&gt;</span><br><span class="line">        &lt;caffeine.version&gt;2.3.5&lt;/caffeine.version&gt;</span><br><span class="line">        &lt;cassandra-driver.version&gt;3.1.3&lt;/cassandra-driver.version&gt;</span><br><span class="line">        &lt;classmate.version&gt;1.3.3&lt;/classmate.version&gt;</span><br><span class="line">        &lt;commons-beanutils.version&gt;1.9.3&lt;/commons-beanutils.version&gt;</span><br><span class="line">        &lt;commons-collections.version&gt;3.2.2&lt;/commons-collections.version&gt;</span><br><span class="line">        &lt;spring-data-releasetrain.version&gt;Ingalls-RELEASE&lt;/spring-data-releasetrain.version&gt;</span><br><span class="line">        ......</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
-如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项，例如，要升级到另一个Spring Data版本系列，您可以将以下内容添加到pom.xml中。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">    &lt;spring-data-releasetrain.version&gt;Fowler-SR2&lt;/spring-data-releasetrain.version&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
-原本默认版本是Ingalls-RELEASE的（看上面最后一行有说明Ingalls-RELEASE），现在就使用Fowler-SR2版本了，简单吧。<br>并不是每个人都喜欢继承自spring-boot-starter-parent POM。您可能有您需要使用的自己的公司标准parent，或者您可能更喜欢显式声明所有的Maven配置。<br>如果你不想使用spring-boot-starter-parent，您仍然可以通过使用scope = import依赖关系来保持依赖关系管理：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">     &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;!-- Import dependency management from Spring Boot --&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;</span><br><span class="line">            &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">            &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
-该设置不允许您使用如上所述的属性(properties)覆盖各个依赖项，要实现相同的结果，您需要在spring-boot-dependencies项之前的项目的dependencyManagement中添加一个配置，例如，要升级到另一个Spring Data版本系列，您可以将以下内容添加到pom.xml中。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;!-- Override Spring Data release train provided by Spring Boot --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.data&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-data-releasetrain&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;Fowler-SR2&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;</span><br><span class="line">            &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">            &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="起步依赖-spring-boot-starter-xx"><a href="#起步依赖-spring-boot-starter-xx" class="headerlink" title="起步依赖 spring-boot-starter-xx"></a>起步依赖 spring-boot-starter-xx</h3>Spring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些,如下图：<br><img src="http://image.tengj.top/springboot1-7.png#pic_center" alt=""><br>嘿嘿嘿，看来依赖了好多呢，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。<h3 id="Spring-Boot-Maven插件"><a href="#Spring-Boot-Maven插件" class="headerlink" title="Spring Boot Maven插件"></a>Spring Boot Maven插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;plugins&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">    &lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>1.上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能：<br>把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。<br>2.搜索public static void main()方法来标记为可运行类。</p>
-<h3 id="应用程序入口类"><a href="#应用程序入口类" class="headerlink" title="应用程序入口类"></a>应用程序入口类</h3><p>Chapter1Application是一个很关键的启动类，程序的入口就是这里,为了演示简单，我们不再新建控制类，而是直接在这个入口类中编写，添加@RestController以及index方法，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.dudu;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class Chapter1Application &#123;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(&quot;/&quot;)</span><br><span class="line">	public String index()&#123;</span><br><span class="line">		return &quot;Hello Spring Boot&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(Chapter1Application.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>1.@SpringBootApplication是Sprnig Boot项目的核心注解，主要目的是开启自动配置。后续讲解原理的时候再深入介绍。<br>2.main方法这是一个标准的Java应用的main的方法，主要作用是作为项目启动的入口。<br>3.@RestController注解等价于@Controller+@ResponseBody的结合，使用这个注解的类里面的方法都以json格式输出。</p>
-<p><strong>最后，启动项目有三种方式</strong>：<br>1.Chapter1Application的main方法<br><img src="http://image.tengj.top/springboot1-8.png#pic_center" alt=""><br>2.使用命令 mvn spring-boot:run”在命令行启动该应用，IDEA中该命令在如下位置：<br><img src="http://image.tengj.top/springboot1-9.png#pic_center" alt=""><br>3.运行“mvn package”进行打包时，会打包成一个可以直接运行的 JAR 文件，使用“java -jar”命令就可以直接运行。<br><img src="http://image.tengj.top/springboot1-10.png#pic_center" alt=""><br><img src="http://image.tengj.top/springboot1-11.png#pic_center" alt=""><br>打开浏览器访问(<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>), 你就能看到页面显示Hello Spring Boot效果了，一个简单的Web的项目就是如此简单。</p>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>虽然我上面讲解了那么多，但是实际开发步骤就是那么简单暴力，初始化一个Spring Boot，添加一个控制类，启动就能看到效果了。<br>本章作为入门Spring Boot的入门介绍，相关的需要理解的概念就只有这几点：</p>
-<ul>
-<li>Spring Boot父级依赖的概念</li>
-<li>起步依赖 spring-boot-starter-xx的概念</li>
-<li>应用入口类的作用</li>
-</ul>
+<li><p>pom.xml：Maven构建说明文件。</p>
+</li>
+<li><p>Chapter1Application.java：一个带有main()方法的类，用于启动应用程序（关键）。</p>
+</li>
+<li><p>Chapter1ApplicationTests.java：一个空的Junit测试类，它加载了一个使用Spring Boot字典配置功能的Spring应用程序上下文。</p>
+</li>
+<li><p>application.properties：一个空的properties文件，你可以根据需要添加配置属性。</p>
+<h3 id="解析pom-xml文件"><a href="#解析pom-xml文件" class="headerlink" title="解析pom.xml文件"></a>解析pom.xml文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
+  &lt;groupId&gt;com.dudu&lt;/groupId&gt;
+  &lt;artifactId&gt;chapter1&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;jar&lt;/packaging&gt;
+
+  &lt;name&gt;chapter1&lt;/name&gt;
+  &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+  &lt;parent&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+      &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;
+      &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+  &lt;/parent&gt;
+
+  &lt;properties&gt;
+      &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+      &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+      &lt;java.version&gt;1.8&lt;/java.version&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+      &lt;dependency&gt;
+          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+          &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+      &lt;/dependency&gt;
+
+      &lt;dependency&gt;
+          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+          &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+          &lt;scope&gt;test&lt;/scope&gt;
+      &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+
+  &lt;build&gt;
+      &lt;plugins&gt;
+          &lt;plugin&gt;
+              &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+              &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+          &lt;/plugin&gt;
+      &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;</code></pre><p>可以看出，有几个配置是不大一样的,我们挑几个重要的说说，要是客观不想过早的了解这些，自行跳过这一知识点即可。</p>
+<h3 id="Spring-Boot父级依赖"><a href="#Spring-Boot父级依赖" class="headerlink" title="Spring Boot父级依赖"></a>Spring Boot父级依赖</h3><pre><code>&lt;parent&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+  &lt;version&gt;1.5.1.RELEASE&lt;/version&gt;
+  &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+&lt;/parent&gt;
+</code></pre></li>
+</ul>
+<pre><code>   这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom
+这里我就贴一点点意思意思，如下：</code></pre><properties>
+        <!-- Dependency versions -->
+        <activemq.version>5.14.3</activemq.version>
+        <antlr2.version>2.7.7</antlr2.version>
+        <appengine-sdk.version>1.9.48</appengine-sdk.version>
+        <artemis.version>1.5.2</artemis.version>
+        <aspectj.version>1.8.9</aspectj.version>
+        <assertj.version>2.6.0</assertj.version>
+        <atomikos.version>3.9.3</atomikos.version>
+        <bitronix.version>2.1.4</bitronix.version>
+        <caffeine.version>2.3.5</caffeine.version>
+        <cassandra-driver.version>3.1.3</cassandra-driver.version>
+        <classmate.version>1.3.3</classmate.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <spring-data-releasetrain.version>Ingalls-RELEASE</spring-data-releasetrain.version>
+        ......
+</properties>
+
+<pre><code>如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项，例如，要升级到另一个Spring Data版本系列，您可以将以下内容添加到pom.xml中。</code></pre><properties>
+    <spring-data-releasetrain.version>Fowler-SR2</spring-data-releasetrain.version>
+</properties>
+```
+原本默认版本是Ingalls-RELEASE的（看上面最后一行有说明Ingalls-RELEASE），现在就使用Fowler-SR2版本了，简单吧。
+并不是每个人都喜欢继承自spring-boot-starter-parent POM。您可能有您需要使用的自己的公司标准parent，或者您可能更喜欢显式声明所有的Maven配置。
+如果你不想使用spring-boot-starter-parent，您仍然可以通过使用scope = import依赖关系来保持依赖关系管理：
+```
+<dependencyManagement>
+     <dependencies>
+        <dependency>
+            <!-- Import dependency management from Spring Boot -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>1.5.1.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+该设置不允许您使用如上所述的属性(properties)覆盖各个依赖项，要实现相同的结果，您需要在spring-boot-dependencies项之前的项目的dependencyManagement中添加一个配置，例如，要升级到另一个Spring Data版本系列，您可以将以下内容添加到pom.xml中。
+```
+<dependencyManagement>
+    <dependencies>
+        <!-- Override Spring Data release train provided by Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-releasetrain</artifactId>
+            <version>Fowler-SR2</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>1.5.1.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+### 起步依赖 spring-boot-starter-xx
+Spring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些,如下图：
+![](http://image.tengj.top/springboot1-7.png#pic_center)
+嘿嘿嘿，看来依赖了好多呢，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。
+### Spring Boot Maven插件
+```
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+```
+1.上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能：
+把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。
+2.搜索public static void main()方法来标记为可运行类。
+### 应用程序入口类
+Chapter1Application是一个很关键的启动类，程序的入口就是这里,为了演示简单，我们不再新建控制类，而是直接在这个入口类中编写，添加@RestController以及index方法，如下：
+```
+package com.dudu;
+
+<p>import org.springframework.boot.SpringApplication;<br>import org.springframework.boot.autoconfigure.SpringBootApplication;<br>import org.springframework.web.bind.annotation.RequestMapping;<br>import org.springframework.web.bind.annotation.RestController;</p>
+<p>@RestController<br>@SpringBootApplication<br>public class Chapter1Application {</p>
+<pre><code>@RequestMapping(&quot;/&quot;)
+public String index(){
+    return &quot;Hello Spring Boot&quot;;
+}
+public static void main(String[] args) {
+    SpringApplication.run(Chapter1Application.class, args);
+}</code></pre><p>}</p>
+<pre><code>1.@SpringBootApplication是Sprnig Boot项目的核心注解，主要目的是开启自动配置。后续讲解原理的时候再深入介绍。
+2.main方法这是一个标准的Java应用的main的方法，主要作用是作为项目启动的入口。
+3.@RestController注解等价于@Controller+@ResponseBody的结合，使用这个注解的类里面的方法都以json格式输出。
+
+**最后，启动项目有三种方式**：
+1.Chapter1Application的main方法
+![](http://image.tengj.top/springboot1-8.png#pic_center)
+2.使用命令 mvn spring-boot:run”在命令行启动该应用，IDEA中该命令在如下位置：
+![](http://image.tengj.top/springboot1-9.png#pic_center)
+3.运行“mvn package”进行打包时，会打包成一个可以直接运行的 JAR 文件，使用“java -jar”命令就可以直接运行。
+![](http://image.tengj.top/springboot1-10.png#pic_center)
+![](http://image.tengj.top/springboot1-11.png#pic_center)
+打开浏览器访问(http://localhost:8080), 你就能看到页面显示Hello Spring Boot效果了，一个简单的Web的项目就是如此简单。
+### 结束
+虽然我上面讲解了那么多，但是实际开发步骤就是那么简单暴力，初始化一个Spring Boot，添加一个控制类，启动就能看到效果了。
+本章作为入门Spring Boot的入门介绍，相关的需要理解的概念就只有这几点：
+- Spring Boot父级依赖的概念
+- 起步依赖 spring-boot-starter-xx的概念
+- 应用入口类的作用</code></pre>
             </article>
             
                 <div class="share">
@@ -167,7 +321,7 @@
 
 <div id="post-directory-module">
 	<section class="post-directory">
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot精要"><span class="toc-number">3.</span> <span class="toc-text">Spring Boot精要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统要求"><span class="toc-number">4.</span> <span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优雅的Web入门开发"><span class="toc-number">5.</span> <span class="toc-text">优雅的Web入门开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Spring-Boot项目"><span class="toc-number">6.</span> <span class="toc-text">初始化Spring Boot项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">7.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析pom-xml文件"><span class="toc-number">8.</span> <span class="toc-text">解析pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot父级依赖"><span class="toc-number">9.</span> <span class="toc-text">Spring Boot父级依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#起步依赖-spring-boot-starter-xx"><span class="toc-number">10.</span> <span class="toc-text">起步依赖 spring-boot-starter-xx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-Maven插件"><span class="toc-number">11.</span> <span class="toc-text">Spring Boot Maven插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用程序入口类"><span class="toc-number">12.</span> <span class="toc-text">应用程序入口类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-number">13.</span> <span class="toc-text">结束</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot精要"><span class="toc-number">3.</span> <span class="toc-text">Spring Boot精要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统要求"><span class="toc-number">4.</span> <span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优雅的Web入门开发"><span class="toc-number">5.</span> <span class="toc-text">优雅的Web入门开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Spring-Boot项目"><span class="toc-number">6.</span> <span class="toc-text">初始化Spring Boot项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">7.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析pom-xml文件"><span class="toc-number">8.</span> <span class="toc-text">解析pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot父级依赖"><span class="toc-number">9.</span> <span class="toc-text">Spring Boot父级依赖</span></a></li></ol>
 	</section>
 </div>
             

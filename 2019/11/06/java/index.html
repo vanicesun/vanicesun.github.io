@@ -86,9 +86,22 @@
 <h3 id="项目结构推荐"><a href="#项目结构推荐" class="headerlink" title="项目结构推荐"></a>项目结构推荐</h3><p>一个好的项目结构会让你开发少一些问题，特别是Spring Boot中启动类要放在root package下面，我的web工程项目结构如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC0xLmpwZw?x-oss-process=image/format,png#pic_center" alt=""></p>
 <p>1.root package结构：com.dudu<br>2.应用启动类Application.java置于root package下，这样使用@ComponentScan注解的时候默认就扫描当前所在类的package<br>3.实体（Entity）置于com.dudu.domain包下<br>4.逻辑层（Service）置于com.dudu.service包下<br>5.controller层（web）置于com.dudu.controller层包下<br>6.static可以用来存放静态资源<br>7.templates用来存放默认的模板配置路径</p>
 <h3 id="Spring-Web-MVC框架介绍"><a href="#Spring-Web-MVC框架介绍" class="headerlink" title="Spring Web MVC框架介绍"></a>Spring Web MVC框架介绍</h3><p>Spring Web MVC框架（通常简称为”Spring MVC”）是一个富”模型，视图，控制器”的web框架。<br>Spring MVC允许你创建特定的@Controller或@RestController beans来处理传入的HTTP请求。<br>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@RequestMapping(value=&quot;/users&quot;)</span><br><span class="line">public class MyRestController &#123;</span><br><span class="line">@RequestMapping(value=&quot;/&#123;user&#125;&quot;, method=RequestMethod.GET)</span><br><span class="line">public User getUser(@PathVariable Long user) &#123;</span><br><span class="line">// ...</span><br><span class="line">&#125;</span><br><span class="line">@RequestMapping(value=&quot;/&#123;user&#125;/customers&quot;, method=RequestMethod.GET)</span><br><span class="line">List&lt;Customer&gt; getUserCustomers(@PathVariable Long user) &#123;</span><br><span class="line">// ...</span><br><span class="line">&#125;</span><br><span class="line">@RequestMapping(value=&quot;/&#123;user&#125;&quot;, method=RequestMethod.DELETE)</span><br><span class="line">public User deleteUser(@PathVariable Long user) &#123;</span><br><span class="line">// ...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Spring-MVC自动配置"><a href="#Spring-MVC自动配置" class="headerlink" title="Spring MVC自动配置"></a>Spring MVC自动配置</h3><p>Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了以下特性：</p>
+<pre><code>@RestController
+@RequestMapping(value=&quot;/users&quot;)
+public class MyRestController {
+@RequestMapping(value=&quot;/{user}&quot;, method=RequestMethod.GET)
+public User getUser(@PathVariable Long user) {
+// ...
+}
+@RequestMapping(value=&quot;/{user}/customers&quot;, method=RequestMethod.GET)
+List&lt;Customer&gt; getUserCustomers(@PathVariable Long user) {
+// ...
+}
+@RequestMapping(value=&quot;/{user}&quot;, method=RequestMethod.DELETE)
+public User deleteUser(@PathVariable Long user) {
+// ...
+}
+}</code></pre><h3 id="Spring-MVC自动配置"><a href="#Spring-MVC自动配置" class="headerlink" title="Spring MVC自动配置"></a>Spring MVC自动配置</h3><p>Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了以下特性：</p>
 <p>1.引入ContentNegotiatingViewResolver和BeanNameViewResolver beans。<br>2.对静态资源的支持，包括对WebJars的支持。<br>3.自动注册Converter，GenericConverter，Formatter beans。<br>4.对HttpMessageConverters的支持。<br>5.自动注册MessageCodeResolver。<br>6.对静态index.html的支持。<br>7.对自定义Favicon的支持。<br>如果想全面控制Spring MVC，你可以添加自己的@Configuration，并使用@EnableWebMvc对其注解。如果想保留Spring Boot MVC的特性，并只是添加其他的MVC配置(拦截器，formatters，视图控制器等)，你可以添加自己的WebMvcConfigurerAdapter类型的@Bean（不使用@EnableWebMvc注解）,具体拦截器等配置后续文章会解析。</p>
 <h3 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h3><p>默认情况下，Spring Boot从classpath下一个叫/static（/public，/resources或/META-INF/resources）的文件夹或从ServletContext根目录提供静态内容。这使用了Spring MVC的ResourceHttpRequestHandler，所以你可以通过添加自己的WebMvcConfigurerAdapter并覆写addResourceHandlers方法来改变这个行为（加载静态文件）。</p>
 <p>在一个单独的web应用中，容器默认的servlet是开启的，如果Spring决定不处理某些请求，默认的servlet作为一个回退（降级）将从ServletContext根目录加载内容。大多数时候，这不会发生（除非你修改默认的MVC配置），因为Spring总能够通过DispatcherServlet处理请求。</p>
@@ -101,22 +114,95 @@
 <p>当你使用上述模板引擎中的任何一个，它们默认的模板配置路径为：src/main/resources/templates。当然也可以修改这个路径，具体如何修改，可在后续各模板引擎的配置属性中查询并修改。</p>
 <h3 id="Thymeleaf模板引擎"><a href="#Thymeleaf模板引擎" class="headerlink" title="Thymeleaf模板引擎"></a>Thymeleaf模板引擎</h3><p>Thymeleaf是一款用于渲染XML/XHTML/HTML5内容的模板引擎。类似JSP，Velocity，FreeMaker等，它也可以轻易的与Spring MVC等Web框架进行集成作为Web应用的模板引擎。与其它模板引擎相比，Thymeleaf最大的特点是能够直接在浏览器中打开并正确显示模板页面，而不需要启动整个Web应用。它的功能特性如下：</p>
 <p>1.Spring MVC中@Controller中的方法可以直接返回模板名称，接下来Thymeleaf模板引擎会自动进行渲染<br>2.模板中的表达式支持Spring表达式语言（Spring EL)<br>3.表单支持，并兼容Spring MVC的数据绑定与验证机制<br>4.国际化支持<br> Spring官方也推荐使用Thymeleaf,所以本篇代码整合就使用Thymeleaf来整合。</p>
-<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC0yLmpwZw?x-oss-process=image/format,png#pic_center" alt=""><br>如图所示，spring-boot-starter-thymeleaf会自动包含spring-boot-starter-web，所以我们就不需要单独引入web依赖了。</p>
-<h3 id="编写controller"><a href="#编写controller" class="headerlink" title="编写controller"></a>编写controller</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(&quot;/learn&quot;)</span><br><span class="line">public class LearnResourceController &#123;</span><br><span class="line">@RequestMapping(&quot;/&quot;)</span><br><span class="line">public ModelAndView index()&#123;</span><br><span class="line">List&lt;LearnResouce&gt; learnList =new ArrayList&lt;LearnResouce&gt;();</span><br><span class="line">LearnResouce bean =new LearnResouce(&quot;官方参考文档&quot;,&quot;Spring Boot Reference Guide&quot;,&quot;http://docs.spring.io/spring-boot/docs/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;官方SpriongBoot例子&quot;,&quot;官方SpriongBoot例子&quot;,&quot;https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;龙国学院&quot;,&quot;Spring Boot 教程系列学习&quot;,&quot;http://www.roncoo.com/article/detail/125488&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;嘟嘟MD独立博客&quot;,&quot;Spring Boot干货系列 &quot;,&quot;http://tengj.top/&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;后端编程嘟&quot;,&quot;Spring Boot教程和视频 &quot;,&quot;http://www.toutiao.com/m1559096720023553/&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;程序猿DD&quot;,&quot;Spring Boot系列&quot;,&quot;http://www.roncoo.com/article/detail/125488&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;纯洁的微笑&quot;,&quot;Sping Boot系列文章&quot;,&quot;http://www.ityouknow.com/spring-boot&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;CSDN——小当博客专栏&quot;,&quot;Sping Boot学习&quot;,&quot;http://blog.csdn.net/column/details/spring-boot.html&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;梁桂钊的博客&quot;,&quot;Spring Boot 揭秘与实战&quot;,&quot;http://blog.csdn.net/column/details/spring-boot.html&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">bean =new LearnResouce(&quot;林祥纤博客系列&quot;,&quot;从零开始学Spring Boot &quot;,&quot;http://412887952-qq-com.iteye.com/category/356333&quot;);</span><br><span class="line">learnList.add(bean);</span><br><span class="line">ModelAndView modelAndView = new ModelAndView(&quot;/index&quot;);</span><br><span class="line">modelAndView.addObject(&quot;learnList&quot;, learnList);</span><br><span class="line">return modelAndView;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><pre><code>&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC0yLmpwZw?x-oss-process=image/format,png#pic_center" alt=""><br>如图所示，spring-boot-starter-thymeleaf会自动包含spring-boot-starter-web，所以我们就不需要单独引入web依赖了。</p>
+<h3 id="编写controller"><a href="#编写controller" class="headerlink" title="编写controller"></a>编写controller</h3><pre><code>@Controller
+@RequestMapping(&quot;/learn&quot;)
+public class LearnResourceController {
+@RequestMapping(&quot;/&quot;)
+public ModelAndView index(){
+List&lt;LearnResouce&gt; learnList =new ArrayList&lt;LearnResouce&gt;();
+LearnResouce bean =new LearnResouce(&quot;官方参考文档&quot;,&quot;Spring Boot Reference Guide&quot;,&quot;http://docs.spring.io/spring-boot/docs/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;官方SpriongBoot例子&quot;,&quot;官方SpriongBoot例子&quot;,&quot;https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;龙国学院&quot;,&quot;Spring Boot 教程系列学习&quot;,&quot;http://www.roncoo.com/article/detail/125488&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;嘟嘟MD独立博客&quot;,&quot;Spring Boot干货系列 &quot;,&quot;http://tengj.top/&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;后端编程嘟&quot;,&quot;Spring Boot教程和视频 &quot;,&quot;http://www.toutiao.com/m1559096720023553/&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;程序猿DD&quot;,&quot;Spring Boot系列&quot;,&quot;http://www.roncoo.com/article/detail/125488&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;纯洁的微笑&quot;,&quot;Sping Boot系列文章&quot;,&quot;http://www.ityouknow.com/spring-boot&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;CSDN——小当博客专栏&quot;,&quot;Sping Boot学习&quot;,&quot;http://blog.csdn.net/column/details/spring-boot.html&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;梁桂钊的博客&quot;,&quot;Spring Boot 揭秘与实战&quot;,&quot;http://blog.csdn.net/column/details/spring-boot.html&quot;);
+learnList.add(bean);
+bean =new LearnResouce(&quot;林祥纤博客系列&quot;,&quot;从零开始学Spring Boot &quot;,&quot;http://412887952-qq-com.iteye.com/category/356333&quot;);
+learnList.add(bean);
+ModelAndView modelAndView = new ModelAndView(&quot;/index&quot;);
+modelAndView.addObject(&quot;learnList&quot;, learnList);
+return modelAndView;
+}
+}</code></pre><h3 id="编写html"><a href="#编写html" class="headerlink" title="编写html"></a>编写html</h3><p>引入依赖后就在默认的模板路径src/main/resources/templates下编写模板文件即可完成。这里我们新建一个index.html:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;learn Resources&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-<h3 id="编写html"><a href="#编写html" class="headerlink" title="编写html"></a>编写html</h3><p>引入依赖后就在默认的模板路径src/main/resources/templates下编写模板文件即可完成。这里我们新建一个index.html:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;learn Resources&lt;/title&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div style=&quot;text-align: center;margin:0 auto;width: 1000px; &quot;&gt;</span><br><span class="line">&lt;h1&gt;学习资源大奉送，爱我就关注嘟嘟公众号：嘟爷java超神学堂（javaLearn）&lt;/h1&gt;</span><br><span class="line">&lt;table width=&quot;100%&quot; border=&quot;1&quot; cellspacing=&quot;1&quot; cellpadding=&quot;0&quot;&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;作者&lt;/td&gt;</span><br><span class="line">&lt;td&gt;教程名称&lt;/td&gt;</span><br><span class="line">&lt;td&gt;地址&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;!--/*@thymesVar id=&quot;learnList&quot; type=&quot;&quot;*/--&gt;</span><br><span class="line">&lt;tr th:each=&quot;learn : $&#123;learnList&#125;&quot;&gt;</span><br><span class="line">&lt;td th:text=&quot;$&#123;learn.author&#125;&quot;&gt;嘟嘟MD&lt;/td&gt;</span><br><span class="line">&lt;td th:text=&quot;$&#123;learn.title&#125;&quot;&gt;SPringBoot干货系列&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;a th:href=&quot;$&#123;learn.url&#125;&quot; target=&quot;_blank&quot;&gt;点我&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
+&lt;div style=&quot;text-align: center;margin:0 auto;width: 1000px; &quot;&gt;
+&lt;h1&gt;学习资源大奉送，爱我就关注嘟嘟公众号：嘟爷java超神学堂（javaLearn）&lt;/h1&gt;
+&lt;table width=&quot;100%&quot; border=&quot;1&quot; cellspacing=&quot;1&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;作者&lt;/td&gt;
+&lt;td&gt;教程名称&lt;/td&gt;
+&lt;td&gt;地址&lt;/td&gt;
+&lt;/tr&gt;
+&lt;!--/*@thymesVar id=&quot;learnList&quot; type=&quot;&quot;*/--&gt;
+&lt;tr th:each=&quot;learn : ${learnList}&quot;&gt;
+&lt;td th:text=&quot;${learn.author}&quot;&gt;嘟嘟MD&lt;/td&gt;
+&lt;td th:text=&quot;${learn.title}&quot;&gt;SPringBoot干货系列&lt;/td&gt;
+&lt;td&gt;&lt;a th:href=&quot;${learn.url}&quot; target=&quot;_blank&quot;&gt;点我&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><blockquote>
 <p>注：通过xmlns:th=”<a href="http://www.thymeleaf.org“" target="_blank" rel="noopener">http://www.thymeleaf.org“</a> 命令空间，将静态页面转换为动态的视图，需要进行动态处理的元素将使用“th:”前缀。</p>
 </blockquote>
 <h3 id="Thymeleaf的默认参数配置"><a href="#Thymeleaf的默认参数配置" class="headerlink" title="Thymeleaf的默认参数配置"></a>Thymeleaf的默认参数配置</h3><p>在application.properties中可以配置thymeleaf模板解析器属性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># THYMELEAF (ThymeleafAutoConfiguration)</span><br><span class="line">#开启模板缓存（默认值：true）</span><br><span class="line">spring.thymeleaf.cache=true </span><br><span class="line">#Check that the template exists before rendering it.</span><br><span class="line">spring.thymeleaf.check-template=true </span><br><span class="line">#检查模板位置是否正确（默认值:true）</span><br><span class="line">spring.thymeleaf.check-template-location=true</span><br><span class="line">#Content-Type的值（默认值：text/html）</span><br><span class="line">spring.thymeleaf.content-type=text/html</span><br><span class="line">#开启MVC Thymeleaf视图解析（默认值：true）</span><br><span class="line">spring.thymeleaf.enabled=true</span><br><span class="line">#模板编码</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line">#要被排除在解析之外的视图名称列表，用逗号分隔</span><br><span class="line">spring.thymeleaf.excluded-view-names=</span><br><span class="line">#要运用于模板之上的模板模式。另见StandardTemplate-ModeHandlers(默认值：HTML5)</span><br><span class="line">spring.thymeleaf.mode=HTML5</span><br><span class="line">#在构建URL时添加到视图名称前的前缀（默认值：classpath:/templates/）</span><br><span class="line">spring.thymeleaf.prefix=classpath:/templates/</span><br><span class="line">#在构建URL时添加到视图名称后的后缀（默认值：.html）</span><br><span class="line">spring.thymeleaf.suffix=.html</span><br><span class="line">#Thymeleaf模板解析器在解析器链中的顺序。默认情况下，它排第一位。顺序从1开始，只有在定义了额外的TemplateResolver Bean时才需要设置这个属性。</span><br><span class="line">spring.thymeleaf.template-resolver-order=</span><br><span class="line">#可解析的视图名称列表，用逗号分隔</span><br><span class="line">spring.thymeleaf.view-names=</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="整合一个bootstrap框架给大家"><a href="#整合一个bootstrap框架给大家" class="headerlink" title="整合一个bootstrap框架给大家"></a>整合一个bootstrap框架给大家</h3><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC00LmpwZw?x-oss-process=image/format,png#pic_center" alt=""></p>
+<pre><code># THYMELEAF (ThymeleafAutoConfiguration)
+#开启模板缓存（默认值：true）
+spring.thymeleaf.cache=true 
+#Check that the template exists before rendering it.
+spring.thymeleaf.check-template=true 
+#检查模板位置是否正确（默认值:true）
+spring.thymeleaf.check-template-location=true
+#Content-Type的值（默认值：text/html）
+spring.thymeleaf.content-type=text/html
+#开启MVC Thymeleaf视图解析（默认值：true）
+spring.thymeleaf.enabled=true
+#模板编码
+spring.thymeleaf.encoding=UTF-8
+#要被排除在解析之外的视图名称列表，用逗号分隔
+spring.thymeleaf.excluded-view-names=
+#要运用于模板之上的模板模式。另见StandardTemplate-ModeHandlers(默认值：HTML5)
+spring.thymeleaf.mode=HTML5
+#在构建URL时添加到视图名称前的前缀（默认值：classpath:/templates/）
+spring.thymeleaf.prefix=classpath:/templates/
+#在构建URL时添加到视图名称后的后缀（默认值：.html）
+spring.thymeleaf.suffix=.html
+#Thymeleaf模板解析器在解析器链中的顺序。默认情况下，它排第一位。顺序从1开始，只有在定义了额外的TemplateResolver Bean时才需要设置这个属性。
+spring.thymeleaf.template-resolver-order=
+#可解析的视图名称列表，用逗号分隔
+spring.thymeleaf.view-names=</code></pre><h3 id="整合一个bootstrap框架给大家"><a href="#整合一个bootstrap框架给大家" class="headerlink" title="整合一个bootstrap框架给大家"></a>整合一个bootstrap框架给大家</h3><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC00LmpwZw?x-oss-process=image/format,png#pic_center" alt=""></p>
 <p>大家可以直接打开vanilla-cream-css下面的index.html来查看静态效果，如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC01LmpwZw?x-oss-process=image/format,png#pic_center" alt=""></p>
 <p>动态效果的话可以查看template.html<br>这里把上面的资源例子重新用bootstrap写了下，效果不错哦，如下：</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC9zcHJpbmdib290NC02LnBuZw?x-oss-process=image/format,png#pic_center" alt=""></p>

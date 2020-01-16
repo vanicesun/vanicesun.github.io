@@ -98,15 +98,21 @@
 <p>spring-loaded是一个开源项目,项目地址:<a href="https://github.com/spring-projects/spring-loaded" target="_blank" rel="noopener">https://github.com/spring-projects/spring-loaded</a></p>
 <p>Spring Loaded有两种方式实现，分别是Maven引入依赖方式或者添加启动参数方式</p>
 <p>Maven依赖方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;springloaded&lt;/artifactId&gt;</span><br><span class="line">&lt;version&gt;1.2.6.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>启动：mvn spring-boot:run</strong><br>如果你也是IDEA的话，直接界面上双击运行即可，如下图<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC8yMDE5LTA4LTE4LTAyMjU1MC5wbmc?x-oss-process=image/format,png#pic_center" alt=""><br>注意：maven依赖的方式只适合spring-boot:run的启动方式，右键那种方式不行。</p>
+<pre><code>&lt;plugin&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+&lt;dependencies&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+&lt;artifactId&gt;springloaded&lt;/artifactId&gt;
+&lt;version&gt;1.2.6.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;/plugin&gt;</code></pre><p><strong>启动：mvn spring-boot:run</strong><br>如果你也是IDEA的话，直接界面上双击运行即可，如下图<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC8yMDE5LTA4LTE4LTAyMjU1MC5wbmc?x-oss-process=image/format,png#pic_center" alt=""><br>注意：maven依赖的方式只适合spring-boot:run的启动方式，右键那种方式不行。</p>
 <p>出现如下配置表实配置成功：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[INFO] Attaching agents: [C:\Users\tengj\.m2\repository\org\springframework\springloaded\1.2.6.RELEASE\springloaded-1.2.6.RELEASE.jar]</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加启动参数方式"><a href="#添加启动参数方式" class="headerlink" title="添加启动参数方式"></a>添加启动参数方式</h3><p>这种方式是右键运行启动类<br>首先先下载对应的springloaded-1.2.6.RELEASE.jar，可以去上面提到的官网获取<br>博主这里直接引用maven依赖已经下载好的路径哈</p>
+<pre><code>[INFO] Attaching agents: [C:\Users\tengj\.m2\repository\org\springframework\springloaded\1.2.6.RELEASE\springloaded-1.2.6.RELEASE.jar]</code></pre><h3 id="添加启动参数方式"><a href="#添加启动参数方式" class="headerlink" title="添加启动参数方式"></a>添加启动参数方式</h3><p>这种方式是右键运行启动类<br>首先先下载对应的springloaded-1.2.6.RELEASE.jar，可以去上面提到的官网获取<br>博主这里直接引用maven依赖已经下载好的路径哈</p>
 <p>然后打开下图所示的Edit Configurations配置，在VM options中输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-javaagent:C:\Users\tengj\.m2\repository\org\springframework\springloaded\1.2.6.RELEASE\springloaded-1.2.6.RELEASE.jar -noverify</span><br></pre></td></tr></table></figure>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC8yMDE5LTA4LTE4LTAyMjYxNS5wbmc?x-oss-process=image/format,png#pic_center" alt=""></p>
+<pre><code>-javaagent:C:\Users\tengj\.m2\repository\org\springframework\springloaded\1.2.6.RELEASE\springloaded-1.2.6.RELEASE.jar -noverify</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC8yMDE5LTA4LTE4LTAyMjYxNS5wbmc?x-oss-process=image/format,png#pic_center" alt=""></p>
 <p>然后直接右键运行启动类即可启动项目。</p>
 <p>上面2种方式小伙伴随便选择一种即可,当系统通过 mvn spring-boot:run启动或者 右键application debug启动Java文件时，系统会监视classes文件，当有classes文件被改动时，系统会重新加载类文件，不用重启启动服务。</p>
 <blockquote>
@@ -114,14 +120,18 @@
 </blockquote>
 <p>如何测试热部署是否可用呢，你可以先写个简单的Controller方法，返回个字符串，然后启动项目，接着修改下这个方法返回的字符串，Ctrl+Shift+F9编译下当前类，然后再刷新下页面看看是否内容改变了。</p>
 <p>在 Spring Boot，模板引擎的页面默认是开启缓存，如果修改页面内容，刷新页面是无法获取修改后的页面内容，所以，如果我们不需要模板引擎的缓存，可以进行关闭。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.freemarker.cache=false</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.velocity.cache=false</span><br></pre></td></tr></table></figure>
-
-<p>经过博主简单的测试，发现大多数情况可以使用热部署，有效的解决了文章头部中提到的那个痛点，不过还是有一些情况下需要重新启动，不可用的情况如下：<br>1：对于一些第三方框架的注解的修改，不能自动加载，比如：spring mvc的@RequestMapping<br>2：application.properties的修改也不行<br>3：log4j的配置文件的修改不能即时生效</p>
+<pre><code>spring.freemarker.cache=false
+spring.thymeleaf.cache=false
+spring.velocity.cache=false</code></pre><p>经过博主简单的测试，发现大多数情况可以使用热部署，有效的解决了文章头部中提到的那个痛点，不过还是有一些情况下需要重新启动，不可用的情况如下：<br>1：对于一些第三方框架的注解的修改，不能自动加载，比如：spring mvc的@RequestMapping<br>2：application.properties的修改也不行<br>3：log4j的配置文件的修改不能即时生效</p>
 <h3 id="Spring-boot-devtools-实现热部署"><a href="#Spring-boot-devtools-实现热部署" class="headerlink" title="Spring-boot-devtools 实现热部署"></a>Spring-boot-devtools 实现热部署</h3><p>spring-boot-devtools为应用提供一些开发时特性，包括默认值设置，自动重启，livereload等。</p>
 <p>想要使用devtools热部署功能，maven添加依赖如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">&lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
-
-<p>将依赖关系标记为可选<optional>true</optional>是一种最佳做法，可以防止使用项目将devtools传递性地应用于其他模块。</p>
+<pre><code>&lt;dependencies&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+&lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre><p>将依赖关系标记为可选<optional>true</optional>是一种最佳做法，可以防止使用项目将devtools传递性地应用于其他模块。</p>
 <h3 id="默认属性"><a href="#默认属性" class="headerlink" title="默认属性"></a>默认属性</h3><p>在Spring Boot集成Thymeleaf时，spring.thymeleaf.cache属性设置为false可以禁用模板引擎编译的缓存结果。</p>
 <p>现在，devtools会自动帮你做到这些，禁用所有模板的缓存，包括Thymeleaf, Freemarker, Groovy Templates, Velocity, Mustache等。</p>
 <p>更多的属性，请参考DevToolsPropertyDefaultsPostProcessor。</p>
@@ -130,24 +140,22 @@
 <p>排除静态资源文件</p>
 <p>静态资源文件在改变之后有时候没必要触发应用程序重启，例如thymeleaf模板文件就可以实时编辑，默认情况下，更改/META-INF/maven, /META-INF/resources ,/resources ,/static ,/public 或/templates下的资源不会触发重启，而是触发live reload（devtools内嵌了一个LiveReload server，当资源发生改变时，浏览器刷新,下面会介绍）。</p>
 <p>可以使用spring.devtools.restart.exclude属性配置，例如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.devtools.restart.exclude=static/**,public/**</span><br></pre></td></tr></table></figure>
-<p>如果想保留默认配置，同时增加新的配置，则可使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.devtools.restart.additional-exclude属性</span><br></pre></td></tr></table></figure>
-
-<p>观察额外的路径</p>
+<pre><code>spring.devtools.restart.exclude=static/**,public/**
+</code></pre><p>如果想保留默认配置，同时增加新的配置，则可使用</p>
+<pre><code>spring.devtools.restart.additional-exclude属性</code></pre><p>观察额外的路径</p>
 <p>如果你想观察不在classpath中的路径的文件变化并触发重启，则可以配置 spring.devtools.restart.additional-paths 属性。</p>
 <p>不在classpath内的path可以配置spring.devtools.restart.additionalpaths属性来增加到监视中，同时配置spring.devtools.restart.exclude可以选择这些path的变化是导致restart还是live reload。</p>
 <p>关闭自动重启</p>
 <p>设置 spring.devtools.restart.enabled 属性为false，可以关闭该特性。可以在application.properties中设置，也可以通过设置环境变量的方式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">System.setProperty(&quot;spring.devtools.restart.enabled&quot;, &quot;false&quot;);</span><br><span class="line">SpringApplication.run(MyApp.class, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用一个触发文件</p>
+<pre><code>public static void main(String[] args) {
+System.setProperty(&quot;spring.devtools.restart.enabled&quot;, &quot;false&quot;);
+SpringApplication.run(MyApp.class, args);
+}</code></pre><p>使用一个触发文件</p>
 <p>若不想每次修改都触发自动重启，可以设置spring.devtools.restart.trigger-file指向某个文件，只有更改这个文件时才触发自动重启。</p>
 <p>自定义自动重启类加载器</p>
 <p>默认时，IDE中打开的项目都会由restart加载器加载，jar文件由Base加载器加载，但是若你使用multi-module的项目，并且不是所有模块都被导入到IDE中，此时会导致加载器不一致。这时你可以创建META-INF/spring-devtools.properties文件，并增加restart.exclude.XXX，restart.include.XXX来配置哪些jar被restart加载，哪些被base加载。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">restart.include.companycommonlibs=/mycorp-common-[\\w-]+\.jar</span><br><span class="line">restart.include.projectcommon=/mycorp-myproj-[\\w-]+\.jar</span><br></pre></td></tr></table></figure>
-
-<h3 id="LiveReload"><a href="#LiveReload" class="headerlink" title="LiveReload"></a>LiveReload</h3><p>DevTools内置了一个LiveReload服务,可以在资源变化时用来触发浏览器刷新。当然这个需要你浏览器安装了LiveReload插件，并且启动这个插件才行。很有意思，这里介绍下如何弄。</p>
+<pre><code>restart.include.companycommonlibs=/mycorp-common-[\\w-]+\.jar
+restart.include.projectcommon=/mycorp-myproj-[\\w-]+\.jar</code></pre><h3 id="LiveReload"><a href="#LiveReload" class="headerlink" title="LiveReload"></a>LiveReload</h3><p>DevTools内置了一个LiveReload服务,可以在资源变化时用来触发浏览器刷新。当然这个需要你浏览器安装了LiveReload插件，并且启动这个插件才行。很有意思，这里介绍下如何弄。</p>
 <p>先去谷歌商店安装LiveReload插件，自己准备梯子。</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLnRlbmdqLnRvcC8yMDE5LTA4LTE4LTAyMjYzNS5wbmc?x-oss-process=image/format,png#pic_center" alt=""></p>
 <p>安装好在要自动刷新的页面点击下图中图标，启动应用后更新页面内容或者css等都会触发页面自动刷新了。如下图，圈中的就是，点一下会变黑就是启动了。</p>
