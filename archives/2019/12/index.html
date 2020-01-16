@@ -286,7 +286,6 @@
         <div class="column one-third">
           <!--处理未安装 search 插件 默认 Google 搜索-->
  
-<h3>搜索</h3>
 <div id="site_search">
 
 	<!-- Google -->
@@ -348,24 +347,30 @@
 
 </div>
 
-<h3>架构师链接</h3>
-<div>
-<a href="http://www.ityouknow.com/spring-boot" target="_blank" rel="noopener">纯洁的微笑</a> <br/>
-<a href="https://www.javaboy.org" target="_blank" rel="noopener">江南一点雨</a><br/>
-<a href="http://tengj.top" target="_blank" rel="noopener">嘟嘟的独立博客 </a>:
+
+<h2 style="text-align:center">推荐网站</h2>
+<div class="thumbnail" style="background-image:url('../images/1.png');repeat;z-index:-1;">
+ <div>
+    <div class="card-image-cell">
+        <h3 class="card-title" style="text-align:center"><a style="text-decoration: none;color:#fff" href="http://springboot.fun" target="_blank" rel="noopener">Spring Boot中文索引</a></h3>
+    </div>
+ </div>
+</div>
+<div class="thumbnail" style="background-image:url('../images/2.png');repeat;z-index:-1;">
+ <div>
+    <div class="card-image-cell">
+        <h3 class="card-title" style="text-align:center"><a style="text-decoration: none;color:#fff" href="https://coderq.com" target="_blank" rel="noopener">码农圈</a></h3>
+    </div>
+ </div>
+</div>
+<div class="thumbnail" style="background-image:url('../images/3.png');repeat;">
+ <div>
+    <div class="card-image-cell">
+        <h3 class="card-title" style="text-align:center"><a style="text-decoration: none;color:#fff" href="http://cmsblogs.com/?cat=167 " target="_blank" rel="noopener">Java技术驿站</a></h3>
+    </div>
+ </div>
 </div>
 
-<h3>推荐网站</h3>
-<div>
-<a href="http://springboot.fun" target="_blank" rel="noopener">Spring Boot中文索引</a> <br/>
-<a href="https://coderq.com" target="_blank" rel="noopener">码农圈</a><br/>
-<a href="http://cmsblogs.com/?cat=167 " target="_blank" rel="noopener">Java技术驿站</a>
-</div>
-
-<h3>个人链接</h3>
-<div>
-<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" rel="noopener">个人CSDN地址</a>
-</div>
 
 
 
@@ -387,8 +392,7 @@
 
 
 
-
-<h3>GitHub仓库</h3>
+<h2 style="text-align:center">开源仓库</h2>
     <div class="popular-container"></div>
     
     <script type="text/template" id="popular-list-template">
@@ -397,14 +401,14 @@
                 <div class="card-image geopattern" data-pattern-id="{%=name%}">
                     <div class="card-image-cell">
                         <h3 class="card-title">
-                            {%=name%}
+                            {%=description%}
                         </h3>
                     </div>
                 </div>
                 <div class="caption">
                     <div class="card-description">
                         <p class="card-text">
-                            {%=description%}
+                            {%=name%}
                         </p>
                     </div>
                     <div class="card-text">
@@ -437,7 +441,7 @@
             var handleGithub = function(){
                 var popularContainer = $(".popular-container");
 
-                var repos = "vue-hr,vue-mobil,spring-boot-examples".split(",");
+                var repos = "vue-hr,JavaGuide,spring-boot-examples".split(",");
                 for(var i in repos){
                     var name = repos[i];
                     $.get("https://api.github.com/repos/vanicesun/"+name,handle);
@@ -465,6 +469,35 @@
         $(popular_repos().init);
     </script>
 
+
+
+
+<h2 style="text-align:center">架构师链接</h2>
+<div class="thumbnail">
+<div class="card-image geopattern">
+    <div class="card-image-cell">
+        <h3 class="card-title" style="text-align:center"><a style="text-decoration: none" href="http://www.ityouknow.com/spring-boot" target="_blank" rel="noopener">纯洁的微笑</a></h3>
+    </div>
+</div>
+<div class="caption">
+        <div class="card-description">
+            <p class="card-text" style="text-align:center">互联网金融公司技术负责人</p>
+        </div>
+</div>
+</div>
+
+<div class="thumbnail">
+<div class="card-image geopattern">
+    <div class="card-image-cell">
+        <h3 class="card-title" style="text-align:center"><a style="text-decoration: none" href="https://www.javaboy.org" target="_blank" rel="noopener">江南一点雨</a></h3>
+    </div>
+</div>
+<div class="caption">
+        <div class="card-description">
+            <p class="card-text" style="text-align:center">专注于 Spring Boot + 微服务</p>
+        </div>
+</div>
+</div>
         </div>
     </div>
 
