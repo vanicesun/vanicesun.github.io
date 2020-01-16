@@ -54,7 +54,7 @@
             <h1 class="collection-header">
                 掌上书城-mobile
             </h1>
-			<span class="mega-octicon octicon-clippy"> <font size="5px" color="blue">专题系列:</font> <a href="http://www.ityouknow.com/docker.html" target="_blank" rel="noopener"><font color="#1E90FF" size="5px">Docker</font></a>,<a href="http://www.ityouknow.com/spring-cloud.html" target="_blank" rel="noopener"><font color="green" size="5px">SpringCloud</font></a></span>
+			<span class="mega-octicon octicon-clippy"> <font size="5px" color="blue">专题系列:</font> <a href="http://www.ityouknow.com/docker.html" target="_blank" rel="noopener"><font color="#1E90FF" size="5px">Docker  </font></a>,<a href="http://www.ityouknow.com/spring-cloud.html" target="_blank" rel="noopener"><font color="yellow" size="5px">  SpringCloud</font></a></span>
 			<div style="height:15px"></div>
 			<span class="mega-octicon octicon-cloud-download"> <font size="5px">csdn地址:<a href="https://blog.csdn.net/weixin_42100064/article/list/1?" target="_blank" rel="noopener"><font color="#00FF00" size="4px"> 三十三行伪代码</font></a> 欢迎大家交流支持！</font></span>
 			<div style="height:15px"></div>
@@ -88,6 +88,7 @@
 <h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><strong>首页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163023262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
 <p><strong>列表页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163154578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
 <p><strong>新增页</strong><br><img src="https://img-blog.csdnimg.cn/20191225163238823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjEwMDA2NA==,size_16,color_FFFFFF,t_70#pic_center" alt=""></p>
+<hr>
 <h3 id="初始化Mobile项目"><a href="#初始化Mobile项目" class="headerlink" title="初始化Mobile项目"></a>初始化Mobile项目</h3><ul>
 <li>项目结构如下：<br><img src="https://img-blog.csdnimg.cn/20191225160737799.png#pic_center" alt=""></li>
 </ul>
@@ -146,9 +147,9 @@ Vue.use(VueAwesomeSwiper);</code></pre></li>
   }
 </style>
 <pre><code>
-### 数据请求Axios
-上述轮播图组件新建完成，在Home.vue中引入轮播图组件
-轮播图的测试数据sliders.js</code></pre><p>module.exports = [<br>  ‘<a href="https://img12.360buyimg.com/babel/s590x470_jfs/t1/85934/6/7983/82595/5e008712E0e3b9c12/7cfc1ce9f03369f3.jpg.webp&#39;" target="_blank" rel="noopener">https://img12.360buyimg.com/babel/s590x470_jfs/t1/85934/6/7983/82595/5e008712E0e3b9c12/7cfc1ce9f03369f3.jpg.webp&#39;</a>,<br>  ‘<a href="https://img20.360buyimg.com/pop/s590x470_jfs/t1/106050/5/7033/72549/5df99388Ed5c1018a/6eb231965d4b0432.jpg.webp&#39;" target="_blank" rel="noopener">https://img20.360buyimg.com/pop/s590x470_jfs/t1/106050/5/7033/72549/5df99388Ed5c1018a/6eb231965d4b0432.jpg.webp&#39;</a>,<br>  ‘<a href="https://imgcps.jd.com/ling/100010137716/55S16ISR5pWw56CB5Zyj6K-e5a2j/5pyA6auYNuacn-WFjeaBrw/p-5bd8253082acdd181d02f9d8/baf73efa.jpg&#39;" target="_blank" rel="noopener">https://imgcps.jd.com/ling/100010137716/55S16ISR5pWw56CB5Zyj6K-e5a2j/5pyA6auYNuacn-WFjeaBrw/p-5bd8253082acdd181d02f9d8/baf73efa.jpg&#39;</a>,<br>  ‘<a href="https://img14.360buyimg.com/pop/s590x470_jfs/t1/98586/8/2744/73547/5dd6443fE552a8e86/2e055c6666d0c336.jpg.webp&#39;" target="_blank" rel="noopener">https://img14.360buyimg.com/pop/s590x470_jfs/t1/98586/8/2744/73547/5dd6443fE552a8e86/2e055c6666d0c336.jpg.webp&#39;</a><br>];</p>
+### 数据请求
+- 上述轮播图组件新建完成，在Home.vue中引入轮播图组件
+- 轮播图的测试数据sliders.js</code></pre><p>module.exports = [<br>  ‘<a href="https://img12.360buyimg.com/babel/s590x470_jfs/t1/85934/6/7983/82595/5e008712E0e3b9c12/7cfc1ce9f03369f3.jpg.webp&#39;" target="_blank" rel="noopener">https://img12.360buyimg.com/babel/s590x470_jfs/t1/85934/6/7983/82595/5e008712E0e3b9c12/7cfc1ce9f03369f3.jpg.webp&#39;</a>,<br>  ‘<a href="https://img20.360buyimg.com/pop/s590x470_jfs/t1/106050/5/7033/72549/5df99388Ed5c1018a/6eb231965d4b0432.jpg.webp&#39;" target="_blank" rel="noopener">https://img20.360buyimg.com/pop/s590x470_jfs/t1/106050/5/7033/72549/5df99388Ed5c1018a/6eb231965d4b0432.jpg.webp&#39;</a>,<br>  ‘<a href="https://imgcps.jd.com/ling/100010137716/55S16ISR5pWw56CB5Zyj6K-e5a2j/5pyA6auYNuacn-WFjeaBrw/p-5bd8253082acdd181d02f9d8/baf73efa.jpg&#39;" target="_blank" rel="noopener">https://imgcps.jd.com/ling/100010137716/55S16ISR5pWw56CB5Zyj6K-e5a2j/5pyA6auYNuacn-WFjeaBrw/p-5bd8253082acdd181d02f9d8/baf73efa.jpg&#39;</a>,<br>  ‘<a href="https://img14.360buyimg.com/pop/s590x470_jfs/t1/98586/8/2744/73547/5dd6443fE552a8e86/2e055c6666d0c336.jpg.webp&#39;" target="_blank" rel="noopener">https://img14.360buyimg.com/pop/s590x470_jfs/t1/98586/8/2744/73547/5dd6443fE552a8e86/2e055c6666d0c336.jpg.webp&#39;</a><br>];</p>
 <pre><code>
 ### 服务端代码
 </code></pre><p>//服务端代码<br>let http = require(‘http’);<br>let fs = require(‘fs’);<br>let url = require(‘url’);</p>
