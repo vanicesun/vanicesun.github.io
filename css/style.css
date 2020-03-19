@@ -438,7 +438,7 @@ input#search{
 }
 .home .banner,
 .home .site-header {
-  background: #4183c4;
+  background: #fff;
   color: #fff;
   float: left;
 }
@@ -484,10 +484,10 @@ color: #fff,
   color: #000;
 }
 .home .site-header .site-header-nav-item {
-  color: rgba(255,255,255,0.5);
+  color: #000;
 }
 .home .site-header .site-header-nav-item:hover {
-  color: #fff;
+  color: #00f;
 }
 #site-header-id {
   width: 100%;
